@@ -2,6 +2,21 @@
 include('koneksi.php');
 session_start();
 $role = $_SESSION['role'];
+// Periksa koneksi
+if (mysqli_connect_errno()) {
+    echo "Koneksi database gagal: " . mysqli_connect_error();
+    exit();
+}
+
+// Query untuk mengambil data anggota
+$sql = "SELECT * FROM user WHERE role = 'peminjam'";
+$result = mysqli_query($conn, $sql);
+
+// Cek apakah query berhasil dijalankan
+if (!$result) {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +29,7 @@ $role = $_SESSION['role'];
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Perpustakaan</title>
+    <title>Admin</title>
 
     <!-- Custom fonts for this template-->
     <link href="asset/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,7 +48,6 @@ $role = $_SESSION['role'];
             background-color: #164863;
         }
 
-
         .nav-item.active .nav-link {
             color: #ffffff !important;
         }
@@ -44,19 +58,6 @@ $role = $_SESSION['role'];
 
         .navbar-light .navbar-toggler-icon {
             background-color: #ffffff;
-        }
-
-
-        .btn-primary:hover {
-            background-color: #427D9D;
-            border-color: #427D9D;
-        }
-
-        .btn-primary {
-            background-color: #164863;
-            border-color: #164863;
-            transition: background-color 0.3s ease;
-            color: #ffffff;
         }
 
         .btn-primary1:hover {
@@ -72,17 +73,16 @@ $role = $_SESSION['role'];
             color: #ffffff;
         }
 
-        .text-primary1:hover {
-            background-color: #ddd;
+        .btn-primary:hover {
+            background-color: #427D9D;
             border-color: #427D9D;
-            color: #000000;
         }
 
-        .text-primary1 {
-            background-color: #ffffff;
+        .btn-primary {
+            background-color: #164863;
             border-color: #164863;
             transition: background-color 0.3s ease;
-            color: #000000;
+            color: #ffffff;
         }
 
         .nav-link {
@@ -94,7 +94,7 @@ $role = $_SESSION['role'];
             margin-right: 10px;
         }
 
-
+        /* css tambahan */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -129,34 +129,6 @@ $role = $_SESSION['role'];
             background-color: #f2f2f2;
         }
 
-        a.edit-button,
-        a.hapus-button {
-            display: inline-block;
-            margin: 5px;
-            padding: 6px 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        a.edit-button {
-            background-color: #40A2D8;
-        }
-
-        a.hapus-button {
-            background-color: #dc3545;
-        }
-
-        a.edit-button:hover {
-            background-color: #0B60B0;
-        }
-
-        a.hapus-button:hover {
-            background-color: #BF3131;
-        }
-
         a {
             text-decoration: none;
             color: inherit;
@@ -166,8 +138,13 @@ $role = $_SESSION['role'];
             text-align: center;
         }
 
-        .page-item a.page-link:hover {
-            color: #8c8c8c;
+        .dropdown-menu a.dropdown-item {
+            color: #164863;
+        }
+
+        .dropdown-menu a.dropdown-item:hover {
+            background-color: #427D9D;
+            color: #ffffff;
         }
     </style>
 
@@ -181,6 +158,7 @@ $role = $_SESSION['role'];
         <!-- Sidebar -->
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -192,6 +170,7 @@ $role = $_SESSION['role'];
                 <div class="sidebar-brand-text mx-3">Perpus</div>
             </a>
 
+
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -201,7 +180,6 @@ $role = $_SESSION['role'];
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-
             <?php
             if ($role === "admin") :
             ?>
@@ -306,6 +284,7 @@ $role = $_SESSION['role'];
                         <span>Data Buku</span></a>
                 </li>
 
+
                 <!-- Divider -->
                 <hr class="sidebar-divider">
 
@@ -325,17 +304,12 @@ $role = $_SESSION['role'];
                 <hr class="sidebar-divider">
             <?php endif ?>
 
-
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
-
-
         </ul>
-        <!-- End of Sidebar -->
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -343,8 +317,8 @@ $role = $_SESSION['role'];
             <div id="content">
 
                 <!-- Topbar -->
+                <!-- Navbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -363,7 +337,6 @@ $role = $_SESSION['role'];
                     </form>
 
                     <!-- Topbar Navbar -->
-
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
@@ -373,7 +346,6 @@ $role = $_SESSION['role'];
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -385,144 +357,59 @@ $role = $_SESSION['role'];
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
 
+
+                <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h2 class="h3 mb-0 text-gray-800">Data Buku</h2>
+                        <h2 class="h3 mb-0 text-gray-800">Data Anggota</h2>
                     </div>
-                    <a href="../create/create_data_buku.php" class="mb-4 btn btn-primary1">Tambah Buku</a>
-
                     <div class="row">
-                        <div class="col-xl-12 col-md-6 mb-4">
-                            <?php
-                            // Proses saat pengguna meminjam buku
-                            if (isset($_POST['pinjam'])) {
-                                $buku_id = $_POST['buku_id'];
-                                $tanggal_peminjaman = date('Y-m-d');
-                                $tanggal_kembali = date('Y-m-d', strtotime('+7 days')); // Tambahkan 7 hari dari tanggal peminjaman
 
-                                // Masukkan data peminjaman ke dalam tabel peminjaman
-                                $query = "INSERT INTO peminjaman (buku_id, tanggal_peminjaman, tanggal_kembali, status_peminjam)
-                                          VALUES ('$buku_id', '$tanggal_peminjaman', '$tanggal_kembali', 'dipinjam')";
-                                $result = $conn->query($query);
-
-                                if ($result) {
-                                    // Update ketersediaan buku
-                                    $update_sql = "UPDATE buku SET ketersediaan = 'not available' WHERE buku_id = $buku_id";
-                                    if ($conn->query($update_sql) === TRUE) {
-                                        echo "Buku berhasil dipinjam dan ketersediaan buku diperbarui.";
-                                    } else {
-                                        echo "Error updating ketersediaan buku: " . $conn->error;
-                                    }
-                                } else {
-                                    echo "Gagal meminjam buku: " . $conn->error;
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <h1>Data Anggota</h1>
+                            <table border="1">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama Lengkap</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Alamat</th>
+                                    <th>Aksi</th>
+                                </tr>
+                                <?php
+                                // Tampilkan data anggota
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['user_id'] . "</td>";
+                                    echo "<td>" . $row['nama_lengkap'] . "</td>";
+                                    echo "<td>" . $row['username'] . "</td>";
+                                    echo "<td>" . $row['email'] . "</td>";
+                                    echo "<td>" . $row['alamat'] . "</td>";
+                                    echo "<td><a href='edit_anggota.php?id=" . $row['user_id'] . "'>Edit</a> | <a href='hapus_anggota.php?id=" . $row['user_id'] . "'>Hapus</a></td>";
+                                    echo "</tr>";
                                 }
-                            }
-
-                            // Proses pengecekan pengembalian buku yang melewati batas waktu
-                            $query = "UPDATE peminjaman
-                                      SET status_peminjam = 'selesai'
-                                      WHERE tanggal_kembali < CURDATE() AND status_peminjam = 'dipinjam'";
-                            $result = $conn->query($query);
-
-                            if ($result) {
-                                //echo "Status peminjaman diperbarui.";
-                            } else {
-                                echo "Gagal memperbarui status peminjaman: " . $conn->error;
-                            }
-
-                            // Eksekusi query untuk mendapatkan informasi buku
-                            $query = "SELECT b.*, bk.nama_kategori, p.status_peminjam
-                                      FROM buku b
-                                      JOIN buku_kategori bk ON b.kategori_id = bk.kategori_id
-                                      LEFT JOIN peminjaman p ON b.buku_id = p.buku_id";
-                            $result = $conn->query($query) or die($conn->error);
-
-                            $query_total_data = "SELECT COUNT(*) as total FROM buku";
-                            $result_total_data = $conn->query($query_total_data);
-                            $row_total_data = $result_total_data->fetch_assoc();
-                            $total_data = $row_total_data['total'];
-
-                            // Langkah 2: Hitung jumlah total halaman
-                            $data_per_halaman = 5;
-                            $total_halaman = ceil($total_data / $data_per_halaman);
-
-                            // Langkah 3: Tentukan halaman saat ini
-                            if (!isset($_GET['page'])) {
-                                $page = 1;
-                            } else {
-                                $page = $_GET['page'];
-                            }
-
-                            // Langkah 4: Lakukan query untuk mengambil data sesuai dengan halaman saat ini
-                            $offset = ($page - 1) * $data_per_halaman;
-                            $query_data_buku = "SELECT b.*, bk.nama_kategori, p.status_peminjam
-                            FROM buku b
-                            JOIN buku_kategori bk ON b.kategori_id = bk.kategori_id
-                            LEFT JOIN peminjaman p ON b.buku_id = p.buku_id LIMIT $offset, $data_per_halaman";
-                            $result_data_buku = $conn->query($query_data_buku);
-
-                            // Tampilkan tabel buku beserta status peminjamannya
-                            echo "<table border='1'>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Cover</th>
-                                        <th>Judul</th>
-                                        <th>Penulis</th>
-                                        <th>Kategori</th>
-                                        <th>Status Peminjaman</th>
-                                        <th>Ketersediaan</th>
-                                        <th>Aksi</th>
-                                    </tr>";
-
-                            while ($row = $result_data_buku->fetch_assoc()) {
-                                echo "<tr>
-                                                <td>{$row['buku_id']}</td>
-                                                <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
-                                                <td>{$row['judul']}</td>
-                                                <td>{$row['penulis']}</td>
-                                                <td>{$row['kategori_id']}</td>
-                                                <td>{$row['status_peminjam']}</td>
-                                                <td>{$row['ketersediaan']}</td>
-                                                <td>
-                                                    <a href='../edit/edit_data_buku.php?buku_id={$row['buku_id']}' class='edit-button'>Edit</a> 
-                                                    <a href='#' class='hapus-button' onclick='confirmDelete({$row['buku_id']})'>Hapus</a>
-                                                </td>
-                                            </tr>";
-                            }
-
-                            echo "</table>";
-                            $previous_page = ($page > 1) ? $page - 1 : 1;
-                            $next_page = ($page < $total_halaman) ? $page + 1 : $total_halaman;
-
-                            // Langkah 7: Buat tombol pagination
-                            echo '<ul class="pagination justify-content-center">';
-                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '">&laquo; Previous</a></li>';
-                            for ($i = max(1, $page - 2); $i <= min($page + 2, $total_halaman); $i++) {
-                                echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
-                            }
-                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">Next &raquo;</a></li>';
-                            echo '</ul>';
-
-                            ?>
-
+                                ?>
+                            </table>
                         </div>
+
+
                     </div>
-
-
                 </div>
-
             </div>
-            <!-- /.container-fluid -->
+
 
         </div>
-        <!-- End of Main Content -->
 
-        <!-- Footer -->
+    </div>
+    <!-- /.container-fluid -->
 
-        <!-- End of Footer -->
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+
+    <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->
@@ -571,13 +458,8 @@ $role = $_SESSION['role'];
     <script src="asset/js/demo/chart-area-demo.js"></script>
     <script src="asset/js/demo/chart-pie-demo.js"></script>
 
-    <script>
-        function confirmDelete(buku_id) {
-            if (confirm("Anda yakin ingin menghapus data ini?")) {
-                window.location.href = '../hapus/hapus_data_buku.php?id=' + buku_id;
-            }
-        }
-    </script>
+
+
 </body>
 
 </html>

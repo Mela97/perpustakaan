@@ -76,9 +76,6 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
             background-color: #164863;
         }
 
-        .nav-link {
-            color: #ffffff !important;
-        }
 
         .nav-item.active .nav-link {
             color: #ffffff !important;
@@ -136,14 +133,12 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
             align-items: center;
         }
 
-        /* Membuat spasi di antara ikon dan teks pada item navigasi */
         .nav-link i {
             margin-right: 10px;
         }
 
         .text-search-icon {
             color: #176B87;
-            /* Warna yang diinginkan */
         }
 
         /* css tambahan */
@@ -160,9 +155,7 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
         table {
             border-collapse: collapse;
             width: 80%;
-            /* Adjusted width to 80% */
             margin: 10px auto;
-            /* Centered the table */
             background-color: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -171,7 +164,6 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
         td {
             border: 1px solid #ddd;
             padding: 8px;
-            /* Reduced padding for a more compact look */
             text-align: left;
         }
 
@@ -288,6 +280,14 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
                     <a class="nav-link" href="index_peminjam.php">
                         <i class="fas fa-handshake"></i>
                         <span>Data Peminjam</span></a>
+                </li>
+
+                <!-- Nav Item - Data Anggota -->
+                <li class="nav-item">
+                    <a class="nav-link" href="index_data_anggota.php">
+                        <i class="fas fa-users"></i>
+                        <span>Data Anggota</span>
+                    </a>
                 </li>
 
                 <!-- Divider -->
@@ -442,7 +442,7 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                              
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

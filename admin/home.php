@@ -41,9 +41,6 @@ $role = $_SESSION["role"];
             background-color: #164863;
         }
 
-        .nav-link {
-            color: #ffffff !important;
-        }
 
         .nav-item.active .nav-link {
             color: #ffffff !important;
@@ -82,24 +79,17 @@ $role = $_SESSION["role"];
             color: #ffffff;
         }
 
-        /* Tambahan CSS untuk styling tombol Logout */
 
-        /* Gaya tombol Logout di dalam sidebar */
         .nav-link {
             display: flex;
             align-items: center;
         }
 
-        /* Membuat spasi di antara ikon dan teks pada item navigasi */
         .nav-link i {
             margin-right: 10px;
         }
 
-        .text-search-icon {
-            color: #176B87;
-            /* Warna yang diinginkan */
-        }
-
+        
         /* css tambahan */
         body {
             font-family: Arial, sans-serif;
@@ -110,36 +100,6 @@ $role = $_SESSION["role"];
         h2 {
             color: #164863;
         }
-
-        table {
-            border-collapse: collapse;
-            width: 80%;
-            /* Adjusted width to 80% */
-            margin: 10px auto;
-            /* Centered the table */
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            /* Reduced padding for a more compact look */
-            text-align: left;
-        }
-
-        th {
-            background-color: #164863;
-            color: #fff;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-       
-      
 
         a {
             text-decoration: none;
@@ -152,14 +112,11 @@ $role = $_SESSION["role"];
 
         .dropdown-menu a.dropdown-item {
             color: #164863;
-            /* Warna teks */
         }
 
         .dropdown-menu a.dropdown-item:hover {
             background-color: #427D9D;
-            /* Warna latar belakang saat dihover */
             color: #ffffff;
-            /* Warna teks saat dihover */
         }
     </style>
 
@@ -218,6 +175,14 @@ $role = $_SESSION["role"];
                     <a class="nav-link" href="index_peminjam.php">
                         <i class="fas fa-handshake"></i>
                         <span>Data Peminjam</span></a>
+                </li>
+
+                <!-- Nav Item - Data Anggota -->
+                <li class="nav-item">
+                    <a class="nav-link" href="index_data_anggota.php">
+                        <i class="fas fa-users"></i>
+                        <span>Data Anggota</span>
+                    </a>
                 </li>
 
                 <!-- Divider -->
@@ -289,14 +254,6 @@ $role = $_SESSION["role"];
                     <a class="nav-link" href="index_data_buku.php">
                         <i class="fas fa-book"></i>
                         <span>Data Buku</span></a>
-                </li>
-
-                <!-- Nav Item - Data Anggota -->
-                <li class="nav-item">
-                    <a class="nav-link" href="index_data_anggota.php">
-                        <i class="fas fa-users"></i>
-                        <span>Data Anggota</span>
-                    </a>
                 </li>
 
 

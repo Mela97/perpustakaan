@@ -41,9 +41,6 @@ $role = $_SESSION["role"];
             background-color: #164863;
         }
 
-        .nav-link {
-            color: #ffffff !important;
-        }
 
         .nav-item.active .nav-link {
             color: #ffffff !important;
@@ -82,24 +79,15 @@ $role = $_SESSION["role"];
             color: #ffffff;
         }
 
-        /* Tambahan CSS untuk styling tombol Logout */
-
-
-        /* Gaya tombol Logout di dalam sidebar */
         .nav-link {
             display: flex;
             align-items: center;
         }
 
-        /* Membuat spasi di antara ikon dan teks pada item navigasi */
         .nav-link i {
             margin-right: 10px;
         }
 
-        .text-search-icon {
-            color: #176B87;
-            /* Warna yang diinginkan */
-        }
 
         /* css tambahan */
         body {
@@ -115,9 +103,7 @@ $role = $_SESSION["role"];
         table {
             border-collapse: collapse;
             width: 80%;
-            /* Adjusted width to 80% */
             margin: 10px auto;
-            /* Centered the table */
             background-color: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -126,7 +112,6 @@ $role = $_SESSION["role"];
         td {
             border: 1px solid #ddd;
             padding: 8px;
-            /* Reduced padding for a more compact look */
             text-align: left;
         }
 
@@ -139,12 +124,10 @@ $role = $_SESSION["role"];
             background-color: #f2f2f2;
         }
 
-        a.edit-button,
-        a.laporan-button {
+        a.edit-button{
             display: inline-block;
             margin: 5px;
             padding: 6px 12px;
-            /* Adjusted padding for a more compact look */
             border-radius: 5px;
             text-decoration: none;
             color: #fff;
@@ -156,16 +139,8 @@ $role = $_SESSION["role"];
             background-color: #40A2D8;
         }
 
-        a.laporan-button {
-            background-color: #dc3545;
-        }
-
         a.edit-button:hover {
             background-color: #0B60B0;
-        }
-
-        a.laporan-button:hover {
-            background-color: #BF3131;
         }
 
         a {
@@ -235,6 +210,14 @@ $role = $_SESSION["role"];
                     <a class="nav-link" href="index_peminjam.php">
                         <i class="fas fa-handshake"></i>
                         <span>Data Peminjam</span></a>
+                </li>
+
+                <!-- Nav Item - Data Anggota -->
+                <li class="nav-item">
+                    <a class="nav-link" href="index_data_anggota.php">
+                        <i class="fas fa-users"></i>
+                        <span>Data Anggota</span>
+                    </a>
                 </li>
 
                 <!-- Divider -->
