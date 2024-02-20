@@ -218,8 +218,8 @@ if ($result_user->num_rows > 0) {
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="bookmark.php"><i class="fas fa-bookmark fa-fw"></i> Bookmark</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-comment-alt fa-fw"></i> Ulasan</a>
+                                <a class="dropdown-item" href="daftar_bookmark.php"><i class="fas fa-heart"></i></i> Favorite</a>
+                                <a class="dropdown-item" href="mengulas.php"><i class="fas fa-comment-alt fa-fw"></i> Ulasan</a>
                                 <a class="dropdown-item" href="daftar_pinjam.php"><i class="fas fa-plus-circle fa-fw"></i> Pinjam Buku</a>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
                             </div>
@@ -237,7 +237,7 @@ if ($result_user->num_rows > 0) {
                             <a class="btn btn-secondary btn-sm float-left mb-3" href="javascript:history.go(-1)">
                                 <i class="fas fa-arrow-left"></i>
                             </a>
-                            <h4 class="float-left ml-3">Daftar Bookmark</h4>
+                            <h4 class="float-left ml-3">Daftar Favorite</h4>
                         </div>
                     </div>
                     <hr>
@@ -258,7 +258,7 @@ if ($result_user->num_rows > 0) {
                             echo '</div>';
                         }
                     } else {
-                        echo "Anda belum menandai buku apa pun sebagai bookmark.";
+                        echo "Anda belum menandai buku apa pun sebagai favorite.";
                     }
                     ?>
 
@@ -327,7 +327,7 @@ if ($result_user->num_rows > 0) {
     <!-- Tambahkan ini di bagian head atau sebelum tag penutup body -->
     <script>
         function hapusBookmark(id) {
-            if (confirm("Apakah Anda yakin ingin menghapus bookmark ini?")) {
+            if (confirm("Apakah Anda yakin ingin menghapus favorite ini?")) {
                 window.location.href = "../hapus/hapus_bookmark.php?id=" + id;
             }
         }
@@ -348,7 +348,7 @@ if ($result_user->num_rows > 0) {
                         alert(response);
                     },
                     error: function(xhr, status, error) {
-                        alert('Terjadi kesalahan saat menambah bookmark: ' + error);
+                        alert('Terjadi kesalahan saat menambah favorite: ' + error);
                     }
                 });
             });

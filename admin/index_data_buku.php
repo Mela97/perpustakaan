@@ -241,7 +241,7 @@ $role = $_SESSION['role'];
                 <li class="nav-item">
                     <a class="nav-link" href="index_peminjam.php">
                         <i class="fas fa-handshake"></i>
-                        <span>Data Pengguna</span></a>
+                        <span>Data Peminjam</span></a>
                 </li>
 
                 <!-- Divider -->

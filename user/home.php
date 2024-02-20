@@ -218,7 +218,7 @@ $result = $conn->query($sql);
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="daftar_bookmark.php"><i class="fas fa-bookmark fa-fw"></i> Bookmark</a>
+                                <a class="dropdown-item" href="daftar_bookmark.php"><i class="fas fa-heart"></i></i> Favorite</a>
                                 <a class="dropdown-item" href="mengulas.php"><i class="fas fa-comment-alt fa-fw"></i> Ulasan</a>
                                 <a class="dropdown-item" href="daftar_pinjam.php"><i class="fas fa-plus-circle fa-fw"></i> Pinjam Buku</a>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
@@ -269,7 +269,7 @@ $result = $conn->query($sql);
                                         <button type="button" class="btn btn-primary2 btn-sm ">Pinjam</button>
                                     </a>
                                     <button type="button" class="btn btn-secondary1 btn-sm bookmark-btn" data-buku-id="<?php echo $row['buku_id']; ?>">
-                                        <i class="fas fa-bookmark"></i>
+                                    <i class="fas fa-heart"></i>
                                     </button>
                                     <form action="ulasan.php" method="GET">
                                         <input type="hidden" value="<?php echo $row['buku_id']; ?>" name="buku_id">

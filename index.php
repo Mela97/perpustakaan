@@ -224,27 +224,28 @@
                     if ($result->num_rows > 0) {
                         // Menampilkan data buku
                         while ($row = $result->fetch_assoc()) {
-                            echo "<h2>" . $row["judul"] . "</h2>";
-                            echo "<p><strong>Penulis:</strong> " . $row["penulis"] . "</p>";
-                            echo "<p><strong>Penerbit:</strong> " . $row["penerbit"] . "</p>";
-                            echo "<p><strong>Tahun Terbit:</strong> " . $row["tahun_terbit"] . "</p>";
-                            echo "<p><strong>Deskripsi:</strong> " . $row["deskripsi"] . "</p>";
-                            echo "<img src='proses/uploads/" . $row['cover'] . "' class='card-img-top' alt='Cover Image' style='width: 100%; height: 210px; object-fit: cover;'>";
-                            echo "<p><strong>Ulasan:</strong> " . $row["ulasan"] . "</p>";
-                            echo "<hr>";
+                    ?>
+                            <div class="card" style="width: 210px; height: 390px;">
+                                <img src="proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 210px; object-fit: cover;">
+                                <div class="card-body" style="padding: 10px;">
+                                    <h5 class="card-title judul" style="font-size: 20px;"><?php echo $row['judul']; ?></h5>
+                                    <p class="card-text penulis" style="font-size: 16px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
+                                    <!-- Tampilkan ulasan -->
+                                    <a href="user/ulasan.php?buku_id=<?php echo $row['buku_id']; ?>" class="btn btn-info1 btn-sm">Ulasan</a>
+                                </div>
+                            </div>
+                    <?php
                         }
                     } else {
                         echo "Tidak ada buku yang tersedia.";
                     }
-
-
-
-                    // Tutup koneksi
-                    $conn->close();
                     ?>
 
 
+
+
                 </div>
+
 
             </div>
         </div>

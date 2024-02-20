@@ -394,7 +394,7 @@ $result = $conn->query($query) or die($conn->error);
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h2 class="h3 mb-0 text-gray-800">Data Pengguna</h2>
+                        <h2 class="h3 mb-0 text-gray-800">Data Peminjam</h2>
                     </div>
                     <a href="../create/create_peminjam.php" class="mb-4 btn btn-primary1">Tambah Peminjam</a>
                     <div class="row">

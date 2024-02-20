@@ -25,7 +25,7 @@ function addBookmark($conn, $userId, $bukuId)
 {
     $sql_insert = "INSERT INTO koleksi_pribadi (user_id, buku_id) VALUES ('$userId', '$bukuId')";
     if ($conn->query($sql_insert) === TRUE) {
-        return "Bookmark berhasil ditambahkan";
+        return "Favorite berhasil ditambahkan";
     } else {
         return "Error: " . $sql_insert . "<br>" . $conn->error;
     }
@@ -36,7 +36,7 @@ function removeBookmark($conn, $userId, $bukuId)
 {
     $sql_delete = "DELETE FROM koleksi_pribadi WHERE user_id = '$userId' AND buku_id = '$bukuId'";
     if ($conn->query($sql_delete) === TRUE) {
-        return "Bookmark berhasil dihapus";
+        return "Favorite berhasil dihapus";
     } else {
         return "Error: " . $sql_delete . "<br>" . $conn->error;
     }

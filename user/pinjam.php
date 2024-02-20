@@ -49,3 +49,7 @@ if ($result) {
 
 // Tutup koneksi
 //$conn->close();
+
+//SELECT peminjaman.*, user.nama_lengkap AS nama_peminjam
+//FROM peminjaman
+//INNER JOIN user ON peminjaman.user_id = user.user_id;
