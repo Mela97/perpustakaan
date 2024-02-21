@@ -24,6 +24,15 @@ git clone https://github.com/Mela97/perpustakaan && cd perpustakaan
 - Buat file koneksi dan koneksikan ke database
 - Jika sudah buka browser dan arahkan ke localhost/perpustakaan_digital
 
+# Penggunaan
+
+- Login sebagai admin:
+  Email: ```admin@gmail.com
+  Password: ```123```
+
+- Login sebagai pengguna:
+  Email: ```sasa@gmail.com```
+  Password: ```123```
 
 # Catatan
 
