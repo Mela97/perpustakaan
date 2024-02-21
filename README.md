@@ -18,3 +18,7 @@ saya sedang membuat projek peminjaman perpustakan untuk tugas ujikom, web ini ha
 - Halaman pertama anda hanya bisa melihat daftar buku dan ulasan
 - Anda harus login atau membuat akun jika belum ada akun
 - Anda bisa mengulas buku yang di pinjam saat buku sudah dikembalikan
+
+# Kontribusi
+
+Anda bisa mengajukan bug report, pull request, memberikan saran dan masukan
