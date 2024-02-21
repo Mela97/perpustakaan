@@ -27,7 +27,7 @@ git clone https://github.com/Mela97/perpustakaan && cd perpustakaan
 # Penggunaan
 
 - Login sebagai admin:
-  Email: ```admin@gmail.com
+  Email: ```admin@gmail.com```
   Password: ```123```
 
 - Login sebagai pengguna:
