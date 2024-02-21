@@ -13,6 +13,27 @@ saya sedang membuat projek peminjaman perpustakan untuk tugas ujikom, web ini ha
 - Ulasan
 - Menambahkan favorite
 
+# Instalasi
+
+- Gunakan xampp untuk menyambungkan ke server
+- Clone repository
+```
+git clone https://github.com/Mela97/perpustakaan
+```
+- Import database ke php my admin
+- Buat file koneksi dan koneksikan ke database
+- Jika sudah buka browser dan arahkan ke localhost/perpustakaan_digital
+
+# Penggunaan
+
+- Login sebagai admin:
+  > Email: ```admin@gmail.com```
+  > Password: ```123```
+
+- Login sebagai pengguna:
+  > Email: ```sasa@gmail.com```
+  > Password: ```123```
+
 # Catatan
 
 - Halaman pertama anda hanya bisa melihat daftar buku dan ulasan
