@@ -13,6 +13,11 @@ saya sedang membuat projek peminjaman perpustakan untuk tugas ujikom, web ini ha
 - Ulasan
 - Menambahkan favorite
 
+# Instalasi
+
+```git clone https://github.com/Mela97/perpustakaan && cd perpustakaan```
+
+
 # Catatan
 
 - Halaman pertama anda hanya bisa melihat daftar buku dan ulasan
