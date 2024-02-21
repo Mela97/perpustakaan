@@ -1,6 +1,6 @@
 # Web  Peminjaman Perpustakan
 
-saya sedang membuat projek peminjaman perpustakan untuk tugas ujikomp
+saya sedang membuat projek peminjaman perpustakan untuk tugas ujikom, web ini hanya perantara antara peminjam dan petugas. Jadi tampilan buku yang ada di sini hanya untuk pemilihan jika anda akan meminjam, untuk mendapatkan bukunya anda harus datang ke perpustakaan
 
 # Fitur yang ada dalam web
 
