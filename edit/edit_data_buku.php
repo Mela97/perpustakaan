@@ -79,22 +79,6 @@ if (isset($_POST['submit'])) {
             background-color: #164863;
         }
 
-        .nav-link {
-            color: #ffffff !important;
-        }
-
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
@@ -120,42 +104,32 @@ if (isset($_POST['submit'])) {
             color: #ffffff;
         }
 
-        /* Tambahan CSS untuk styling tombol Logout */
-
-
-        /* Gaya tombol Logout di dalam sidebar */
         .nav-link {
             display: flex;
             align-items: center;
         }
 
-        /* Membuat spasi di antara ikon dan teks pada item navigasi */
         .nav-link i {
             margin-right: 10px;
-        }
-
-        .text-search-icon {
-            color: #176B87;
-            /* Warna yang diinginkan */
         }
 
         /* css tambahan */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
             margin: 0;
+            background-color: #164863;
+            color: #fff;
         }
 
         h2 {
             color: #164863;
+            text-align: center;
         }
 
         table {
             border-collapse: collapse;
             width: 80%;
-            /* Adjusted width to 80% */
             margin: 10px auto;
-            /* Centered the table */
             background-color: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -164,7 +138,6 @@ if (isset($_POST['submit'])) {
         td {
             border: 1px solid #ddd;
             padding: 8px;
-            /* Reduced padding for a more compact look */
             text-align: left;
         }
 
@@ -177,34 +150,6 @@ if (isset($_POST['submit'])) {
             background-color: #f2f2f2;
         }
 
-        a.edit-button,
-        a.laporan-button {
-            display: inline-block;
-            margin: 5px;
-            padding: 6px 12px;
-            /* Adjusted padding for a more compact look */
-            border-radius: 5px;
-            text-decoration: none;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        a.edit-button {
-            background-color: #40A2D8;
-        }
-
-        a.laporan-button {
-            background-color: #dc3545;
-        }
-
-        a.edit-button:hover {
-            background-color: #0B60B0;
-        }
-
-        a.laporan-button:hover {
-            background-color: #BF3131;
-        }
 
         a {
             text-decoration: none;
@@ -212,18 +157,6 @@ if (isset($_POST['submit'])) {
         }
 
         .container {
-            text-align: center;
-        }
-
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #164863;
-            color: #fff;
-        }
-
-        h2 {
-            color: #fff;
             text-align: center;
         }
 
@@ -325,7 +258,7 @@ if (isset($_POST['submit'])) {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="home.php">
+                <a class="nav-link" href="../admin/home.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -343,18 +276,25 @@ if (isset($_POST['submit'])) {
 
                 <!-- Nav Item - Data Buku -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_data_buku.php">
+                    <a class="nav-link" href="../admin/index_data_buku.php">
                         <i class="fas fa-book"></i>
                         <span>Data Buku</span></a>
                 </li>
 
                 <!-- Nav Item - Data Peminjam -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_peminjam.php">
+                    <a class="nav-link" href="../admin/index_peminjam.php">
                         <i class="fas fa-handshake"></i>
                         <span>Data Pengguna</span></a>
                 </li>
 
+                <!-- Nav Item - Data Anggota -->
+                <li class="nav-item">
+                    <a class="nav-link" href="../admin/index_data_anggota.php">
+                        <i class="fas fa-users"></i>
+                        <span>Data Anggota</span>
+                    </a>
+                </li>
                 <!-- Divider -->
                 <hr class="sidebar-divider">
 
@@ -365,7 +305,7 @@ if (isset($_POST['submit'])) {
 
                 <!-- Nav Item - Laporan -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_laporan.php">
+                    <a class="nav-link" href="../admin/index_laporan.php">
                         <i class="fas fa-file-alt"></i>
                         <span>Laporan</span></a>
                 </li>
@@ -380,7 +320,7 @@ if (isset($_POST['submit'])) {
 
                 <!-- Nav Item - Ulasan Buku -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../admin/index_ulasan_buku.php">
                         <i class="fas fa-comments"></i>
                         <span>Ulasan Buku</span></a>
                 </li>
@@ -395,7 +335,7 @@ if (isset($_POST['submit'])) {
 
                 <!-- Nav Item - Registrasi -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_register.php">
+                    <a class="nav-link" href="../admin/index_register.php">
                         <i class="fas fa-user-plus"></i>
                         <span>Registrasi</span>
                     </a>
@@ -421,7 +361,7 @@ if (isset($_POST['submit'])) {
 
                 <!-- Nav Item - Data Buku -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_data_buku.php">
+                    <a class="nav-link" href="../admin/index_data_buku.php">
                         <i class="fas fa-book"></i>
                         <span>Data Buku</span></a>
                 </li>
@@ -436,7 +376,7 @@ if (isset($_POST['submit'])) {
 
                 <!-- Nav Item - Laporan -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../admin/index_laporan.php">
                         <i class="fas fa-file-alt"></i>
                         <span>Laporan</span></a>
                 </li>
@@ -542,22 +482,26 @@ if (isset($_POST['submit'])) {
                                     <!-- Form untuk menampilkan data buku dan memperbarui informasinya -->
                                     <form action="../proses/proses_edit_data_buku.php" method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
-                                        <label for="judul">Judul:</label><br>
+                                        <label for="judul">Judul:</label>
                                         <input type="text" id="judul" name="judul" value="<?php echo $row['judul']; ?>"><br>
-                                        <label for="penulis">Penulis:</label><br>
+                                        <label for="penulis">Penulis:</label>
                                         <input type="text" id="penulis" name="penulis" value="<?php echo $row['penulis']; ?>"><br>
-                                        <label for="penerbit">Penerbit:</label><br>
+                                        <label for="penerbit">Penerbit:</label>
                                         <input type="text" id="penerbit" name="penerbit" value="<?php echo $row['penerbit']; ?>"><br>
-                                        <label for="tahun_terbit">Tahun Terbit:</label><br>
+                                        <label for="tahun_terbit">Tahun Terbit:</label>
                                         <input type="text" id="tahun_terbit" name="tahun_terbit" value="<?php echo $row['tahun_terbit']; ?>"><br>
-                                        <label for="tahun_terbit">Cover :</label><br>
-                                        <input type="file" id="cover" name="cover"><br>
-                                        <label for="status">Status Buku:</label><br>
-                                        <label for="ketersediaan">Ketersediaan:</label><br>
+                                        <label for="tahun_terbit">Cover :</label>
+                                        <input type="file" id="cover" name="cover">
+                                        <label for="status">Status Buku:</label>
+                                        <label for="ketersediaan">Ketersediaan:</label>
                                         <select id="ketersediaan" name="ketersediaan">
-                                            <option value="Tersedia">Tersedia</option>
-                                            <option value="Habis">Habis</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
                                         </select><br>
+
                                         <input type="submit" value="Submit">
                                     </form>
                             <?php

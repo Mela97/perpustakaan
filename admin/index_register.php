@@ -41,19 +41,6 @@ $role = $_SESSION["role"];
             background-color: #164863;
         }
 
-
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;

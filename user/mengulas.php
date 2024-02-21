@@ -62,22 +62,6 @@ $conn->close();
             background-color: #164863;
         }
 
-        .nav-link {
-            color: #ffffff !important;
-        }
-
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
@@ -176,6 +160,11 @@ $conn->close();
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
+                   <!-- Logo -->
+                   <a class="navbar-brand" href="#">
+                        <img src="../logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
+                    </a>
+
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -240,7 +229,7 @@ $conn->close();
                             if ($result->num_rows > 0) {
                                 // Menampilkan data peminjaman
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<div class='col-md-4'>";
+                                    echo "<div class='col-lg-3 col-md-6 mb-4'>";
                                     echo "<div class='card' style='width: 210px; height: 399px;'>";
                                     echo "<img src='../proses/uploads/" . $row['cover'] . "' class='card-img-top' alt='Cover Buku' style='width: 100%; height: 210px; object-fit: cover;'>";
                                     echo "<div class='card-body'>";

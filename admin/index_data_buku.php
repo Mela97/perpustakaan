@@ -34,18 +34,6 @@ $role = $_SESSION['role'];
         }
 
 
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
 
         .btn-primary:hover {
             background-color: #427D9D;

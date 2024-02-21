@@ -48,18 +48,6 @@ if (!$result) {
             background-color: #164863;
         }
 
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
@@ -145,6 +133,26 @@ if (!$result) {
         .dropdown-menu a.dropdown-item:hover {
             background-color: #427D9D;
             color: #ffffff;
+        }
+
+        .btn-primary3 {
+            background-color: #40A2D8;
+            color: #fff;
+            /* warna teks */
+        }
+
+        .hapus-button {
+            background-color: #dc3545;
+            color: #fff;
+            /* warna teks */
+        }
+
+        .btn-primary3:hover {
+            background-color: #0B60B0;
+        }
+
+        .hapus-button:hover {
+            background-color: #BF3131;
         }
     </style>
 
@@ -366,9 +374,9 @@ if (!$result) {
                     </div>
                     <div class="row">
 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <h1>Data Anggota</h1>
-                            <table border="1">
+                        <div class="col-xl-12 col-md-6 mb-4">
+                            <?php
+                            echo "<table border='1'>
                                 <tr>
                                     <th>ID</th>
                                     <th>Nama Lengkap</th>
@@ -376,21 +384,24 @@ if (!$result) {
                                     <th>Email</th>
                                     <th>Alamat</th>
                                     <th>Aksi</th>
-                                </tr>
-                                <?php
-                                // Tampilkan data anggota
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row['user_id'] . "</td>";
-                                    echo "<td>" . $row['nama_lengkap'] . "</td>";
-                                    echo "<td>" . $row['username'] . "</td>";
-                                    echo "<td>" . $row['email'] . "</td>";
-                                    echo "<td>" . $row['alamat'] . "</td>";
-                                    echo "<td><a href='edit_anggota.php?id=" . $row['user_id'] . "'>Edit</a> | <a href='hapus_anggota.php?id=" . $row['user_id'] . "'>Hapus</a></td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </table>
+                                </tr>";
+
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<td>" . (isset($row['user_id']) ? $row['user_id'] : '') . "</td>";
+                                echo "<td>" . (isset($row['nama_lengkap']) ? $row['nama_lengkap'] : '') . "</td>";
+                                echo "<td>" . (isset($row['username']) ? $row['username'] : '') . "</td>";
+                                echo "<td>" . (isset($row['email']) ? $row['email'] : '') . "</td>";
+                                echo "<td>" . (isset($row['alamat']) ? $row['alamat'] : '') . "</td>";
+                                echo "<td>";
+                                echo "<button class='btn btn-primary3 btn-sm' onclick=\"window.location.href='../edit/edit_data_anggota.php?user_id=" . (isset($row['user_id']) ? $row['user_id'] : '') . "'\">Edit</button>";
+                               // echo "<button class='btn btn-danger btn-sm ml-2' onclick='confirmDelete(" . (isset($row['user_id']) ? $row['user_id'] : '') . ")'>Hapus</button>";
+                                echo "</td>";
+                                echo "</tr>";
+                            }
+
+                            echo "</table>"
+                            ?>
                         </div>
 
 

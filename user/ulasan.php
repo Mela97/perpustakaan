@@ -14,6 +14,8 @@ $dbname = "perpustakaan_digital";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+$sql = "SELECT * FROM buku_ulasan";
+
 // Periksa koneksi
 if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
@@ -47,6 +49,81 @@ $conn->close();
     <link href="../dashboard/css/sb-admin-2.min.css" rel="stylesheet">
     <style>
         body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .reviews {
+            margin-top: 20px;
+        }
+
+        .review {
+            border-bottom: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .reviewer {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .reviewer .name {
+            font-weight: bold;
+        }
+
+        .reviewer .date {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .rating {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .rating .star {
+            font-size: 20px;
+            color: #ddd;
+            margin-right: 5px;
+        }
+
+        .rating .star.filled {
+            color: gold;
+        }
+
+        .description {
+            line-height: 1.5;
+        }
+
+        .rating {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .rating .star {
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .rating .star.filled {
+            color: gold;
+        }
+
+        body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             margin: 0;
@@ -60,22 +137,6 @@ $conn->close();
 
         .sidebar {
             background-color: #164863;
-        }
-
-        .nav-link {
-            color: #ffffff !important;
-        }
-
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
         }
 
         .btn-primary1:hover {
@@ -181,6 +242,11 @@ $conn->close();
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="#">
+                        <img src="../logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
+                    </a>
+
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -221,7 +287,7 @@ $conn->close();
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="container">
-                    <div class="card h-100 shadow-sm">
+                        <div class="card h-100 shadow-sm">
                             <div class="row g-0">
                                 <div class="col-md-4">
                                     <?php
@@ -255,6 +321,7 @@ $conn->close();
                                     $conn->close();
                                     ?>
                                 </div>
+
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <?php
@@ -295,63 +362,104 @@ $conn->close();
 
                                         $conn->close();
                                         ?>
+
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body">
-                                <h3 class="card-title mb-4" style="color: #164863;">Ulasan Buku</h3>
-                                <ul class="list-unstyled">
-                                    <?php
-                                    $servername = "localhost";
-                                    $username = "root";
-                                    $password = "";
-                                    $dbname = "perpustakaan_digital";
-
-                                    $conn = new mysqli($servername, $username, $password, $dbname);
-
-                                    if ($conn->connect_error) {
-                                        die("Koneksi gagal: " . $conn->connect_error);
-                                    }
-
-                                    if (isset($_GET['buku_id'])) {
-                                        $buku_id = $_GET['buku_id'];
-
-                                        $sql_ulasan = "SELECT * FROM buku_ulasan WHERE buku_id = $buku_id";
-                                        $result_ulasan = $conn->query($sql_ulasan);
-
-                                        if ($result_ulasan && $result_ulasan->num_rows > 0) {
-                                            while ($row_ulasan = $result_ulasan->fetch_assoc()) {
-                                                echo '<li class="mb-3"><strong>Rating:</strong> ' . $row_ulasan['rating'] . '/5 - ' . $row_ulasan['ulasan'] . '</li>';
-                                            }
-                                        } else {
-                                            echo '<li class="text-muted">Tidak ada ulasan untuk buku ini.</li>';
-                                        }
-                                    } else {
-                                        echo '<li class="text-muted">Parameter buku_id tidak ditemukan.</li>';
-                                    }
-
-                                    $conn->close();
-                                    ?>
-                                </ul>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
+
+                <div class="container">
+                    <h1>Ulasan Buku</h1>
+                    <div class="reviews">
+                        <?php
+                        // Langkah 1: Koneksi ke database
+                        $servername = "localhost";
+                        $username = "root";
+                        $password = "";
+                        $dbname = "perpustakaan_digital";
+
+                        // Membuat koneksi
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+
+                        // Memeriksa koneksi
+                        if ($conn->connect_error) {
+                            die("Koneksi gagal: " . $conn->connect_error);
+                        }
+
+                        // Mendapatkan buku_id dari parameter URL
+                        $buku_id = isset($_GET['buku_id']) ? $_GET['buku_id'] : null;
+
+                        // Memastikan buku_id tidak kosong dan merupakan angka
+                        if (!empty($buku_id) && is_numeric($buku_id)) {
+                            // Mengambil ulasan dari database dengan informasi buku dan user terkait
+                            $sql_ulasan = "SELECT buku_ulasan.*, buku.judul, user.username FROM buku_ulasan
+                                            INNER JOIN buku ON buku_ulasan.buku_id = buku.buku_id
+                                            INNER JOIN user ON buku_ulasan.user_id = user.user_id
+                                            WHERE buku_ulasan.buku_id = $buku_id"; // Filter berdasarkan buku_id
+                            $result = $conn->query($sql_ulasan);
+
+                            // Memeriksa apakah ada ulasan yang ditemukan
+                            if ($result && $result->num_rows > 0) {
+                                // Menampilkan ulasan
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<div class="review">';
+                                    echo '<div class="reviewer">';
+                                    echo '<span class="name">' . $row['username'] . '</span>';
+                                    echo '</div>';
+                                    echo '<div class="rating">';
+                                    // Menampilkan bintang berdasarkan rating dari database
+                                    $rating = $row['rating']; // Mengambil rating dari database
+                                    for ($i = 1; $i <= 5; $i++) { // Mulai dari 1 karena bintang pertama memiliki nilai 1
+                                        // Jika nilai rating lebih besar atau sama dengan $i, maka bintang diisi, jika tidak, maka bintang tidak diisi
+                                        if ($i <= $rating) {
+                                            echo '<span class="star filled">⭐</span>';
+                                        } else {
+                                            echo '<span class="star">⭐</span>';
+                                        }
+                                    }
+                                    
+                                    
+                                    echo '</div>';
+                                    echo '<div class="description">';
+                                    echo '<p> <strong>' . $row['judul'] . '</strong>:</p>';
+                                    echo '<p>' . $row['ulasan'] . '</p>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                            } else {
+                                echo '<p>Tidak ada ulasan untuk buku ini.</p>';
+                            }
+                        } else {
+                            echo '<p>Parameter buku_id tidak valid.</p>';
+                        }
+
+                        // Menutup koneksi
+                        $conn->close();
+                        ?>
+                    </div>
+                </div>
+
+
             </div>
-            <!-- /.container-fluid -->
+        </div>
+    </div>
 
-            <!-- Footer section -->
-            <!-- Include footer content here -->
 
-            <?php
-            // Tutup koneksi setelah penggunaan hasil kueri
 
-            ?>
+
+    </div>
+    </div>
+    <!-- /.container-fluid -->
+
+    <!-- Footer section -->
+    <!-- Include footer content here -->
+
+    <?php
+    // Tutup koneksi setelah penggunaan hasil kueri
+
+    ?>
 </body>
 
 </html>

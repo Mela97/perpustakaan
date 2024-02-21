@@ -76,19 +76,6 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
             background-color: #164863;
         }
 
-
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
@@ -137,9 +124,6 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
             margin-right: 10px;
         }
 
-        .text-search-icon {
-            color: #176B87;
-        }
 
         /* css tambahan */
         body {

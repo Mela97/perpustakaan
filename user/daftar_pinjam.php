@@ -59,22 +59,6 @@ if (!$result) {
             background-color: #164863;
         }
 
-        .nav-link {
-            color: #ffffff !important;
-        }
-
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
@@ -173,6 +157,11 @@ if (!$result) {
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
+                   <!-- Logo -->
+                   <a class="navbar-brand" href="#">
+                        <img src="../logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
+                    </a>
+
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -242,7 +231,7 @@ if (!$result) {
                                             // Tambahkan pengecekan sebelum mengakses kunci tanggal_pinjam
                                             if (isset($row['tanggal_pinjam'])) {
                                             ?>
-                                                <small class="text-muted">Tanggal Pinjam: <?php echo $row['tanggal_pinjam']; ?></small>
+                                                <small class="text-muted"> <?php echo $row['tanggal_pinjam']; ?></small>
                                             <?php
                                             } else {
                                                 // Jika kunci tanggal_pinjam tidak ada, berikan pesan alternatif

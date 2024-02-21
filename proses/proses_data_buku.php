@@ -19,16 +19,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Mengambil deskripsi dari formulir
     $deskripsi = $_POST['deskripsi'];
+    // Prepare an SQL statement
+    $sql = "INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, deskripsi, kategori_id, cover, ketersediaan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Memasukkan deskripsi ke dalam database
-    $sql = "INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, deskripsi, kategori_id, cover,ketersediaan) VALUES ('$judul', '$penulis', '$penerbit', $tahun, '$deskripsi', $kategori_id, '$cover_name','$ketersediaan')";
+    // Prepare the statement
+    $stmt = $conn->prepare($sql);
 
-    if ($conn->query($sql) === TRUE) {
+    // Bind parameters
+    $stmt->bind_param("sssisiss", $judul, $penulis, $penerbit, $tahun, $deskripsi, $kategori_id, $cover_name, $ketersediaan);
+
+    // Execute the statement
+    if ($stmt->execute()) {
         echo "Buku berhasil ditambahkan.";
         header("Location:../admin/index_data_buku.php");
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
 
+    // Close the statement
+    $stmt->close();
+
+    // Close the connection
     $conn->close();
 }

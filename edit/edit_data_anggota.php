@@ -1,4 +1,6 @@
 <?php
+// Include file konfigurasi database
+include('koneksi.php');
 session_start();
 
 if (!isset($_SESSION['email'])) {
@@ -6,9 +8,6 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 $role = $_SESSION["role"];
-// else{
-//     echo "<script>console.log($_SESSION['".'user_id'."'])</script>"
-// }
 ?>
 
 <!DOCTYPE html>
@@ -22,14 +21,14 @@ $role = $_SESSION["role"];
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin</title>
+    <title>Perpustakaan</title>
 
     <!-- Custom fonts for this template-->
-    <link href="asset/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../dashboard/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="asset/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../dashboard/css/sb-admin-2.min.css" rel="stylesheet">
     <style>
         .bg-gradient-primary {
             background-color: #164863;
@@ -44,7 +43,7 @@ $role = $_SESSION["role"];
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
-            color: #000000;
+            color: #000;
         }
 
         .btn-primary1 {
@@ -66,7 +65,6 @@ $role = $_SESSION["role"];
             color: #ffffff;
         }
 
-
         .nav-link {
             display: flex;
             align-items: center;
@@ -76,17 +74,17 @@ $role = $_SESSION["role"];
             margin-right: 10px;
         }
 
-       
-
         /* css tambahan */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
             margin: 0;
+            background-color: #164863;
+            color: #fff;
         }
 
         h2 {
             color: #164863;
+            text-align: center;
         }
 
         table {
@@ -113,24 +111,6 @@ $role = $_SESSION["role"];
             background-color: #f2f2f2;
         }
 
-        a.edit-button {
-            display: inline-block;
-            margin: 5px;
-            padding: 6px 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        a.edit-button {
-            background-color: #40A2D8;
-        }
-
-        a.edit-button:hover {
-            background-color: #0B60B0;
-        }
 
         a {
             text-decoration: none;
@@ -141,13 +121,75 @@ $role = $_SESSION["role"];
             text-align: center;
         }
 
-        .dropdown-menu a.dropdown-item {
+        form {
+            width: 60%;
+            border-radius: 10px;
+        }
+
+        label {
+            display: block;
             color: #164863;
         }
 
-        .dropdown-menu a.dropdown-item:hover {
-            background-color: #427D9D;
-            color: #ffffff;
+        input,
+        select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        select {
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, #164863 50%);
+            background-position: calc(100% - 15px) calc(0.5em + 2px), calc(100% - 10px) calc(0.5em + 2px);
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+            padding-right: 30px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4e73df;
+        }
+
+        button {
+            background-color: #4e73df;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #375cab;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .form-group label,
+        .form-group select {
+            float: left;
+            width: 48%;
+        }
+
+        .form-group select {
+            margin-left: 4%;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
         }
     </style>
 
@@ -161,7 +203,6 @@ $role = $_SESSION["role"];
         <!-- Sidebar -->
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -173,16 +214,16 @@ $role = $_SESSION["role"];
                 <div class="sidebar-brand-text mx-3">Perpus</div>
             </a>
 
-
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="home.php">
+                <a class="nav-link" href="../admin/home.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+
             <?php
             if ($role === "admin") :
             ?>
@@ -196,26 +237,25 @@ $role = $_SESSION["role"];
 
                 <!-- Nav Item - Data Buku -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_data_buku.php">
+                    <a class="nav-link" href="../admin/index_data_buku.php">
                         <i class="fas fa-book"></i>
                         <span>Data Buku</span></a>
                 </li>
 
                 <!-- Nav Item - Data Peminjam -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_peminjam.php">
+                    <a class="nav-link" href="../admin/index_peminjam.php">
                         <i class="fas fa-handshake"></i>
-                        <span>Data Peminjam</span></a>
+                        <span>Data Pengguna</span></a>
                 </li>
 
                 <!-- Nav Item - Data Anggota -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_data_anggota.php">
+                    <a class="nav-link" href="../admin/index_data_anggota.php">
                         <i class="fas fa-users"></i>
                         <span>Data Anggota</span>
                     </a>
                 </li>
-
                 <!-- Divider -->
                 <hr class="sidebar-divider">
 
@@ -226,7 +266,7 @@ $role = $_SESSION["role"];
 
                 <!-- Nav Item - Laporan -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_laporan.php">
+                    <a class="nav-link" href="../admin/index_laporan.php">
                         <i class="fas fa-file-alt"></i>
                         <span>Laporan</span></a>
                 </li>
@@ -241,7 +281,7 @@ $role = $_SESSION["role"];
 
                 <!-- Nav Item - Ulasan Buku -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_ulasan_buku.php">
+                    <a class="nav-link" href="../admin/index_ulasan_buku.php">
                         <i class="fas fa-comments"></i>
                         <span>Ulasan Buku</span></a>
                 </li>
@@ -256,7 +296,7 @@ $role = $_SESSION["role"];
 
                 <!-- Nav Item - Registrasi -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_register.php">
+                    <a class="nav-link" href="../admin/index_register.php">
                         <i class="fas fa-user-plus"></i>
                         <span>Registrasi</span>
                     </a>
@@ -282,7 +322,7 @@ $role = $_SESSION["role"];
 
                 <!-- Nav Item - Data Buku -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_data_buku.php">
+                    <a class="nav-link" href="../admin/index_data_buku.php">
                         <i class="fas fa-book"></i>
                         <span>Data Buku</span></a>
                 </li>
@@ -297,7 +337,7 @@ $role = $_SESSION["role"];
 
                 <!-- Nav Item - Laporan -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index_laporan.php">
+                    <a class="nav-link" href="../admin/index_laporan.php">
                         <i class="fas fa-file-alt"></i>
                         <span>Laporan</span></a>
                 </li>
@@ -311,7 +351,11 @@ $role = $_SESSION["role"];
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
+
+
         </ul>
+        <!-- End of Sidebar -->
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -319,8 +363,8 @@ $role = $_SESSION["role"];
             <div id="content">
 
                 <!-- Topbar -->
-                <!-- Navbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -348,6 +392,10 @@ $role = $_SESSION["role"];
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -356,89 +404,55 @@ $role = $_SESSION["role"];
                             </div>
                         </li>
                     </ul>
+
                 </nav>
-                <!-- End of Topbar -->
-
-                <!-- End of Topbar -->
-
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h2 class="h3 mb-0 text-gray-800">Ulasan</h2>
+                        <h2 class="h3 mb-0 text-gray-800">Edit Buku</h2>
                     </div>
-
-                    <!-- Daftar Ulasan -->
                     <div class="row">
-                        <!-- Kolom untuk Menampilkan Ulasan Buku -->
-                        <div class="col-lg-12">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Buku</th>
-                                                <th>Ulasan</th>
-                                                <th>Rating</th>
-                                                <th>Tanggal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Isi Tabel dengan Data Ulasan dari Database -->
-                                            <?php
-                                            // Langkah 1: Koneksi ke database
-                                            $servername = "localhost";
-                                            $username = "root";
-                                            $password = "";
-                                            $dbname = "perpustakaan_digital";
+                        <div class="col-xl-12 col-md-6 mb-4">
 
-                                            // Membuat koneksi
-                                            $conn = new mysqli($servername, $username, $password, $dbname);
+                            <?php
+                            // Periksa jika parameter id anggota ada di URL
+                            if (isset($_GET['user_id'])) {
+                                $user_id = $_GET['user_id'];
 
-                                            // Periksa koneksi
-                                            if ($conn->connect_error) {
-                                                die("Koneksi gagal: " . $conn->connect_error);
-                                            }
+                                // Query untuk mengambil data anggota berdasarkan user_id
+                                $sql = "SELECT * FROM user WHERE user_id = $user_id";
+                                $result = $conn->query($sql);
 
-                                            // Langkah 2: Mengambil data ulasan dari database
-                                            $sql = "SELECT * FROM buku_ulasan";
-                                            $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    $row = $result->fetch_assoc();
 
-                                            // Periksa apakah ada hasil yang dikembalikan
-                                            if ($result->num_rows > 0) {
-                                                // Loop melalui setiap baris hasil dan menampilkan data dalam tabel
-                                                $no = 1; // Nomor urut
-                                                while ($row = $result->fetch_assoc()) {
-                                                    echo "<tr>";
-                                                    echo "<td>" . $row['user_id'] . "</td>";
-                                                    echo "<td>" . $row['buku_id'] . "</td>";
-                                                    echo "<td>" . $row['ulasan'] . "</td>";
-                                                    echo "<td>" . $row['rating'] . "</td>";
-                                                    echo "<td>" . $row['created_at'] . "</td>";
-                                                    echo "</tr>";
-                                                }
-                                            } else {
-                                                // Jika tidak ada data ulasan yang ditemukan
-                                                echo "<tr><td colspan='6'>Tidak ada ulasan yang tersedia.</td></tr>";
-                                            }
+                                    // Formulir untuk mengedit anggota
+                                    echo '<form action="../update/update_data_anggota.php" method="POST">';
+                                    echo '<input type="hidden" name="user_id" value="' . $row['user_id'] . '">';
+                                    echo '<label for="nama">Nama:</label>';
+                                    echo '<input type="text" id="username" name="username" value="' . $row['username'] . '"><br>';
+                                    echo '<label for="email">Email:</label>';
+                                    echo '<input type="email" id="email" name="email" value="' . $row['email'] . '"><br>';
+                                    echo '<label for="alamat">Alamat:</label>';
+                                    echo '<textarea id="alamat" name="alamat">' . $row['alamat'] . '</textarea><br>';
+                                    echo '<input type="submit" value="Update">';
+                                    echo '</form>';
+                                } else {
+                                    echo 'Anggota tidak ditemukan.';
+                                }
+                            } else {
+                                echo 'Parameter id tidak ditemukan.';
+                            }
 
-                                            // Tutup koneksi
-                                            $conn->close();
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            $conn->close();
+                            ?>
                         </div>
                     </div>
 
-
                 </div>
-
 
             </div>
 
@@ -476,30 +490,28 @@ $role = $_SESSION["role"];
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary1" href="../login.php">Logout</a>
+                    <a class="btn btn-primary1" href="login.php">Logout</a>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="asset/vendor/jquery/jquery.min.js"></script>
-    <script src="asset/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../dashboard/vendor/jquery/jquery.min.js"></script>
+    <script src="../dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="asset/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../dashboard/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="asset/js/sb-admin-2.min.js"></script>
+    <script src="../dashboard/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="asset/vendor/chart.js/Chart.min.js"></script>
+    <script src="../dashboard/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="asset/js/demo/chart-area-demo.js"></script>
-    <script src="asset/js/demo/chart-pie-demo.js"></script>
-
-
+    <script src="../dashboard/js/demo/chart-area-demo.js"></script>
+    <script src="../dashboard/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

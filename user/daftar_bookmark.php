@@ -70,22 +70,6 @@ if ($result_user->num_rows > 0) {
             background-color: #164863;
         }
 
-        .nav-link {
-            color: #ffffff !important;
-        }
-
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
@@ -193,6 +177,11 @@ if ($result_user->num_rows > 0) {
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
+                   <!-- Logo -->
+                   <a class="navbar-brand" href="#">
+                        <img src="../logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
+                    </a>
+                    
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
