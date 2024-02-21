@@ -15,7 +15,9 @@ saya sedang membuat projek peminjaman perpustakan untuk tugas ujikom, web ini ha
 
 # Instalasi
 
-```git clone https://github.com/Mela97/perpustakaan && cd perpustakaan```
+```
+git clone https://github.com/Mela97/perpustakaan && cd perpustakaan
+```
 
 
 # Catatan
