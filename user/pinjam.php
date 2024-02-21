@@ -37,6 +37,11 @@ if ($conn->connect_error) {
 $sql = "INSERT INTO peminjaman (perpus_id, buku_id, tanggal_pinjam, user_id, tanggal_kembali, status_peminjam)
         VALUES (1, '$bukuId','$tanggalnow', '$email', '0000-00-00', 'dipinjam')";
 $result = mysqli_query($conn, $sql);
+$resultbuku = mysqli_query($conn,"SELECT * FROM buku WHERE buku_id = $bukuId");
+$fetchbuku = mysqli_fetch_assoc($resultbuku);
+$ketersediaan = $fetchbuku['ketersediaan'];
+$removeketersediaan = $ketersediaan - 1;
+$updateketersediaan = mysqli_query($conn,"UPDATE buku SET ketersediaan='$removeketersediaan' WHERE buku_id='$bukuId'");
 if ($result) {
     // Jika peminjaman berhasil dimasukkan, kirim respons sukses
     header("Location:home.php");

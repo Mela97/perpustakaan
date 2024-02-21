@@ -141,6 +141,8 @@ $result = $conn->query($sql);
         .card {
             float: left;
             margin-right: 15px;
+            margin-bottom: 25px;
+            margin-left:17px ;
         }
 
         .judul {
@@ -200,10 +202,10 @@ $result = $conn->query($sql);
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                
+
                                 <?php
                                 if (isset($_SESSION['username'])) {
-                                    echo $_SESSION['username']; 
+                                    echo $_SESSION['username'];
                                 } else {
                                     echo "Pengguna";
                                 }

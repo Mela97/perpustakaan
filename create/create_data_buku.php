@@ -12,6 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $penerbit = $_POST["penerbit"];
     $tahun = $_POST["tahun"];
     $kategori_id = $_POST["kategori"];
+    $perpus_id = $_POST["perpus_id"];
+
 
     // Handle file upload
     $cover = $_FILES["cover"];
@@ -21,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $deskripsi = $_POST['deskripsi'];
 
         // Memasukkan deskripsi ke dalam database
-        $sql = "INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, deskripsi, kategori_id, cover) VALUES ('$judul', '$penulis', '$penerbit', $tahun, '$deskripsi', $kategori_id, '$cover_path')";
+        $sql = "INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, deskripsi, kategori_id, cover, perpus_id) VALUES ('$judul', '$penulis', '$penerbit', $tahun, '$deskripsi', $kategori_id, '$cover_path', $perpus_id)";
 
         if ($conn->query($sql) === TRUE) {
             echo "Buku berhasil ditambahkan.";
@@ -448,7 +450,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="row">
                         <div class="col-xl-12 col-md-6 mb-4">
                             <form action="../proses/proses_data_buku.php" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="book_id">
+                            <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
+                                <div class="form-group">
+                                    <select name='perpus_id'>
+                                        <?php
+                                        $result = mysqli_query($conn, "SELECT * FROM perpus");
+                                        while ($d = mysqli_fetch_assoc($result)) :
+                                        ?>
+                                            <option value='<?= $d['perpus_id'] ?>'><?= $d['nama_perpus'] ?></option>
+                                        <?php endwhile ?>
+
+                                    </select>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="judul">Judul:</label>
                                     <input type="text" name="judul" required>
@@ -500,25 +514,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         $conn->close();
                                         ?>
                                     </select>
+
                                 </div>
 
                                 <div class="form-group">
                                     <label for="cover">Cover</label>
-                                    <input type="file" name="cover" required><
-                                </div>
+                                    <input type="file" name="cover" required>
+                                    < </div>
 
-                                <div class="form-group">
-                                    <label for="ketersediaan">Ketersediaan:</label>
-                                    <select id="ketersediaan" name="ketersediaan">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select><br>
-                                </div>
+                                        <div class="form-group">
+                                            <label for="ketersediaan">Ketersediaan:</label>
+                                            <select id="ketersediaan" name="ketersediaan">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select><br>
+                                        </div>
 
-                                <input type="submit" value="Tambah Buku">
+                                        <input type="submit" value="Tambah Buku">
                             </form>
                         </div>
                     </div>

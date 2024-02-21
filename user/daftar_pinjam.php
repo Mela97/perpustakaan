@@ -157,8 +157,8 @@ if (!$result) {
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                   <!-- Logo -->
-                   <a class="navbar-brand" href="#">
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="#">
                         <img src="../logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
                     </a>
 
@@ -324,6 +324,7 @@ if (!$result) {
     <script src="../dashboard/vendor/js/demo/chart-pie-demo.js"></script>
 
     <!-- Tambahkan setelah bagian <script src="../dashboard/vendor/js/demo/chart-pie-demo.js"></script> -->
+    <!-- Tambahkan setelah bagian <script src="../dashboard/vendor/js/demo/chart-pie-demo.js"></script> -->
     <script>
         $(document).ready(function() {
             $('.btn-kembalikan').click(function() {
@@ -340,6 +341,17 @@ if (!$result) {
                         alert("Buku berhasil dikembalikan");
                         // Refresh halaman setelah mengembalikan buku (opsional)
                         location.reload();
+
+                        // Tampilkan notifikasi
+                        if ('Notification' in window) {
+                            Notification.requestPermission().then(function(permission) {
+                                if (permission === 'granted') {
+                                    new Notification('Buku berhasil dikembalikan!');
+                                }
+                            });
+                        } else {
+                            alert('Notifikasi tidak didukung di browser ini.');
+                        }
                     },
                     error: function(xhr, status, error) {
                         // Tambahkan kode di sini untuk menangani kesalahan saat mengembalikan buku
@@ -348,6 +360,14 @@ if (!$result) {
                 });
             });
         });
+    </script>
+
+    <script>
+        // Check if notification session exists and display it
+        <?php if (isset($_SESSION['notification'])) : ?>
+            alert("<?php echo $_SESSION['notification']; ?>");
+            <?php unset($_SESSION['notification']); ?>
+        <?php endif; ?>
     </script>
 
 </body>

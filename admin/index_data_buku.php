@@ -446,10 +446,10 @@ $role = $_SESSION['role'];
 
                             // Langkah 4: Lakukan query untuk mengambil data sesuai dengan halaman saat ini
                             $offset = ($page - 1) * $data_per_halaman;
-                            $query_data_buku = "SELECT b.*, bk.nama_kategori, p.status_peminjam
+                            $query_data_buku = "SELECT b.*, bk.nama_kategori
                             FROM buku b
-                            JOIN buku_kategori bk ON b.kategori_id = bk.kategori_id
-                            LEFT JOIN peminjaman p ON b.buku_id = p.buku_id LIMIT $offset, $data_per_halaman";
+                            INNER JOIN buku_kategori bk ON b.kategori_id = bk.kategori_id
+                            LIMIT $offset, $data_per_halaman";
                             $result_data_buku = $conn->query($query_data_buku);
 
                             // Tampilkan tabel buku beserta status peminjamannya
@@ -460,7 +460,7 @@ $role = $_SESSION['role'];
                                         <th>Judul</th>
                                         <th>Penulis</th>
                                         <th>Kategori</th>
-                                        <th>Status Peminjaman</th>
+                                       
                                         <th>Ketersediaan</th>
                                         <th>Aksi</th>
                                     </tr>";
@@ -472,7 +472,7 @@ $role = $_SESSION['role'];
                                                 <td>{$row['judul']}</td>
                                                 <td>{$row['penulis']}</td>
                                                 <td>{$row['kategori_id']}</td>
-                                                <td>{$row['status_peminjam']}</td>
+                                                
                                                 <td>{$row['ketersediaan']}</td>
                                                 <td>
                                                     <a href='../edit/edit_data_buku.php?buku_id={$row['buku_id']}' class='edit-button'>Edit</a> 
