@@ -18,7 +18,7 @@ saya sedang membuat projek peminjaman perpustakan untuk tugas ujikom, web ini ha
 - Gunakan xampp untuk menyambungkan ke server
 - Clone repository
 ```
-git clone https://github.com/Mela97/perpustakaan && cd perpustakaan
+git clone https://github.com/Mela97/perpustakaan
 ```
 - Import database ke php my admin
 - Buat file koneksi dan koneksikan ke database
