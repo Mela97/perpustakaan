@@ -1,39 +1,37 @@
 <?php
 session_start();
+
 // Koneksi ke database
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "perpustakaan_digital";
+$database = "perpustakaan_digital";
 
-// Buat koneksi
-$koneksi = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $database);
 
 // Periksa koneksi
-if ($koneksi->connect_error) {
-    die("Koneksi gagal: " . $koneksi->connect_error);
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
+$id=$_SESSION['user_id'];
+// Query untuk mendapatkan riwayat peminjaman
+$sql = "SELECT * FROM peminjaman WHERE user_id='$id'";
+$result = $conn->query($sql);
 
-// Query untuk mendapatkan daftar buku
-$query = "SELECT buku.*,peminjaman.* FROM buku INNER JOIN peminjaman on peminjaman.buku_id = buku.buku_id ";
-
-// Eksekusi query
-$result = $koneksi->query($query);
-
-// Periksa apakah query berhasil dieksekusi
-if (!$result) {
-    die("Error: " . $koneksi->error);
-}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Pinjam</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>User</title>
 
     <!-- Custom fonts for this template-->
     <link href="../dashboard/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -41,7 +39,6 @@ if (!$result) {
 
     <!-- Custom styles for this template-->
     <link href="../dashboard/css/sb-admin-2.min.css" rel="stylesheet">
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -117,14 +114,14 @@ if (!$result) {
             color: #ffffff;
         }
 
-        .btn-info2 {
+        .btn-info1 {
             background-color: #0D9276;
             border-color: #0D9276;
             color: #ffffff;
             font-size: 14px;
         }
 
-        .btn-info2:hover {
+        .btn-info1:hover {
             background-color: #43766C;
             border-color: #43766C;
             color: #ffffff;
@@ -134,7 +131,57 @@ if (!$result) {
             float: left;
             margin-right: 10px;
         }
+
+        .small {
+            font-size: 12px;
+        }
+
+        .card-text {
+            font-size: 12px;
+        }
+
+        /* CSS lainnya */
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 10px auto;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #164863;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .dot {
+            height: 15px;
+            width: 15px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            cursor: pointer;
+        }
+
+        /* Tambahkan CSS ini untuk mengatur dot.active */
+        .active, .dot:hover {
+            background-color: #717171;
+        }
     </style>
+
 </head>
 
 <body id="page-top">
@@ -206,73 +253,49 @@ if (!$result) {
                             <a class="btn btn-secondary btn-sm float-left mb-3" href="javascript:history.go(-1)">
                                 <i class="fas fa-arrow-left"></i>
                             </a>
-                            <h4 class="float-left ml-3">Daftar Buku yang Dipinjam</h4>
+                            <h4 class="float-left ml-3">Riwayat Peminjaman</h4>
                         </div>
                     </div>
                     <hr>
-
-                    <div class="row">
+                    <!-- card -->
+                    <table border="1">
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Nama Peminjam</th>
+                            <th>Judul Buku</th>
+                            <th>Tanggal Kembali</th>
+                            <th>Status</th>
+                        </tr>
                         <?php
-                        if (isset($result) && $result !== null && $result->num_rows > 0) {
+                        if ($result->num_rows > 0) {
+                            $no = 1;
                             while ($row = $result->fetch_assoc()) {
-                                if ($row['status_peminjam'] === "dipinjam" && $row['user_id'] == $_SESSION['user_id']) :
-                        ?>
-                                    <div class="card" style="width: 200px; height: 380px; margin-right: 10px;">
-                                        <img src="../proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 200px; object-fit: cover;">
-                                        <div class="card-body">
-                                            <?php
-                                            // Tambahkan pengecekan sebelum mengakses kunci tanggal_pinjam
-                                            if (isset($row['tanggal_pinjam'])) {
-                                            ?>
-                                               
-                                            <?php
-                                            } else {
-                                                // Jika kunci tanggal_pinjam tidak ada, berikan pesan alternatif
-                                            ?>
-                                                <small class="text-muted">Tanggal Pinjam Tidak Tersedia</small>
-                                            <?php
-                                            }
-                                            // 
-                                            ?>
-                                            <h5 class="card-title"><?php echo $row['judul']; ?></h5>
-                                            <p class="card-text">Penulis: <?php echo $row['penulis']; ?></p>
+                                echo "<tr>";
+                                echo "<td>" . $no++ . "</td>";
+                                echo "<td>" . $row['tanggal_pinjam'] . "</td>";
+                                echo "<td>" . $row['username'] . "</td>";
 
-                                            <a href='../proses/proses_kembalikan_buku.php?id_buku=<?php echo $row['peminjaman_id']; ?>'>
-                                                <button class="btn btn-info2 btn-sm ">Selesai</button>
-                                            </a>
-
-                                            <a href='#?id_buku=<?php echo $row['peminjaman_id']; ?>'>
-                                                <button class="btn btn-info btn-sm">
-                                                    <i class="fas fa-book"></i> Baca
-                                                </button>
-                                            </a>
-
-
-                                        </div>
-                                    </div>
-
-                        <?php
-                                endif;
+                                // Ambil judul buku berdasarkan buku_id
+                                $buku_id = $row['buku_id'];
+                                $sql_buku = "SELECT judul FROM buku WHERE buku_id=$buku_id";
+                                $result_buku = $conn->query($sql_buku);
+                                $row_buku = $result_buku->fetch_assoc();
+                                echo "<td>" . $row_buku['judul'] . "</td>";
+                                echo "<td>" . $row['tanggal_kembali'] . "</td>";
+                                echo "<td>" . $row['status_peminjam'] . "</td>";
+                                echo "</tr>";
                             }
                         } else {
-                            echo '<div class="col"><p>Tidak ada buku yang dipinjam.</p></div>';
+                            echo "<tr><td colspan='6'>Tidak ada data riwayat peminjaman.</td></tr>";
                         }
                         ?>
-
-                    </div>
+                    </table>
                 </div>
 
-
-
             </div>
-
         </div>
-
-
-
-
-    </div>
-    <!-- /.container-fluid -->
+        <!-- /.container-fluid -->
 
     </div>
     <!-- End of Main Content -->
@@ -305,7 +328,7 @@ if (!$result) {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../logout.php">Logout</a>
+                    <a class="btn btn-primary" href="../login.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -329,53 +352,50 @@ if (!$result) {
     <!-- Page level custom scripts -->
     <script src="../dashboard/vendor/js/demo/chart-area-demo.js"></script>
     <script src="../dashboard/vendor/js/demo/chart-pie-demo.js"></script>
+    <!-- Tambahkan ini di bagian head atau sebelum tag penutup body -->
 
-    <!-- Tambahkan setelah bagian <script src="../dashboard/vendor/js/demo/chart-pie-demo.js"></script> -->
-    <!-- Tambahkan setelah bagian <script src="../dashboard/vendor/js/demo/chart-pie-demo.js"></script> -->
+    <script src="script.js"></script>
+
+    <!-- Tambahkan script berikut untuk menjalankan slideshow -->
     <script>
-        $(document).ready(function() {
-            $('.btn-kembalikan').click(function() {
-                var id_buku = $(this).data('id');
-                $.ajax({
-                    type: 'POST',
-                    url: '../proses/proses_kembalikan_buku.php',
-                    data: {
-                        id_buku: id_buku
-                    },
-                    success: function(response) {
-                        // Tambahkan kode di sini untuk menangani respons setelah buku dikembalikan
-                        // Contoh: Tampilkan pesan sukses atau perbarui tampilan buku yang dikembalikan
-                        alert("Buku berhasil dikembalikan");
-                        // Refresh halaman setelah mengembalikan buku (opsional)
-                        location.reload();
+        var slideIndex = 1;
+        showSlides(slideIndex);
 
-                        // Tampilkan notifikasi
-                        if ('Notification' in window) {
-                            Notification.requestPermission().then(function(permission) {
-                                if (permission === 'granted') {
-                                    new Notification('Buku berhasil dikembalikan!');
-                                }
-                            });
-                        } else {
-                            alert('Notifikasi tidak didukung di browser ini.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        // Tambahkan kode di sini untuk menangani kesalahan saat mengembalikan buku
-                        alert('Terjadi kesalahan saat mengembalikan buku: ' + error);
-                    }
-                });
-            });
-        });
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            if (n > slides.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = slides.length
+            }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            for (i = slideIndex - 1; i < slideIndex + 2; i++) {
+                if (slides[i]) {
+                    slides[i].style.display = "block";
+                }
+            }
+            if (dots[slideIndex - 1]) {
+                dots[slideIndex - 1].className += " active";
+            }
+        }
     </script>
 
-    <script>
-        // Check if notification session exists and display it
-        <?php if (isset($_SESSION['notification'])) : ?>
-            alert("<?php echo $_SESSION['notification']; ?>");
-            <?php unset($_SESSION['notification']); ?>
-        <?php endif; ?>
-    </script>
 
 </body>
 

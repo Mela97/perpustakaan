@@ -103,7 +103,6 @@ $conn->close();
 
         .card-body button {
             float: left;
-            margin-right: 4px;
         }
 
         .btn-secondary1 {
@@ -160,8 +159,8 @@ $conn->close();
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                   <!-- Logo -->
-                   <a class="navbar-brand" href="#">
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="#">
                         <img src="../logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
                     </a>
 
@@ -204,8 +203,17 @@ $conn->close();
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn btn-secondary btn-sm float-left mb-3" href="javascript:history.go(-1)">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
+                            <h4 class="float-left ml-3">Beri Ulasan</h4>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="container">
-                        <div class="row g-0 justify-content-start"> <!-- Tambahkan kelas justify-content-start untuk membuat card berjajar ke samping -->
+                        <div class="row">
                             <?php
                             // Koneksi ke database
                             $servername = "localhost";
@@ -217,24 +225,24 @@ $conn->close();
                             if ($conn->connect_error) {
                                 die("Koneksi gagal: " . $conn->connect_error);
                             }
-
+                            $id = $_SESSION['user_id'];
                             // Kueri SQL untuk mengambil data peminjaman buku yang sudah dikembalikan bersama dengan user ID
                             $sql = "SELECT peminjaman.*, buku.*, user.user_id AS user_id
                         FROM peminjaman
                         JOIN buku ON peminjaman.buku_id = buku.buku_id
                         JOIN user ON peminjaman.user_id = user.user_id
-                        WHERE peminjaman.status_peminjam = 'dikembalikan'";
+                        WHERE peminjaman.status_peminjam = 'dikembalikan' AND user.user_id = $id";
                             $result = $conn->query($sql);
 
                             if ($result->num_rows > 0) {
                                 // Menampilkan data peminjaman
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<div class='col-lg-3 col-md-6 mb-4'>";
+                                    echo "<div class='col mb-4'>";
                                     echo "<div class='card' style='width: 210px; height: 399px;'>";
                                     echo "<img src='../proses/uploads/" . $row['cover'] . "' class='card-img-top' alt='Cover Buku' style='width: 100%; height: 210px; object-fit: cover;'>";
                                     echo "<div class='card-body'>";
                                     echo "<h5 class='card-title'>" . $row['judul'] . "</h5>";
-                                    echo "<p class='card-text'>Peminjam: " . $row['user_id'] . "</p>";
+                                    echo "<p class='card-text'>Peminjam: " . $row['username'] . "</p>";
                                     // Modal untuk mengulas
                                     echo "<button class='btn btn-primary1' data-toggle='modal' data-target='#ulasModal{$row['buku_id']}'>Beri Ulasan</button>";
                                     echo "</div>";
@@ -279,7 +287,7 @@ $conn->close();
                             } else {
                                 echo "Tidak ada data peminjaman buku yang sudah dikembalikan.";
                             }
-                            
+
                             ?>
                         </div>
                     </div>

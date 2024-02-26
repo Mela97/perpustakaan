@@ -401,7 +401,7 @@ $role = $_SESSION['role'];
                                     Profile
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -426,12 +426,12 @@ $role = $_SESSION['role'];
                     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Tangkap data yang dikirim dari formulir tambah peminjam
                         $tanggal_pinjam = $_POST['tanggal_pinjam'];
-                        $user_id = $_POST['user_id'];
+                        $username = $_POST['username'];
                         $status_peminjam = $_POST['status_peminjam'];
 
                         // Query untuk menambahkan data peminjam baru
-                        $query = "INSERT INTO `peminjaman` (`tanggal_pinjam`, `user_id`,`status_peminjam`)
-              VALUES ('$tanggal_pinjam', '$user_id','$status_peminjam')";
+                        $query = "INSERT INTO `peminjaman` (`tanggal_pinjam`, `username`,`status_peminjam`)
+              VALUES ('$tanggal_pinjam', '$username','$status_peminjam')";
 
                         if ($conn->query($query)) {
                             echo "Data peminjam berhasil ditambahkan. <a href='../admin/index_peminjam.php'>Kembali ke Daftar Peminjam</a>";
@@ -442,11 +442,40 @@ $role = $_SESSION['role'];
                     ?>
 
                     <form action="../proses/proses_peminjam.php" method="post">
+                        <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
                         <label for="tanggal_pinjam">Tanggal Pinjam:</label>
-                        <input type="date" name="tanggal_pinjam" required><br>
+                        <input type="date" name="tanggal_pinjam" id="tanggal_pinjam" required><br>
 
-                        <label for="user_id">Nama Peminjam:</label>
-                        <input type="text" name="user_id" required><br>
+                        <label for="tanggal_kembali">Tanggal Kembali:</label>
+                        <input type="date" name="tanggal_kembali" id="tanggal_kembali" required><br>
+
+                        <script>
+                            // Function to set default values for the date fields
+                            function setDefaultDates() {
+                                var today = new Date();
+                                var dd = String(today.getDate()).padStart(2, '0');
+                                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                                var yyyy = today.getFullYear();
+
+                                today = yyyy + '-' + mm + '-' + dd;
+                                document.getElementById('tanggal_pinjam').value = today;
+
+                                var returnDate = new Date();
+                                returnDate.setDate(returnDate.getDate() + 7); // Default return date is 7 days from today
+                                var dd2 = String(returnDate.getDate()).padStart(2, '0');
+                                var mm2 = String(returnDate.getMonth() + 1).padStart(2, '0');
+                                var yyyy2 = returnDate.getFullYear();
+
+                                returnDate = yyyy2 + '-' + mm2 + '-' + dd2;
+                                document.getElementById('tanggal_kembali').value = returnDate;
+                            }
+
+                            // Call the function when the page loads
+                            window.onload = setDefaultDates;
+                        </script>
+
+                        <label for="username">Nama Peminjam:</label>
+                        <input type="text" name="username" required><br>
 
                         <select name='buku_id'>
                             <?php
@@ -457,54 +486,10 @@ $role = $_SESSION['role'];
                             <?php endwhile ?>
 
                         </select>
-                        <select name='perpus_id'>
-                            <?php
-                            $result = mysqli_query($conn, "SELECT * FROM perpus");
-                            while ($d = mysqli_fetch_assoc($result)) :
-                            ?>
-                                <option value='<?= $d['perpus_id'] ?>'><?= $d['nama_perpus'] ?></option>
-                            <?php endwhile ?>
-
-                        </select>
-
-                        <div class="form-group">
-                            <label for="kategori">Kategori:</label>
-                            <select class='form-control' name="kategori" required>
-                                <option value="" disabled selected>Pilih</option>
-                                <?php
-                                // Include database connection
-                                include('koneksi.php');
-
-                                // Fetch all categories from the database
-                                $query = "SELECT * FROM `buku_kategori`";
-                                $result = $conn->query($query) or die($conn->error);
-
-                                // Check if there are any categories
-                                if ($result->num_rows > 0) {
-                                    // Output options for each category
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<option value='{$row['kategori_id']}'>{$row['nama_kategori']}</option>";
-                                    }
-                                } else {
-                                    echo "<option value='' disabled>Tidak ada kategori tersedia</option>";
-                                }
-
-                                // Close connection
-                                $conn->close();
-                                ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="status_peminjam">Status Peminjam:</label>
-                            <select name="status_peminjam" required>
-                                <option value="Dipinjam">Dipinjam</option>
-                            </select>
-                        </div>
-
 
                         <input type="submit" value="Tambah Peminjam">
                     </form>
+
                 </div>
 
             </div>

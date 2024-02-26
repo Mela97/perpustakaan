@@ -51,7 +51,6 @@ $conn->close();
         body {
             font-family: sans-serif;
             margin: 0;
-            padding: 20px;
         }
 
         .container {
@@ -178,11 +177,6 @@ $conn->close();
             font-size: 14px;
         }
 
-        .card-body button {
-            float: left;
-            margin-right: 4px;
-        }
-
         .btn-secondary1 {
             background-color: #3559E0;
             border-color: #3559E0;
@@ -210,9 +204,9 @@ $conn->close();
             color: #ffffff;
         }
 
-        .card {
+
+        .card-body button {
             float: left;
-            margin-right: 10px;
         }
 
         .font-size-14 {
@@ -285,11 +279,11 @@ $conn->close();
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <div class="container">
+                <div class="container-fluid d-flex flex-row">
+                    <div class="container col-md-4">
                         <div class="card h-100 shadow-sm">
                             <div class="row g-0">
-                                <div class="col-md-4">
+                                <div class="col-md-12 d-flex flex-column">
                                     <?php
                                     $servername = "localhost";
                                     $username = "root";
@@ -311,6 +305,9 @@ $conn->close();
                                         if ($result_buku && $result_buku->num_rows > 0) {
                                             $row_buku = $result_buku->fetch_assoc();
                                             echo '<img src="../proses/uploads/' . $row_buku['cover'] . '" class="img-fluid rounded-start" alt="Cover Image">';
+                                            echo '<div style="text-align: center;">'; 
+                                            echo '<h5 class="card-title mt-2">' . $row_buku['judul'] . '</h5>'; 
+                                            echo '</div>';
                                         } else {
                                             echo 'Buku tidak ditemukan.';
                                         }
@@ -321,51 +318,49 @@ $conn->close();
                                     $conn->close();
                                     ?>
                                 </div>
-
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <?php
-                                        $servername = "localhost";
-                                        $username = "root";
-                                        $password = "";
-                                        $dbname = "perpustakaan_digital";
-
-                                        $conn = new mysqli($servername, $username, $password, $dbname);
-
-                                        if ($conn->connect_error) {
-                                            die("Koneksi gagal: " . $conn->connect_error);
-                                        }
-
-                                        if (isset($_GET['buku_id'])) {
-                                            $buku_id = $_GET['buku_id'];
-
-                                            $sql_buku = "SELECT * FROM buku WHERE buku_id = $buku_id";
-                                            $result_buku = $conn->query($sql_buku);
-
-                                            if ($result_buku && $result_buku->num_rows > 0) {
-                                                $row_buku = $result_buku->fetch_assoc();
-                                                echo '<h2 class="card-title">' . $row_buku['penulis'] . '</h2>';
-                                                echo '<h2 class="card-text"><b></b> <span class="text-dark">' . $row_buku['judul'] . '</span></h2>';
-                                                echo '<hr>';
-                                                echo '<h5 class="card-text"><b></b> <span class="text-dark"> Deskripsi Buku</span></h5>';
-                                                echo '<p  class="font-size-14">' . $row_buku['deskripsi'] . '</p>';
-                                                echo '<h6 class="card-text"><b></b> <span class="text-dark">Tahun Terbit:</span></h6>';
-                                                echo '<p>' . $row_buku['tahun_terbit'] . '</p>';
-                                                echo '<h6 class="card-text"><b></b> <span class="text-dark">Penerbit:</span></h6>';
-                                                echo '<p>' . $row_buku['penerbit'] . '</p>';
-                                            } else {
-                                                echo 'Buku tidak ditemukan.';
-                                            }
-                                        } else {
-                                            echo 'Parameter buku_id tidak ditemukan.';
-                                        }
-
-                                        $conn->close();
-                                        ?>
-
-                                    </div>
-                                </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="container col-md-8">
+                        <div class="card-body">
+                            <?php
+                            $servername = "localhost";
+                            $username = "root";
+                            $password = "";
+                            $dbname = "perpustakaan_digital";
+
+                            $conn = new mysqli($servername, $username, $password, $dbname);
+
+                            if ($conn->connect_error) {
+                                die("Koneksi gagal: " . $conn->connect_error);
+                            }
+
+                            if (isset($_GET['buku_id'])) {
+                                $buku_id = $_GET['buku_id'];
+
+                                $sql_buku = "SELECT * FROM buku WHERE buku_id = $buku_id";
+                                $result_buku = $conn->query($sql_buku);
+
+                                if ($result_buku && $result_buku->num_rows > 0) {
+                                    $row_buku = $result_buku->fetch_assoc();
+                                    echo '<h2 class="card-title">' . $row_buku['penulis'] . '</h2>';
+                                    echo '<h2 class="card-text"><b></b> <span class="text-dark">' . $row_buku['judul'] . '</span></h2>';
+                                    echo '<hr>';
+                                    echo '<h5 class="card-text"><b></b> <span class="text-dark"> Deskripsi Buku</span></h5>';
+                                    echo '<p class="font-size-14">' . $row_buku['deskripsi'] . '</p>';
+                                    echo '<h6 class="card-text"><b></b> <span class="text-dark">Tahun Terbit:</span></h6>';
+                                    echo '<p>' . $row_buku['tahun_terbit'] . '</p>';
+                                    echo '<h6 class="card-text"><b></b> <span class="text-dark">Penerbit:</span></h6>';
+                                    echo '<p>' . $row_buku['penerbit'] . '</p>';
+                                } else {
+                                    echo 'Buku tidak ditemukan.';
+                                }
+                            } else {
+                                echo 'Parameter buku_id tidak ditemukan.';
+                            }
+
+                            $conn->close();
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -393,14 +388,13 @@ $conn->close();
 
                         // Memastikan buku_id tidak kosong dan merupakan angka
                         if (!empty($buku_id) && is_numeric($buku_id)) {
-                            // Mengambil ulasan dari database dengan informasi buku dan user terkait
                             $sql_ulasan = "SELECT buku_ulasan.*, buku.judul, user.username FROM buku_ulasan
                                             INNER JOIN buku ON buku_ulasan.buku_id = buku.buku_id
                                             INNER JOIN user ON buku_ulasan.user_id = user.user_id
-                                            WHERE buku_ulasan.buku_id = $buku_id"; // Filter berdasarkan buku_id
+                                            WHERE buku_ulasan.buku_id = $buku_id"; 
                             $result = $conn->query($sql_ulasan);
 
-                            // Memeriksa apakah ada ulasan yang ditemukan
+
                             if ($result && $result->num_rows > 0) {
                                 // Menampilkan ulasan
                                 while ($row = $result->fetch_assoc()) {
@@ -409,33 +403,28 @@ $conn->close();
                                     echo '<span class="name">' . $row['username'] . '</span>';
                                     echo '</div>';
                                     echo '<div class="rating">';
+                            
                                     // Menampilkan bintang berdasarkan rating dari database
-                                    $rating = $row['rating']; // Mengambil rating dari database
-                                    for ($i = 1; $i <= 5; $i++) { // Mulai dari 1 karena bintang pertama memiliki nilai 1
-                                        // Jika nilai rating lebih besar atau sama dengan $i, maka bintang diisi, jika tidak, maka bintang tidak diisi
-                                        if ($i <= $rating) {
-                                            echo '<span class="star filled">⭐</span>';
-                                        } else {
-                                            echo '<span class="star">⭐</span>';
-                                        }
+                                    $rating = $row['rating']; 
+                                    for ($i = 1; $i <= $rating; $i++) {
+                                        echo '<span class="star filled">⭐</span>';
                                     }
-                                    
-                                    
+                            
                                     echo '</div>';
                                     echo '<div class="description">';
-                                    echo '<p> <strong>' . $row['judul'] . '</strong>:</p>';
                                     echo '<p>' . $row['ulasan'] . '</p>';
                                     echo '</div>';
                                     echo '</div>';
                                 }
                             } else {
+                                // Menampilkan pesan jika tidak ada ulasan
                                 echo '<p>Tidak ada ulasan untuk buku ini.</p>';
                             }
+                            
                         } else {
                             echo '<p>Parameter buku_id tidak valid.</p>';
                         }
 
-                        // Menutup koneksi
                         $conn->close();
                         ?>
                     </div>

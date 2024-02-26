@@ -123,8 +123,11 @@
 
         .card {
             float: left;
-            margin-right: 10px;
+            margin-right: 15px;
+            margin-bottom: 25px;
+            margin-left: 17px;
         }
+
 
         .small {
             font-size: 12px;

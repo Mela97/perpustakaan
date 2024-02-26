@@ -150,7 +150,7 @@ if ($result_user->num_rows > 0) {
             font-size: 12px;
         }
 
-        .card-text{
+        .card-text {
             font-size: 12px;
         }
     </style>
@@ -177,11 +177,11 @@ if ($result_user->num_rows > 0) {
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                   <!-- Logo -->
-                   <a class="navbar-brand" href="#">
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="#">
                         <img src="../logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
                     </a>
-                    
+
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -239,10 +239,24 @@ if ($result_user->num_rows > 0) {
                             echo '<div class="card" style="width: 200px; height: 380px;">';
                             echo '<img src="../proses/uploads/' . $row['cover'] . '" class="card-img-top" alt="Cover Buku" style="width: 100%; height: 200px; object-fit: cover;">';
                             echo '<div class="card-body">';
-                            echo '<h5 class="card-title">' . $row['judul'] . '</h5>';
+
+                            // Hitung panjang judul
+                            $judul_length = strlen($row['judul']);
+
+                            // Potong judul jika lebih dari 15 karakter
+                            if ($judul_length > 15) {
+                                $judul_potong = substr($row['judul'], 0, 15) . "...";
+                            } else {
+                                $judul_potong = $row['judul'];
+                            }
+
+                            echo '<h5 class="card-title" data-judul-lengkap="' . $judul_potong . '" onclick="showModalJudulLengkap(this)">';
+
                             echo '<p class="card-text">Penulis: <span class="small">' . $row['penulis'] . '</span></p>';
                             echo '<p class="card-text">Kategori: <span class="small">' . $row['nama_kategori'] . '</span></p>';
+                            echo '<div class="d-flex justify-content-end">'; // Tombol hapus diposisikan di kanan
                             echo '<button class="btn btn-sm btn-danger" onclick="hapusBookmark(' . $row['buku_id'] . ')">Hapus</button>';
+                            echo '</div>';
                             echo '</div>';
                             echo '</div>';
                         }
@@ -251,6 +265,34 @@ if ($result_user->num_rows > 0) {
                     }
                     ?>
 
+                    <script>
+                        function showModalJudulLengkap(element) {
+                            var judulLengkap = element.getAttribute("data-judul-lengkap");
+
+                            // Buat modal dengan judul lengkap
+                            var modal = document.createElement("div");
+                            modal.classList.add("modal");
+                            modal.innerHTML = `
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Judul Lengkap</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ${judulLengkap}
+                </div>
+            </div>
+        </div>
+    `;
+
+                            document.body.appendChild(modal);
+
+                            // Tampilkan modal
+                            var modalBs = new bootstrap.Modal(modal);
+                            modalBs.show();
+                        }
+                    </script>
 
                 </div>
 

@@ -429,7 +429,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     Profile
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -451,18 +451,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-xl-12 col-md-6 mb-4">
                             <form action="../proses/proses_data_buku.php" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
-                                <div class="form-group">
-                                    <select name='perpus_id'>
-                                        <?php
-                                        $result = mysqli_query($conn, "SELECT * FROM perpus");
-                                        while ($d = mysqli_fetch_assoc($result)) :
-                                        ?>
-                                            <option value='<?= $d['perpus_id'] ?>'><?= $d['nama_perpus'] ?></option>
-                                        <?php endwhile ?>
-
-                                    </select>
-                                </div>
-
                                 <div class="form-group">
                                     <label for="judul">Judul:</label>
                                     <input type="text" name="judul" required>

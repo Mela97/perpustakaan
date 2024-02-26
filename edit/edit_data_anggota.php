@@ -412,7 +412,7 @@ $role = $_SESSION["role"];
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h2 class="h3 mb-0 text-gray-800">Edit Buku</h2>
+                        <h2 class="h3 mb-0 text-gray-800">Edit Akun</h2>
                     </div>
                     <div class="row">
                         <div class="col-xl-12 col-md-6 mb-4">

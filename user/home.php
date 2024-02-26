@@ -140,9 +140,8 @@ $result = $conn->query($sql);
 
         .card {
             float: left;
-            margin-right: 15px;
             margin-bottom: 25px;
-            margin-left:17px ;
+            margin-left: 25px;
         }
 
         .judul {
@@ -202,7 +201,6 @@ $result = $conn->query($sql);
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
                                 <?php
                                 if (isset($_SESSION['username'])) {
                                     echo $_SESSION['username'];
@@ -217,10 +215,12 @@ $result = $conn->query($sql);
                                 <a class="dropdown-item" href="daftar_bookmark.php"><i class="fas fa-heart"></i> Favorite</a>
                                 <a class="dropdown-item" href="mengulas.php"><i class="fas fa-comment-alt fa-fw"></i> Ulasan</a>
                                 <a class="dropdown-item" href="daftar_pinjam.php"><i class="fas fa-plus-circle fa-fw"></i> Pinjam Buku</a>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
+                                <a class="dropdown-item" href="riwayat_pinjam.php"><i class="fas fa-history fa-fw"></i> Riwayat Peminjaman</a>
+                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
                             </div>
                         </li>
                     </ul>
+
 
 
                 </nav>
@@ -229,11 +229,8 @@ $result = $conn->query($sql);
                 <!-- Begin Page Content -->
                 <div class="col-xl-12 col-md-6 mb-4 mx-auto">
                     <?php
-                    // Check if the query was successful and there are rows returned
                     if ($result && $result->num_rows > 0) {
-                        // Loop through each row
                         while ($row = $result->fetch_assoc()) {
-                            // Check the availability of the book
                             $buku_id = $row['buku_id'];
                             $status_query = "SELECT status_peminjam FROM peminjaman WHERE buku_id = $buku_id";
                             $status_result = $conn->query($status_query);
@@ -266,10 +263,6 @@ $result = $conn->query($sql);
                             }
                         }
                     }
-                    // Handle case when no rows are returned
-                    // echo "Tidak ada buku yang tersedia.";
-
-                    // Close database connection
                     $conn->close();
                     ?>
 
@@ -312,7 +305,7 @@ $result = $conn->query($sql);
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../login.php">Logout</a>
+                    <a class="btn btn-primary" href="../index.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -340,7 +333,6 @@ $result = $conn->query($sql);
         $(document).ready(function() {
             $('.pinjam-btn').click(function() {
                 var bukuId = $(this).data('buku-id');
-                console.log(bukuId)
 
                 $.ajax({
                     type: 'POST',
@@ -358,6 +350,7 @@ $result = $conn->query($sql);
             });
         });
     </script>
+
 
     <script>
         $(document).ready(function() {
