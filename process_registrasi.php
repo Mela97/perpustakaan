@@ -23,15 +23,13 @@ if (isset($_POST['username'])) {
 
     if ($result->num_rows > 0) {
         echo "<script>alert('Email sudah terdaftar. Silakan gunakan email lain.');</script>";
-    }
-    
     } else {
         $insert_query = "INSERT INTO `user` (`perpus_id`, `nama_lengkap`,`email`,`alamat`,`username`, `password`, `role`, `created_at`)
                         VALUES (1, '$nama_lengkap','$email','$alamat','$username', '$password', '$role', current_timestamp())";
 
         if ($conn->query($insert_query) === TRUE) {
-            echo "Registration successful. <a href='login.php'>Login</a>";
-            header("Location: login.php"); 
+            echo "<script>alert('Registrasi berhasil. Silakan login.');</script>";
+            header('location:login.php');
             exit();
         } else {
             echo "Error: " . $insert_query . "<br>" . $conn->error;
@@ -39,5 +37,5 @@ if (isset($_POST['username'])) {
     }
 
     $conn->close();
-
+}
 ?>

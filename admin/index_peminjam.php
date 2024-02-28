@@ -403,7 +403,7 @@ $result = $conn->query($query) or die($conn->error);
                                     <?php while ($row = mysqli_fetch_assoc($result)) : ?>
                                         <tr>
                                             <td><?= $row['peminjaman_id'] ?></td>
-                                            <td><?= $row['user_id'] ?></td>
+                                            <td><?= $row['username'] ?></td>
                                             <td><?= $row['judul'] ?></td>
                                             <td><?= $row['tanggal_pinjam'] ?></td>
                                             <td><?= $row['tanggal_kembali'] ?></td>

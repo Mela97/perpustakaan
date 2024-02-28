@@ -13,9 +13,9 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 }
-$id=$_SESSION['user_id'];
+$id=$_SESSION['username'];
 // Query untuk mendapatkan riwayat peminjaman
-$sql = "SELECT * FROM peminjaman WHERE user_id='$id'";
+$sql = "SELECT * FROM peminjaman WHERE username='$id'";
 $result = $conn->query($sql);
 
 ?>
@@ -275,19 +275,22 @@ $result = $conn->query($sql);
                                 echo "<td>" . $no++ . "</td>";
                                 echo "<td>" . $row['tanggal_pinjam'] . "</td>";
                                 echo "<td>" . $row['username'] . "</td>";
-
+                                
                                 // Ambil judul buku berdasarkan buku_id
                                 $buku_id = $row['buku_id'];
                                 $sql_buku = "SELECT judul FROM buku WHERE buku_id=$buku_id";
                                 $result_buku = $conn->query($sql_buku);
                                 $row_buku = $result_buku->fetch_assoc();
                                 echo "<td>" . $row_buku['judul'] . "</td>";
-                                echo "<td>" . $row['tanggal_kembali'] . "</td>";
+                                
+                                // Tampilkan tanggal kembali
+                                $tanggal_kembali = new DateTime($row['tanggal_pinjam']);
+                                $tanggal_kembali->add(new DateInterval('P7D')); // Tambahkan 7 hari
+                                echo "<td>" . $tanggal_kembali->format('Y-m-d') . "</td>";
+                                
                                 echo "<td>" . $row['status_peminjam'] . "</td>";
                                 echo "</tr>";
                             }
-                        } else {
-                            echo "<tr><td colspan='6'>Tidak ada data riwayat peminjaman.</td></tr>";
                         }
                         ?>
                     </table>

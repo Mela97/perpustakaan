@@ -34,7 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($conn->query($sql) === TRUE) {
             // Tampilkan notifikasi ulasan berhasil ditambahkan menggunakan JavaScript
-            echo "<script>alert('Ulasan berhasil ditambahkan.');</script>";
+            $_SESSION['notification'] = 'Ulasan berhasil ditambahkan.';
+            header('Location: mengulas.php');
+            exit();
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }

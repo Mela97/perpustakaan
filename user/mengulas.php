@@ -1,9 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['email'])) {
-    header("Location: ../login.php");
-    exit();
+// Check if there's a notification message in the session
+if (isset($_SESSION['notification'])) {
+    // Display the notification using JavaScript alert
+    echo "<script>alert('" . $_SESSION['notification'] . "');</script>";
+
+    // Remove the notification message from the session
+    unset($_SESSION['notification']);
 }
 
 // Langkah 1: Koneksi ke database
@@ -259,7 +263,7 @@ $conn->close();
                                     echo "</button>";
                                     echo "</div>";
                                     echo "<div class='modal-body'>";
-                                    echo "<form action='../proses/proses_tambah_ulasan.php' method='POST'>";
+                                    echo "<form action='proses_tambah_ulasan.php' method='POST'>";
                                     echo "<input type='hidden' name='buku_id' value='{$row['buku_id']}'>";
                                     echo "<div class='form-group'>";
                                     echo "<label for='ulasan'>Ulasan:</label>";

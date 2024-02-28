@@ -37,7 +37,6 @@ $removeketersediaan = $ketersediaan - 1;
 $updateketersediaan = mysqli_query($conn, "UPDATE buku SET ketersediaan='$removeketersediaan' WHERE buku_id='$bukuId'");
 if ($result) {
     echo "<script>alert('Buku berhasil dipinjam.');</script>";
-
     header("Location: home.php");
     exit(); 
 } else {
