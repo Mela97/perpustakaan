@@ -356,12 +356,16 @@ $role = $_SESSION['role'];
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Username</span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                            <?php
+                                if (isset($_SESSION['username'])) {
+                                    echo $_SESSION['username']; 
+                                } else {
+                                    echo "Pengguna";
+                                }
+                                ?>                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -487,11 +491,11 @@ $role = $_SESSION['role'];
 
                             // Langkah 7: Buat tombol pagination
                             echo '<ul class="pagination justify-content-center">';
-                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '">&laquo; Previous</a></li>';
+                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
                             for ($i = max(1, $page - 2); $i <= min($page + 2, $total_halaman); $i++) {
                                 echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
                             }
-                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">Next &raquo;</a></li>';
+                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
                             echo '</ul>';
 
                             ?>

@@ -13,9 +13,10 @@ $role = $_SESSION["role"];
 include('koneksi.php');
 
 // Gunakan query pertama ($query) untuk mendapatkan data peminjaman
-$query = "SELECT peminjaman.*, buku.judul FROM peminjaman
+$query = "SELECT peminjaman.*, buku.judul, DATE_ADD(peminjaman.tanggal_pinjam, INTERVAL 7 DAY) AS tanggal_kembali FROM peminjaman
           INNER JOIN buku ON peminjaman.buku_id = buku.buku_id
           WHERE peminjaman.status_peminjam = 'dipinjam'";
+
 
 $result = $conn->query($query) or die($conn->error);
 ?>
@@ -354,8 +355,13 @@ $result = $conn->query($query) or die($conn->error);
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Username</span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                            <?php
+                                if (isset($_SESSION['username'])) {
+                                    echo $_SESSION['username']; 
+                                } else {
+                                    echo "Pengguna";
+                                }
+                                ?>                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -388,9 +394,10 @@ $result = $conn->query($query) or die($conn->error);
                                         <th>Nama Peminjam</th>
                                         <th>Judul Buku</th>
                                         <th>Tanggal Pinjam</th>
+                                        <th>Tanggal Kembali</th>
                                         <th>Status</th>
-                                        <th>Aksi</th>
                                     </tr>
+
 
                                     <!-- Tampilkan data peminjaman -->
                                     <?php while ($row = mysqli_fetch_assoc($result)) : ?>
@@ -399,7 +406,8 @@ $result = $conn->query($query) or die($conn->error);
                                             <td><?= $row['user_id'] ?></td>
                                             <td><?= $row['judul'] ?></td>
                                             <td><?= $row['tanggal_pinjam'] ?></td>
-                                            <td><?= $row['status_peminjam'] ?></td>
+                                            <td><?= $row['tanggal_kembali'] ?></td>
+
                                             <td>
                                                 <a href='../edit/edit_peminjam.php?id=<?= $row['peminjaman_id'] ?>' class='edit-button'>Edit</a>
                                                 <a href='../hapus/hapus.php?id=<?= $row['peminjaman_id'] ?>' class='hapus-button'>Hapus</a>
