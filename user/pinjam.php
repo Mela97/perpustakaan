@@ -38,6 +38,7 @@ $updateketersediaan = mysqli_query($conn, "UPDATE buku SET ketersediaan='$remove
 if ($result) {
     echo "<script>alert('Buku berhasil dipinjam.');</script>";
     header("Location: home.php");
+    $_SESSION['notif'] = "Buku berhasil dipinjam";
     exit(); 
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;

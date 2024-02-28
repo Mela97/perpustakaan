@@ -7,7 +7,6 @@ if (!isset($_SESSION['email'])) {
 }
 
 
-
 // Menggunakan koneksi database
 $servername = "localhost";
 $username = "root";
@@ -25,6 +24,8 @@ if ($conn->connect_error) {
 // Query SQL untuk mendapatkan daftar buku dengan informasi yang diperlukan
 $sql = "SELECT b.*, k.nama_kategori FROM buku b JOIN buku_kategori k ON b.kategori_id = k.kategori_id";
 $result = $conn->query($sql);
+
+
 
 ?>
 
@@ -246,7 +247,7 @@ $result = $conn->query($sql);
                                         <p class="card-text penulis" style="font-size: 16px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
                                         <!-- Add the rest of your card content and buttons here -->
                                         <a href='pinjam.php?id_buku=<?php echo $row['buku_id']; ?>'>
-                                            <button type="button" class="btn btn-primary2 btn-sm ">Pinjam</button>
+                                            <button id='pinjam-btn' data-buku-id='<?php echo $row['buku_id']; ?>' type="button" class="btn btn-primary2 btn-sm ">Pinjam</button>
                                         </a>
                                         <button type="button" class="btn btn-secondary1 btn-sm bookmark-btn" data-buku-id="<?php echo $row['buku_id']; ?>">
                                             <i class="fas fa-heart"></i>
@@ -335,7 +336,7 @@ $result = $conn->query($sql);
                 var bukuId = $(this).data('buku-id');
 
                 $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     url: 'pinjam.php',
                     data: {
                         buku_id: bukuId
@@ -450,3 +451,7 @@ $result = $conn->query($sql);
 </body>
 
 </html>
+<?php if (isset($_SESSION['notif'])) {
+    echo "<script>alert('Buku berhasil dipinjam')</script>";
+    unset($_SESSION['notif']);
+} ?>

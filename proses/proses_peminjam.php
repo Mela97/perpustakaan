@@ -2,6 +2,7 @@
 include('koneksi.php');
 session_start();
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tanggal_pinjam = $_POST['tanggal_pinjam'];
     $username = $_POST['username'];
@@ -36,5 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         echo "Error: " . $conn->error;
     }
+
+    
 }
 ?>

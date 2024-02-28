@@ -383,7 +383,6 @@ if (!$result) {
                             <?php
                             echo "<table border='1'>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Nama Lengkap</th>
                                     <th>Username</th>
                                     <th>Email</th>
@@ -393,7 +392,6 @@ if (!$result) {
 
                             while ($row = mysqli_fetch_assoc($result)) {
                                 echo "<tr>";
-                                echo "<td>" . (isset($row['user_id']) ? $row['user_id'] : '') . "</td>";
                                 echo "<td>" . (isset($row['nama_lengkap']) ? $row['nama_lengkap'] : '') . "</td>";
                                 echo "<td>" . (isset($row['username']) ? $row['username'] : '') . "</td>";
                                 echo "<td>" . (isset($row['email']) ? $row['email'] : '') . "</td>";

@@ -139,6 +139,15 @@ $conn->close();
         .font-size-14 {
             font-size: 13px;
         }
+
+
+        .judul {
+            color: #191919;
+        }
+
+        .penulis {
+            color: #7077A1;
+        }
     </style>
 
 </head>
@@ -241,17 +250,17 @@ $conn->close();
                             if ($result->num_rows > 0) {
                                 // Menampilkan data peminjaman
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<div class='col mb-4'>";
-                                    echo "<div class='card' style='width: 210px; height: 399px;'>";
-                                    echo "<img src='../proses/uploads/" . $row['cover'] . "' class='card-img-top' alt='Cover Buku' style='width: 100%; height: 210px; object-fit: cover;'>";
-                                    echo "<div class='card-body'>";
-                                    echo "<h5 class='card-title'>" . $row['judul'] . "</h5>";
-                                    echo "<p class='card-text'>Peminjam: " . $row['username'] . "</p>";
-                                    // Modal untuk mengulas
+                                    echo "<div class='col-md-3 mb-4'>";
+                                    echo "<div class='card' style='width: 210px; height: 390px;'>";
+                                    echo "<img src='../proses/uploads/{$row['cover']}' class='card-img-top' alt='Cover Buku' style='width: 100%; height: 210px; object-fit: cover;'>";
+                                    echo "<div class='card-body' style='padding: 10px;'>";
+                                    echo "<h5 class='card-title judul' style='font-size: 20px;'>{$row['judul']}</h5>";
+                                    echo "<p class='card-text penulis'>Peminjam: {$row['username']}</p>";
                                     echo "<button class='btn btn-primary1' data-toggle='modal' data-target='#ulasModal{$row['buku_id']}'>Beri Ulasan</button>";
                                     echo "</div>";
                                     echo "</div>";
                                     echo "</div>";
+
                                     // Modal untuk mengulas
                                     echo "<div class='modal fade' id='ulasModal{$row['buku_id']}' tabindex='-1' role='dialog' aria-labelledby='ulasModalLabel{$row['buku_id']}' aria-hidden='true'>";
                                     echo "<div class='modal-dialog' role='document'>";
