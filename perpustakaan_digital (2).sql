@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Feb 2024 pada 05.50
+-- Waktu pembuatan: 29 Feb 2024 pada 07.42
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.1.2
 
@@ -46,13 +46,13 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`buku_id`, `perpus_id`, `judul`, `cover`, `penulis`, `penerbit`, `tahun_terbit`, `deskripsi`, `kategori_id`, `ketersediaan`, `created_at`) VALUES
-(12, 1, ' Dilan : Dia Adalah Dilanku Tahun 1990', 'Dilan_1990_(poster).jpg', 'Pidi Baiq', 'Mizan', 2016, '“Milea, kamu cantik, tapi aku belum mencintaimu.\r\nEnggak tahu kalau sore.Tunggu aja.”\r\n(Dilan 1990)\r\n\r\n“Milea, jangan pernah bilang ke aku ada yang menyakitimu, nanti, besoknya, orang itu akan hilang.”\r\n(Dilan 1990)\r\n\r\n“Cinta sejati adalah kenyamanan, kepercayaan, dan dukungan.\r\nKalau kamu tidak setuju, aku tidak peduli.”\r\n(Milea 1990)', 1, 5, '2024-02-23 05:57:45'),
-(18, 1, 'Dikta & Hukum', 'dikta_dan_hukum.jpg', 'Dhi\'an Farah', 'Asoka Aksara X Loveable', 2021, 'Dikta merupakan tokoh idaman semua wanita karena penggambarannya yang sempurna. Ia kaya, rajin, pintar, baik, penyayang dan tentunya berparas tampan. Di sisi lain terdapat tokoh bernama Nadhira yang merupakan anak SMA kelas 12 dengan karakter berbanding terbalik dengan Dikta, pemalas dan mageran. Nadhira dikenal sebagai orang yang banyak mau, keras kepala dan suka mengeluh. Berbeda dengan image Dikta yang dikenal sebagai sosok yang serius dan disiplin.\r\n\r\nSiapa sangka jika Dikta dijodohkan dengan gadis SMA bernama Nadhira itu dengan sifat dan watak mereka yang amat sangat berbanding terbalik bagai langit dan bumi. Demi menjaga perasaan kedua orang tuanya, mereka terpaksa harus terjebak dalam hubungan yang semakin rumit ini.\r\n\r\nSeiring berjalannya waktu, Nadhira mulai menaruh rasa suka pada Dikta dan benar saja kali ini Nadhira benar-benar jatuh cinta pada sosok yang sejak dulu hanya dianggapnya sebagai kakak. Meskipun begitu kisah percintaan mereka yang rumit akan dibahas dan rahasia-rahasia Dikta yang selama ini dipendam akan mulai terungkap.', 1, 1, '2024-02-23 05:59:40'),
-(19, 1, 'Himpunan', 'himpunan.jpg', 'Citra Saras', 'Penerbit Sunset Road', 2018, 'MEMO:\r\nKepada Dimas dan Naya selaku Ketua Himpunan dan Wakil Ketua Himpunan Kabinet Irregular, diharapkan segera ke ruang jurusan begitu menerima memo ini untuk membahas mengenai kepengurusan Himpunan selama setahun ke depan.\r\n\r\nTertanda, Ketua Prodi\r\n\r\nP.S: Saya tahu selain hebat dalam mengurus Himpunan, kalian juga hebat dalam beradu pendapat. Tolong sebelum ke ruang jurusan, jangan bertengkar dan coba untuk lebih mengerti satu sama lain.\r\n\r\nNovel Himpunan karya Citra Saras akan menceritakan kisah Dimas dan Naya yang sibuk mengurus organisasi disamping menjadi mahasiswa. Perbedaan karakter antara Dimas dan Naya sangat jelas, Dimas merupakan seseorang yang tidak terlalu bisa bersosialisasi sementara Naya adalah orang yang ramah. Mereka berdua harus terus bersama-sama dalam tempat yang sama, karena Dimas adalah Kahim dan Naya adalah Wakahim, mereka harus mengalami berbagai konflik, perbedaan pendapat, dan bahkan mengalami masalah-masalah lainnya yang tentunya relate dengan anak-anak kuliah.', 1, 1, '2024-02-23 03:32:12'),
-(20, 1, 'DEMON SLAYER: Kimetsu no Yaiba 11', 'Demon_Slayer_11.jpg', 'Koyoharu Goutoge', 'Elex Media Komputindo', 2022, 'Pertempuran di “kota malam” melawan iblis jyogen no roku bersaudara, Gyutaro dan Daki, semakin menegangkan saja! Tanjiro dan kawan-kawan bekerja sama untuk bertarung membantu Tengen Uzui, sang hashira. Akan tetapi, pada akhirnya Tengen, Inosuke, dan Zenitsu ambruk akibat serangan fatal lawan. Sementara kawan-kawannya di ambang kematian, mampukah Tanjiro mengalahkan kedua iblis tersebut seorang diri…!?', 7, 1, '2024-02-23 03:32:08'),
-(21, 1, 'Kaguya-Sama, Love is War 15', 'kaguya sama.jpg', 'Aka Akasa', 'm&c', 2024, 'Lewat festival budaya yang ultra romantis, keintiman Kaguya dan Shirogane meningkat dengan cepat. Di tengah suasana Natal yang semakin terasa, mereka pikir sekarang mereka akan menjadi pasangan kekasih yang “normal”. Tapi, tahu-tahu saja “Putri Es” Kaguya bangkit.\r\n\r\nShirogane yang ingin “selalu sempurna” dan Kaguya yang mengharapkan sisi dirinya “yang tidak sempurna”. Ciuman pertama masih belum berakhir.\r\n\r\nDi antara jenis buku lainnya, komik memang disukai oleh semua kalangan mulai dari anak kecil hingga orang dewasa. Alasan komik lebih disukai oleh banyak orang karena disajikan dengan penuh dengan gambar dan cerita yang mengasyikan sehingga mampu menghilangkan rasa bosan di kala waktu senggang.\r\n\r\nKomik seringkali dijadikan sebagai koleksi dan diburu oleh penggemarnya karena serinya yang cukup terkenal dan kepopulerannya terus berlanjut sampai saat ini. Dalam memilih jenis komik, ada baiknya perhatikan terlebih dahulu ringkasan cerita komik di sampul bagian belakang sehingga sesuai dengan preferensi pribadi pembaca.', 7, 1, '2024-02-21 04:14:20'),
-(22, 1, 'Yang Telah Lama Pergi', 'tere liye.jpg', 'Tere Liye', 'Sabak Grip Nusantara', 2023, 'KAMU sudah gila!”\r\n\r\nItulah kalimat yang terakhir kali Al Mas\'ud ingat sebelum día pingsan beberapa saat lalu.\r\nSekarang, matanya terbuka, mengerjap-ngerjap. Terang? Seberkas cahaya matahari menembus celah kecil di dinding. Sudah siang? Berapa lama dia pingsan? Beringsut hendak duduk. Mengeluh pelan, tubuhnya terasa sakit. Ada memar di lengan, juga lebam di paha, punggung.\r\n\r\nMas\'ud menoleh ke kiri, ke kanan, gerakannya terhenti oleh sekat. Dia berada di dalam ruangan kecil, seperti kerangkeng. Lembap, bau amis tercium. Lantai tempat dia duduk terasa bergoyang. Suara debur ombak.... Kepalanya berpikir cepat, tidak salah lagi, dia berada di dalam kapal yang berlayar. Seseorang melintas di depan kerangkeng, dengan pakaian khas pelaut, berantakan, rambut awut-awutan. Wajah orang itu melongok ke dalam kerangkeng.\r\n\r\n\"yang ini sudah siuman!\" Berteriak memberi tahu, memukul-mukul kerangkeng, membuat suara bising.Dua pelaut lain di dekat pintu bergegas melangkah mendekat. Ikut memeriksa, dua wajah baru yang terlihat sama galaknya ikut menatap Mas\'ud.', 2, 2, '2024-02-21 15:12:50'),
-(24, 1, 'Nikola Maldini', 'nikala.jpg', 'Kale', 'Cloud Books', 2023, 'Nikola Pramudya Sadeli, si ribut sekaligus juga si pekerja keras yang selalu dihantui oleh mimpi-mimpi buruk akibat kelalaiannya di masa lalu. Pikirannya selalu riuh dengan berbagai hal karena dia adalah tipikal manusia yang sulit untuk dipahami.\r\n\r\nThalassa Mikha Maldini-seorang penulis serta seniman amatiran yang selalu dituntut oleh ibunya sendiri. Mikha berpikir kalau ibunya selalu gagal dalam memahami kemauan dan kondisi anaknya. Tapi tetap saja, semua tuntutan yang dilayangkan sang ibu akan selalu dia lakukan karena enggan dicap sebagai anak durhaka.\r\n\r\nNikola adalah pecinta karya sastra, Mikha juga sama. Tanpa keduanya sadari mereka telah memiliki keterhubungan satu sama lain. Buku sketsa yang berisi coretan Mikha, pengetahuan Nikola akan segala hal, lembar-lembar puisi, kata-kata manis yang bisa sampai menggigit bibir, dan juga jerih payah keduanya dalam mencoba untuk menggapai semua keinginannya masing-masing berhasil mengukir jalan menuju sebuah mimpi buruk serta keraguan yang harus segera dimusnahkan.', 1, 1, '2024-02-23 03:32:03');
+(12, 1, ' Dilan : Dia Adalah Dilanku Tahun 1990', 'Dilan_1990_(poster).jpg', 'Pidi Baiq', 'Mizan', 2016, '“Milea, kamu cantik, tapi aku belum mencintaimu.\r\nEnggak tahu kalau sore.Tunggu aja.”\r\n(Dilan 1990)\r\n\r\n“Milea, jangan pernah bilang ke aku ada yang menyakitimu, nanti, besoknya, orang itu akan hilang.”\r\n(Dilan 1990)\r\n\r\n“Cinta sejati adalah kenyamanan, kepercayaan, dan dukungan.\r\nKalau kamu tidak setuju, aku tidak peduli.”\r\n(Milea 1990)', 1, 0, '2024-02-29 06:23:49'),
+(18, 1, 'Dikta & Hukum', 'dikta_dan_hukum.jpg', 'Dhi\'an Farah', 'Asoka Aksara X Loveable', 2021, 'Dikta merupakan tokoh idaman semua wanita karena penggambarannya yang sempurna. Ia kaya, rajin, pintar, baik, penyayang dan tentunya berparas tampan. Di sisi lain terdapat tokoh bernama Nadhira yang merupakan anak SMA kelas 12 dengan karakter berbanding terbalik dengan Dikta, pemalas dan mageran. Nadhira dikenal sebagai orang yang banyak mau, keras kepala dan suka mengeluh. Berbeda dengan image Dikta yang dikenal sebagai sosok yang serius dan disiplin.\r\n\r\nSiapa sangka jika Dikta dijodohkan dengan gadis SMA bernama Nadhira itu dengan sifat dan watak mereka yang amat sangat berbanding terbalik bagai langit dan bumi. Demi menjaga perasaan kedua orang tuanya, mereka terpaksa harus terjebak dalam hubungan yang semakin rumit ini.\r\n\r\nSeiring berjalannya waktu, Nadhira mulai menaruh rasa suka pada Dikta dan benar saja kali ini Nadhira benar-benar jatuh cinta pada sosok yang sejak dulu hanya dianggapnya sebagai kakak. Meskipun begitu kisah percintaan mereka yang rumit akan dibahas dan rahasia-rahasia Dikta yang selama ini dipendam akan mulai terungkap.', 1, 0, '2024-02-28 04:51:20'),
+(19, 1, 'Himpunan', 'himpunan.jpg', 'Citra Saras', 'Penerbit Sunset Road', 2018, 'MEMO:\r\nKepada Dimas dan Naya selaku Ketua Himpunan dan Wakil Ketua Himpunan Kabinet Irregular, diharapkan segera ke ruang jurusan begitu menerima memo ini untuk membahas mengenai kepengurusan Himpunan selama setahun ke depan.\r\n\r\nTertanda, Ketua Prodi\r\n\r\nP.S: Saya tahu selain hebat dalam mengurus Himpunan, kalian juga hebat dalam beradu pendapat. Tolong sebelum ke ruang jurusan, jangan bertengkar dan coba untuk lebih mengerti satu sama lain.\r\n\r\nNovel Himpunan karya Citra Saras akan menceritakan kisah Dimas dan Naya yang sibuk mengurus organisasi disamping menjadi mahasiswa. Perbedaan karakter antara Dimas dan Naya sangat jelas, Dimas merupakan seseorang yang tidak terlalu bisa bersosialisasi sementara Naya adalah orang yang ramah. Mereka berdua harus terus bersama-sama dalam tempat yang sama, karena Dimas adalah Kahim dan Naya adalah Wakahim, mereka harus mengalami berbagai konflik, perbedaan pendapat, dan bahkan mengalami masalah-masalah lainnya yang tentunya relate dengan anak-anak kuliah.', 1, 0, '2024-02-28 13:58:43'),
+(20, 1, 'DEMON SLAYER: Kimetsu no Yaiba 11', 'Demon_Slayer_11.jpg', 'Koyoharu Goutoge', 'Elex Media Komputindo', 2022, 'Pertempuran di “kota malam” melawan iblis jyogen no roku bersaudara, Gyutaro dan Daki, semakin menegangkan saja! Tanjiro dan kawan-kawan bekerja sama untuk bertarung membantu Tengen Uzui, sang hashira. Akan tetapi, pada akhirnya Tengen, Inosuke, dan Zenitsu ambruk akibat serangan fatal lawan. Sementara kawan-kawannya di ambang kematian, mampukah Tanjiro mengalahkan kedua iblis tersebut seorang diri…!?', 7, 0, '2024-02-28 04:10:49'),
+(21, 1, 'Kaguya-Sama, Love is War 15', 'kaguya sama.jpg', 'Aka Akasa', 'm&c', 2024, 'Lewat festival budaya yang ultra romantis, keintiman Kaguya dan Shirogane meningkat dengan cepat. Di tengah suasana Natal yang semakin terasa, mereka pikir sekarang mereka akan menjadi pasangan kekasih yang “normal”. Tapi, tahu-tahu saja “Putri Es” Kaguya bangkit.\r\n\r\nShirogane yang ingin “selalu sempurna” dan Kaguya yang mengharapkan sisi dirinya “yang tidak sempurna”. Ciuman pertama masih belum berakhir.\r\n\r\nDi antara jenis buku lainnya, komik memang disukai oleh semua kalangan mulai dari anak kecil hingga orang dewasa. Alasan komik lebih disukai oleh banyak orang karena disajikan dengan penuh dengan gambar dan cerita yang mengasyikan sehingga mampu menghilangkan rasa bosan di kala waktu senggang.\r\n\r\nKomik seringkali dijadikan sebagai koleksi dan diburu oleh penggemarnya karena serinya yang cukup terkenal dan kepopulerannya terus berlanjut sampai saat ini. Dalam memilih jenis komik, ada baiknya perhatikan terlebih dahulu ringkasan cerita komik di sampul bagian belakang sehingga sesuai dengan preferensi pribadi pembaca.', 7, 0, '2024-02-28 04:51:34'),
+(22, 1, 'Yang Telah Lama Pergi', 'tere liye.jpg', 'Tere Liye', 'Sabak Grip Nusantara', 2023, 'KAMU sudah gila!”\r\n\r\nItulah kalimat yang terakhir kali Al Mas\'ud ingat sebelum día pingsan beberapa saat lalu.\r\nSekarang, matanya terbuka, mengerjap-ngerjap. Terang? Seberkas cahaya matahari menembus celah kecil di dinding. Sudah siang? Berapa lama dia pingsan? Beringsut hendak duduk. Mengeluh pelan, tubuhnya terasa sakit. Ada memar di lengan, juga lebam di paha, punggung.\r\n\r\nMas\'ud menoleh ke kiri, ke kanan, gerakannya terhenti oleh sekat. Dia berada di dalam ruangan kecil, seperti kerangkeng. Lembap, bau amis tercium. Lantai tempat dia duduk terasa bergoyang. Suara debur ombak.... Kepalanya berpikir cepat, tidak salah lagi, dia berada di dalam kapal yang berlayar. Seseorang melintas di depan kerangkeng, dengan pakaian khas pelaut, berantakan, rambut awut-awutan. Wajah orang itu melongok ke dalam kerangkeng.\r\n\r\n\"yang ini sudah siuman!\" Berteriak memberi tahu, memukul-mukul kerangkeng, membuat suara bising.Dua pelaut lain di dekat pintu bergegas melangkah mendekat. Ikut memeriksa, dua wajah baru yang terlihat sama galaknya ikut menatap Mas\'ud.', 2, 0, '2024-02-29 06:25:35'),
+(24, 1, 'Nikola Maldini', 'nikala.jpg', 'Kale', 'Cloud Books', 2023, 'Nikola Pramudya Sadeli, si ribut sekaligus juga si pekerja keras yang selalu dihantui oleh mimpi-mimpi buruk akibat kelalaiannya di masa lalu. Pikirannya selalu riuh dengan berbagai hal karena dia adalah tipikal manusia yang sulit untuk dipahami.\r\n\r\nThalassa Mikha Maldini-seorang penulis serta seniman amatiran yang selalu dituntut oleh ibunya sendiri. Mikha berpikir kalau ibunya selalu gagal dalam memahami kemauan dan kondisi anaknya. Tapi tetap saja, semua tuntutan yang dilayangkan sang ibu akan selalu dia lakukan karena enggan dicap sebagai anak durhaka.\r\n\r\nNikola adalah pecinta karya sastra, Mikha juga sama. Tanpa keduanya sadari mereka telah memiliki keterhubungan satu sama lain. Buku sketsa yang berisi coretan Mikha, pengetahuan Nikola akan segala hal, lembar-lembar puisi, kata-kata manis yang bisa sampai menggigit bibir, dan juga jerih payah keduanya dalam mencoba untuk menggapai semua keinginannya masing-masing berhasil mengukir jalan menuju sebuah mimpi buruk serta keraguan yang harus segera dimusnahkan.', 1, 8, '2024-02-29 06:24:25');
 
 -- --------------------------------------------------------
 
@@ -88,7 +88,6 @@ INSERT INTO `buku_kategori` (`kategori_id`, `nama_kategori`, `created_at`) VALUE
 
 CREATE TABLE `buku_ulasan` (
   `ulasan_id` int(11) NOT NULL,
-  `judul` varchar(255) NOT NULL,
   `buku_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `ulasan` varchar(100) NOT NULL,
@@ -100,12 +99,18 @@ CREATE TABLE `buku_ulasan` (
 -- Dumping data untuk tabel `buku_ulasan`
 --
 
-INSERT INTO `buku_ulasan` (`ulasan_id`, `judul`, `buku_id`, `user_id`, `ulasan`, `rating`, `created_at`) VALUES
-(6, '', 10, 4, 'sangat menarik', 3, '2024-02-20 16:52:52'),
-(7, '', 12, 4, 'sening yang memuaskan', 2, '2024-02-20 16:53:06'),
-(13, '', 18, 4, 'bukunya baguss', 5, '2024-02-20 16:03:08'),
-(14, '', 18, 4, 'ceritanya menarik nih', 4, '2024-02-20 16:08:28'),
-(15, '', 20, 19, 'ceritnya menarik,ceritanya bikin tegang banget ', 5, '2024-02-21 02:11:54');
+INSERT INTO `buku_ulasan` (`ulasan_id`, `buku_id`, `user_id`, `ulasan`, `rating`, `created_at`) VALUES
+(6, 10, 4, 'sangat menarik', 3, '2024-02-20 16:52:52'),
+(7, 12, 4, 'sening yang memuaskan', 2, '2024-02-20 16:53:06'),
+(13, 18, 4, 'bukunya baguss', 5, '2024-02-20 16:03:08'),
+(14, 18, 4, 'ceritanya menarik nih', 4, '2024-02-20 16:08:28'),
+(15, 20, 19, 'ceritnya menarik,ceritanya bikin tegang banget ', 5, '2024-02-24 05:48:22'),
+(16, 18, 13, 'kenapa malah sad ending,sedih banget', 5, '2024-02-25 04:37:29'),
+(17, 18, 13, 'katanya udah dijadiin series ya?? otw nonton', 5, '2024-02-25 04:38:21'),
+(18, 12, 19, 'lol', 3, '2024-02-26 06:35:40'),
+(19, 18, 13, 'baguss', 5, '2024-02-28 01:51:40'),
+(20, 18, 13, 'menarikk', 4, '2024-02-28 01:53:33'),
+(21, 12, 13, 'romantis bangett', 4, '2024-02-28 01:55:15');
 
 -- --------------------------------------------------------
 
@@ -132,7 +137,10 @@ INSERT INTO `koleksi_pribadi` (`user_id`, `koleksi_id`, `buku_id`, `created_at`)
 (19, 8, 12, '2024-02-21 01:07:50'),
 (19, 9, 19, '2024-02-21 01:08:48'),
 (19, 11, 18, '2024-02-21 05:58:53'),
-(19, 13, 24, '2024-02-24 03:08:47');
+(13, 14, 24, '2024-02-28 01:49:49'),
+(4, 15, 21, '2024-02-28 04:13:18'),
+(4, 16, 19, '2024-02-28 04:13:31'),
+(19, 17, 22, '2024-02-28 12:13:02');
 
 -- --------------------------------------------------------
 
@@ -157,17 +165,9 @@ CREATE TABLE `peminjaman` (
 --
 
 INSERT INTO `peminjaman` (`peminjaman_id`, `perpus_id`, `buku_id`, `tanggal_pinjam`, `user_id`, `username`, `tanggal_kembali`, `status_peminjam`, `created_at`) VALUES
-(132, 1, 19, '2024-02-21', '4', '', '0000-00-00', '', '2024-02-21 15:15:12'),
-(133, 1, 22, '2024-02-21', '19', '', '0000-00-00', 'dikembalikan', '2024-02-21 15:12:50'),
-(134, 1, 24, '2024-02-21', '19', '', '0000-00-00', 'dikembalikan', '2024-02-21 15:12:45'),
-(135, 1, 12, '2024-02-21', '19', '', '0000-00-00', 'dikembalikan', '2024-02-21 15:12:40'),
-(136, 1, 18, '2024-02-21', '4', '', '0000-00-00', '', '2024-02-23 01:50:43'),
-(137, 1, 24, '2024-02-23', '19', '', '0000-00-00', 'dikembalikan', '2024-02-23 01:00:19'),
-(138, 1, 12, '2024-02-23', '13', '', '0000-00-00', 'dikembalikan', '2024-02-23 01:03:31'),
-(139, 1, 12, '2024-02-23', '4', '', '0000-00-00', 'dikembalikan', '2024-02-23 01:51:12'),
-(140, 1, 24, '2024-02-23', '19', '', '0000-00-00', '', '2024-02-24 04:33:14'),
-(141, 1, 12, '2024-02-23', '19', '', '0000-00-00', 'dikembalikan', '2024-02-23 05:57:45'),
-(142, 1, 18, '2024-02-23', '19', '', '0000-00-00', 'dikembalikan', '2024-02-23 05:59:40');
+(203, 1, 12, '2024-02-29', '19', 'dila', '0000-00-00', 'dipinjam', '2024-02-29 06:23:49'),
+(204, 1, 24, '2024-02-29', '19', 'dila', '0000-00-00', 'dipinjam', '2024-02-29 06:24:25'),
+(205, 1, 22, '2024-02-29', '19', 'dila', '0000-00-00', 'dipinjam', '2024-02-29 06:25:35');
 
 -- --------------------------------------------------------
 
@@ -230,9 +230,12 @@ INSERT INTO `user` (`user_id`, `perpus_id`, `username`, `password`, `email`, `na
 (4, 1, 'admin1', '$2y$10$Hk9Ghh0JzoZCAAsHFhP9TutDQcYIh7ccORSkBAAhzYP3mDX0sfIBO', 'admin@gmail.com', 'admin', '098884', 'banjar', 'admin', '2024-01-29 07:13:04'),
 (12, 1, 'mela', '$2y$10$CwCUmAG7tFxUvX.8UCzrN.uKqyYWGgnOAcg23DGo2ti.AkGTOjixS', 'mela@gmail.com', 'mela', '', 'banjar', 'petugas', '2024-02-13 02:19:01'),
 (13, 1, 'jamal', '$2y$10$gjz/0X0d2px0ZdqB4yaHVedXvAWLg732MF1FnFa9bqiwk7fS70HJy', 'jama@gmail.com', 'jamaludin', '', 'banjar', 'peminjam', '2024-02-23 01:01:59'),
-(16, 1, 'mela', '$2y$10$VQmVYFVvIiMV2bCieL.T.OewvTDHhDNFyYXPQZF6SFlZQhtYyQc6O', 'tes@gmail.com', 'sasas', '', '123', 'admin', '2024-02-13 01:17:25'),
 (19, 1, 'dila', '$2y$10$lal8gJqLFkpcnwt7bbixVu0lyu60evamuFHJYMqg.9Xi17i8zPsLa', 'sasa@gmail.com', 'dila', '', 'negla', 'peminjam', '2024-02-13 02:03:59'),
-(20, 1, 'unknown', '$2y$10$Hk9Ghh0JzoZCAAsHFhP9TutDQcYIh7ccORSkBAAhzYP3mDX0sfIBO', 'test@gmail.com', 'unknown', '08272y78781', 'unknown', 'admin', '2024-02-18 04:25:38');
+(20, 1, 'unknown', '$2y$10$Hk9Ghh0JzoZCAAsHFhP9TutDQcYIh7ccORSkBAAhzYP3mDX0sfIBO', 'test@gmail.com', 'unknown', '08272y78781', 'unknown', 'admin', '2024-02-18 04:25:38'),
+(22, 1, 'jeno', '$2y$10$F0Nj6Sm.G4BaUbPJKxR07uwlftJInqYlyoJlNxtxGqFlf6442cFKq', 'jeno@gmail.com', 'lee jeno', '', 'mergo', 'peminjam', '2024-02-28 02:18:38'),
+(23, 1, 'karina', '$2y$10$jog5wCqxZqT2XIC3FeSWbu/Q2q7EnwbN/gOl4IqifVBl/m0t5vkba', 'rina@gmail.com', 'karinaa', '', 'mergo', 'peminjam', '2024-02-28 02:23:32'),
+(24, 1, 'bihun', '$2y$10$X8Qq0IpOo3P9vVzL1cVgUOS.5r.ygekVa/yCTtRTzzH.5pO.8BEH6', 'bihun@gmail.com', 'bihunn', '', '123', 'peminjam', '2024-02-29 01:13:23'),
+(25, 1, 'kuil', '$2y$10$HP8kzNyhCZstj2r6M33fPesAXttKTfS.QzOwcPHTWSZozPQGYh7XG', 'kuila@gmail.com', 'kiula', '', '123', 'peminjam', '2024-02-29 01:19:22');
 
 --
 -- Indexes for dumped tables
@@ -300,25 +303,25 @@ ALTER TABLE `buku_kategori`
 -- AUTO_INCREMENT untuk tabel `buku_ulasan`
 --
 ALTER TABLE `buku_ulasan`
-  MODIFY `ulasan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ulasan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `koleksi_pribadi`
 --
 ALTER TABLE `koleksi_pribadi`
-  MODIFY `koleksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `koleksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `peminjaman_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `peminjaman_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
