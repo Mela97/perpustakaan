@@ -1,24 +1,28 @@
 <?php
-session_start(); 
+// Pastikan koneksi ke database sudah dilakukan sebelumnya
+include_once "koneksi.php";
 
-include('koneksi.php');
-
-if(isset($_GET['id'])) {
+// Pastikan parameter id peminjaman telah diterima
+if (isset($_GET['id'])) {
+    // Tangkap nilai id dari parameter
     $peminjaman_id = $_GET['id'];
-    
+
+    // Buat query untuk menghapus data peminjaman berdasarkan id
     $query = "DELETE FROM peminjaman WHERE peminjaman_id = $peminjaman_id";
-    $result = mysqli_query($conn, $query);
 
-    if($result) {
-        $_SESSION['success_message'] = "Peminjaman berhasil dihapus.";
-
-        header("Location: ../admin/index_peminjam.php");
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        // Redirect ke halaman utama dengan pesan sukses
+        header("Location: ../admin/index_peminjam.php?pesan=Data peminjam berhasil dihapus");
         exit();
     } else {
-        echo "Gagal menghapus peminjaman.";
+        // Jika gagal menghapus, redirect ke halaman utama dengan pesan error
+        header("Location: ../admin/index_peminjam.php?pesan=Gagal menghapus data peminjam");
+        exit();
     }
 } else {
-    echo "ID peminjaman tidak ditemukan.";
+    // Jika parameter id tidak diterima, redirect ke halaman utama dengan pesan error
+    header("Location: ../admin/index_peminjam.php?pesan=Parameter id tidak ditemukan");
+    exit();
 }
 ?>
-
