@@ -25,6 +25,8 @@ if ($conn->connect_error) {
 $sql = "SELECT b.*, k.nama_kategori FROM buku b JOIN buku_kategori k ON b.kategori_id = k.kategori_id";
 $result = $conn->query($sql);
 
+$user = $_SESSION["user_id"];
+
 
 
 ?>
@@ -230,6 +232,8 @@ $result = $conn->query($sql);
                 <!-- Begin Page Content -->
                 <div class="col-xl-12 col-md-6 mb-4 mx-auto">
                     <?php
+                    $peminjamanresult = mysqli_query($conn, "SELECT * FROM peminjaman WHERE user_id = $user");
+
                     if ($result && $result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             $buku_id = $row['buku_id'];
@@ -246,9 +250,16 @@ $result = $conn->query($sql);
                                         <!-- Check if $row['penulis'] and $row['nama_kategori'] are set before echoing -->
                                         <p class="card-text penulis" style="font-size: 16px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
                                         <!-- Add the rest of your card content and buttons here -->
-                                        <a href='pinjam.php?id_buku=<?php echo $row['buku_id']; ?>'>
-                                            <button id='pinjam-btn' data-buku-id='<?php echo $row['buku_id']; ?>' type="button" class="btn btn-primary2 btn-sm ">Pinjam</button>
-                                        </a>
+                                        <?php
+                                        $bukuterpinjam = mysqli_query($conn, "SELECT * FROM peminjaman WHERE user_id ='$user' AND status_peminjam='dipinjam'");
+                                        if (mysqli_num_rows($bukuterpinjam) >= 3) {
+                                        ?>
+                                            <button type="button" class="btn btn-primary2 btn-sm ">Buku sudah dalam batas</button>
+                                        <?php } else { ?>
+                                            <a href='pinjam.php?id_buku=<?php echo $row['buku_id']; ?>'>
+                                                <button id='pinjam-btn' data-buku-id='<?php echo $row['buku_id']; ?>' type="button" class="btn btn-primary2 btn-sm ">Pinjam</button>
+                                            </a>
+                                        <?php } ?>
                                         <button type="button" class="btn btn-secondary1 btn-sm bookmark-btn" data-buku-id="<?php echo $row['buku_id']; ?>">
                                             <i class="fas fa-heart"></i>
                                         </button>
@@ -452,6 +463,7 @@ $result = $conn->query($sql);
 
 </html>
 <?php if (isset($_SESSION['notif'])) {
-    echo "<script>alert('Buku berhasil dipinjam')</script>";
+    $notif = $_SESSION['notif'];
+    echo "<script>alert('$notif')</script>";
     unset($_SESSION['notif']);
 } ?>

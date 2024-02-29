@@ -37,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         echo "Error: " . $conn->error;
     }
-
     
 }
 ?>
