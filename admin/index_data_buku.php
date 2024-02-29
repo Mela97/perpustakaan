@@ -438,7 +438,7 @@ $role = $_SESSION['role'];
                             $total_data = $row_total_data['total'];
 
                             // Langkah 2: Hitung jumlah total halaman
-                            $data_per_halaman = 5;
+                            $data_per_halaman = 4;
                             $total_halaman = ceil($total_data / $data_per_halaman);
 
                             // Langkah 3: Tentukan halaman saat ini

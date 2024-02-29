@@ -75,9 +75,7 @@ $result = $conn->query($query) or die($conn->error);
             transition: background-color 0.3s ease;
             color: #ffffff;
         }
-
-
-
+        
         .nav-link {
             display: flex;
             align-items: center;
@@ -386,83 +384,75 @@ $result = $conn->query($query) or die($conn->error);
                     </div>
                     <a href="../create/create_peminjam.php" class="mb-4 btn btn-primary1">Tambah Peminjam</a>
                     <div class="row">
-                        <div class="col-xl-12 col-md-6 mb-4">
-                            <?php
-                            $results_per_page = 5; // Jumlah hasil per halaman
-                            $query = "SELECT * FROM peminjaman";
-                            $result = mysqli_query($conn, $query);
-                            $number_of_results = mysqli_num_rows($result);
+    <div class="col-xl-12 col-md-6 mb-4">
+        <?php
+        $results_per_page = 5; // Jumlah hasil per halaman
+        $query = "SELECT * FROM peminjaman";
+        $result = mysqli_query($conn, $query);
+        $number_of_results = mysqli_num_rows($result);
 
-                            // Tentukan jumlah halaman
-                            $number_of_pages = ceil($number_of_results / $results_per_page);
+        // Tentukan jumlah halaman
+        $number_of_pages = ceil($number_of_results / $results_per_page);
 
-                            // Tentukan halaman saat ini
-                            if (!isset($_GET['page'])) {
-                                $page = 1;
-                            } else {
-                                $page = $_GET['page'];
-                            }
+        // Tentukan halaman saat ini
+        if (!isset($_GET['page'])) {
+            $page = 1;
+        } else {
+            $page = $_GET['page'];
+        }
 
-                            // Tentukan index awal dan akhir data yang akan ditampilkan
-                            $this_page_first_result = ($page - 1) * $results_per_page;
+        // Tentukan index awal dan akhir data yang akan ditampilkan
+        $this_page_first_result = ($page - 1) * $results_per_page;
 
-                            // Query untuk mengambil data sesuai dengan halaman saat ini
-                            $query = "SELECT peminjaman.*, buku.judul AS judul_buku 
-                             FROM peminjaman 
-                             INNER JOIN buku ON peminjaman.buku_id = buku.buku_id 
-                             LIMIT $this_page_first_result, $results_per_page";
-                            $result = mysqli_query($conn, $query);
+        // Query untuk mengambil data sesuai dengan halaman saat ini
+        $query = "SELECT peminjaman.*, buku.judul AS judul_buku 
+             FROM peminjaman 
+             INNER JOIN buku ON peminjaman.buku_id = buku.buku_id 
+             LIMIT $this_page_first_result, $results_per_page";
+        $result = mysqli_query($conn, $query);
 
-                            if ($result->num_rows > 0) : ?>
-                                <table border='1'>
-                                    <tr>
-                                        <th>Nama Peminjam</th>
-                                        <th>Judul Buku</th>
-                                        <th>Tanggal Pinjam</th>
-                                        <th>Tanggal Kembali</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-                                    </tr>
+        if ($result->num_rows > 0) : ?>
+            <table border='1'>
+                <tr>
+                    <th>Nama Peminjam</th>
+                    <th>Judul Buku</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Tanggal Kembali</th>
+                    <th>Status</th>
+                </tr>
 
+                <!-- Tampilkan data peminjaman -->
+                <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+                    <tr>
+                        <td><?= $row['username'] ?></td>
+                        <td><?= $row['judul_buku'] ?></td>
+                        <td><?= $row['tanggal_pinjam'] ?></td>
+                        <td><?= date('Y-m-d', strtotime($row['tanggal_pinjam'] . ' + 7 days')) ?></td>
+                        <td><?= $row['status_peminjam'] ?></td>
+                    </tr>
+                <?php endwhile; ?>
 
-                                    <!-- Tampilkan data peminjaman -->
-                                    <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                                        <tr>
-                                            <td><?= $row['username'] ?></td>
-                                            <td><?= $row['judul_buku'] ?></td>
-                                            <td><?= $row['tanggal_pinjam'] ?></td>
-                                            <td><?= date('Y-m-d', strtotime($row['tanggal_pinjam'] . ' + 7 days')) ?></td>
-                                            <td><?= $row['status_peminjam'] ?></td>
+            </table>
+            <?php
+            $previous_page = ($page > 1) ? $page - 1 : 1;
+            $next_page = ($page < $number_of_pages) ? $page + 1 : $number_of_pages;
 
-                                            <td>
-                                                <a href='../edit/edit_peminjam.php?id=<?= $row['peminjaman_id'] ?>' class='edit-button'>Edit</a>
-                                                <a href='../hapus/hapus_peminjam.php?id=<?= $row['peminjaman_id'] ?>' class='hapus-button' onclick="return confirm('Apakah Anda yakin ingin menghapus peminjam ini?')">Hapus</a>
-                                            </td>
+            // Langkah 7: Buat tombol pagination
+            echo '<ul class="pagination justify-content-center">';
+            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
+            for ($i = max(1, $page - 2); $i <= min($page + 2, $number_of_pages); $i++) {
+                echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
+            }
+            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
+            echo '</ul>';
+            ?>
+        <?php else : ?>
+            <p>Tidak ada peminjam.</p>
+        <?php endif; ?>
 
-                                        </tr>
-                                    <?php endwhile; ?>
+    </div>
+</div>
 
-                                </table>
-                                <?php
-                                $previous_page = ($page > 1) ? $page - 1 : 1;
-                                $next_page = ($page < $number_of_pages) ? $page + 1 : $number_of_pages;
-
-                                // Langkah 7: Buat tombol pagination
-                                echo '<ul class="pagination justify-content-center">';
-                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
-                                for ($i = max(1, $page - 2); $i <= min($page + 2, $number_of_pages); $i++) {
-                                    echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
-                                }
-                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
-                                echo '</ul>';
-
-                                ?>
-                            <?php else : ?>
-                                <p>Tidak ada peminjam.</p>
-                            <?php endif; ?>
-
-                        </div>
-                    </div>
 
 
                 </div>

@@ -38,10 +38,6 @@ $role = $_SESSION["role"];
             background-size: cover;
         }
 
-        .sidebar {
-            background-color: #164863;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
@@ -55,18 +51,23 @@ $role = $_SESSION["role"];
             color: #ffffff;
         }
 
-        .btn-primary:hover {
-            background-color: #427D9D;
-            border-color: #427D9D;
+        .sidebar {
+            background-color: #164863;
         }
 
-        .btn-primary {
-            background-color: #164863;
-            border-color: #164863;
-            transition: background-color 0.3s ease;
+        .btn-primary2:hover {
+            background-color: #0174BE;
+            border-color: #0174BE;
             color: #ffffff;
         }
 
+        .btn-primary2 {
+            background-color: #3559E0;
+            border-color: #3559E0;
+            transition: background-color 0.3s ease;
+            color: #ffffff;
+            font-size: 14px;
+        }
 
         .nav-link {
             display: flex;
@@ -92,8 +93,8 @@ $role = $_SESSION["role"];
 
         table {
             border-collapse: collapse;
-            width: 80%;
             margin: 10px auto;
+            width: 70%;
             background-color: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -103,6 +104,10 @@ $role = $_SESSION["role"];
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
+        }
+
+        thead {
+            height: 50%;
         }
 
         th {
@@ -378,169 +383,170 @@ $role = $_SESSION["role"];
                     </div>
 
                     <!-- Daftar Ulasan -->
-                    <div class="row">
-                        <!-- Kolom untuk Menampilkan Ulasan Buku -->
-                        <div class="col-lg-12">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <tbody>
-                                            <?php
-                                            // Koneksi ke database
-                                            $servername = "localhost";
-                                            $username = "root";
-                                            $password = "";
-                                            $dbname = "perpustakaan_digital";
+                    <div class="container">
+                        <div class="row">
+                            <!-- Kolom untuk Menampilkan Ulasan Buku -->
+                            <div class="col-lg-12">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" style="width: 80%;" cellspacing="0">
+                                            <tbody>
+                                                <?php
+                                                // Koneksi ke database
+                                                $servername = "localhost";
+                                                $username = "root";
+                                                $password = "";
+                                                $dbname = "perpustakaan_digital";
 
-                                            // Membuat koneksi
-                                            $conn = new mysqli($servername, $username, $password, $dbname);
+                                                // Membuat koneksi
+                                                $conn = new mysqli($servername, $username, $password, $dbname);
 
-                                            // Periksa koneksi
-                                            if ($conn->connect_error) {
-                                                die("Koneksi gagal: " . $conn->connect_error);
-                                            }
-
-                                            // Langkah 1: Tentukan jumlah total data
-                                            $query_total_data = "SELECT COUNT(*) as total FROM buku_ulasan";
-                                            $result_total_data = $conn->query($query_total_data);
-                                            $row_total_data = $result_total_data->fetch_assoc();
-                                            $total_data = $row_total_data['total'];
-
-                                            // Langkah 2: Hitung jumlah total halaman
-                                            $data_per_halaman = 5;
-                                            $total_halaman = ceil($total_data / $data_per_halaman);
-
-                                            // Langkah 3: Tentukan halaman saat ini
-                                            if (!isset($_GET['page'])) {
-                                                $page = 1;
-                                            } else {
-                                                $page = $_GET['page'];
-                                            }
-
-                                            // Langkah 4: Lakukan query untuk mengambil data sesuai dengan halaman saat ini
-                                            $offset = ($page - 1) * $data_per_halaman;
-                                            $sql = "SELECT bu.judul,bu.penulis,bu.penerbit,ulasan.*
-                                                    FROM buku_ulasan ulasan
-                                                    JOIN buku bu ON bu.buku_id = ulasan.buku_id
-                                                    LIMIT $offset, $data_per_halaman";
-
-                                            $result = $conn->query($sql);
-
-                                            // Periksa apakah ada hasil yang dikembalikan
-                                            if ($result->num_rows > 0) {
-                                                // Tampilkan tabel dengan data ulasan
-                                                echo "<table class='table table-bordered' id='dataTable' width='100%' cellspacing='0'>";
-                                                echo "<thead>
-                                                        <tr>
-                                                            <th>Judul Buku</th>
-                                                            <th>Ulasan</th>
-                                                            <th>Rating</th>
-                                                            <th>Tanggal</th>
-                                                        </tr>
-                                                    </thead>";
-                                                echo "<tbody>";
-                                                while ($row = $result->fetch_assoc()) {
-                                                    echo "<tr>";
-                                                    echo "<td>" . $row['judul'] . "</td>";
-                                                    echo "<td>" . $row['ulasan'] . "</td>";
-                                                    echo "<td>" . $row['rating'] . "</td>";
-                                                    echo "<td>" . $row['created_at'] . "</td>";
-                                                    echo "</tr>";
+                                                // Periksa koneksi
+                                                if ($conn->connect_error) {
+                                                    die("Koneksi gagal: " . $conn->connect_error);
                                                 }
-                                                echo "</tbody>";
-                                                echo "</table>";
 
-                                                // Langkah 7: Buat tombol pagination
-                                                echo '<ul class="pagination justify-content-center">';
-                                                $previous_page = ($page > 1) ? $page - 1 : 1;
-                                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
-                                                for ($i = 1; $i <= $total_halaman; $i++) {
-                                                    echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
+                                                // Langkah 1: Tentukan jumlah total data
+                                                $query_total_data = "SELECT COUNT(*) as total FROM buku_ulasan";
+                                                $result_total_data = $conn->query($query_total_data);
+                                                $row_total_data = $result_total_data->fetch_assoc();
+                                                $total_data = $row_total_data['total'];
+
+                                                // Langkah 2: Hitung jumlah total halaman
+                                                $data_per_halaman = 4;
+                                                $total_halaman = ceil($total_data / $data_per_halaman);
+
+                                                // Langkah 3: Tentukan halaman saat ini
+                                                if (!isset($_GET['page'])) {
+                                                    $page = 1;
+                                                } else {
+                                                    $page = $_GET['page'];
                                                 }
-                                                $next_page = ($page < $total_halaman) ? $page + 1 : $total_halaman;
-                                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
-                                                echo '</ul>';
-                                            } else {
-                                                // Jika tidak ada data ulasan yang ditemukan
-                                                echo "<p>Tidak ada ulasan yang tersedia.</p>";
-                                            }
 
-                                            // Tutup koneksi
-                                            $conn->close();
-                                            ?>
+                                                // Langkah 4: Lakukan query untuk mengambil data sesuai dengan halaman saat ini
+                                                $offset = ($page - 1) * $data_per_halaman;
+                                                $sql = "SELECT bu.judul, buku_id
+                                FROM buku bu
+                                LIMIT $offset, $data_per_halaman";
 
-                                        </tbody>
-                                    </table>
+                                                $result = $conn->query($sql);
+
+                                                // Periksa apakah ada hasil yang dikembalikan
+                                                if ($result->num_rows > 0) {
+                                                    // Tampilkan tabel dengan data judul buku dan detail ulasan
+                                                    echo "<table>";
+                                                    echo "<thead>
+                                <tr>
+                                    <th>Judul Buku</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>";
+                                                    echo "<tbody>";
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo "<tr>";
+                                                        echo "<td>" . $row['judul'] . "</td>";
+                                                        echo "<td>";
+                                                        // Query untuk mengecek apakah buku memiliki ulasan
+                                                        $buku_id = $row['buku_id'];
+                                                        $query_ulasan = "SELECT * FROM buku_ulasan WHERE buku_id = $buku_id";
+                                                        $result_ulasan = $conn->query($query_ulasan);
+                                                        if ($result_ulasan->num_rows > 0) {
+                                                            // Jika buku memiliki ulasan, tampilkan tombol detail
+                                                            echo "<a href='detail.php?id=" . $row['buku_id'] . "' class='btn btn-primary'>Detail</a>";
+                                                        } else {
+                                                            // Jika buku tidak memiliki ulasan, tampilkan pesan
+                                                            echo "Buku ini belum memiliki ulasan.";
+                                                        }
+                                                        echo "</td>";
+                                                        echo "</tr>";
+                                                    }
+                                                    echo "</tbody>";
+                                                    echo "</table>";
+
+                                                    // Langkah 7: Buat tombol pagination
+                                                    echo '<ul class="pagination justify-content-center">';
+                                                    $previous_page = ($page > 1) ? $page - 1 : 1;
+                                                    echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
+                                                    for ($i = 1; $i <= $total_halaman; $i++) {
+                                                        echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
+                                                    }
+                                                    $next_page = ($page < $total_halaman) ? $page + 1 : $total_halaman;
+                                                    echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
+                                                    echo '</ul>';
+                                                } else {
+                                                    // Jika tidak ada data judul buku yang ditemukan
+                                                    echo "<p>Tidak ada judul buku yang tersedia.</p>";
+                                                }
+
+                                                // Tutup koneksi
+                                                $conn->close();
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
+                   
+</body>
+<!-- /.container-fluid -->
 
-                </div>
+</div>
+<!-- End of Main Content -->
 
+<!-- Footer -->
 
+<!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-
-        </div>
-        <!-- /.container-fluid -->
-
-    </div>
-    <!-- End of Main Content -->
-
-    <!-- Footer -->
-
-    <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary1" href="../login.php">Logout</a>
-                </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary1" href="../login.php">Logout</a>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="../dashboard/vendor/jquery/jquery.min.js"></script>
-    <script src="../dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="../dashboard/vendor/jquery/jquery.min.js"></script>
+<script src="../dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="../dashboard/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="../dashboard/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="../dashboard/js/sb-admin-2.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="../dashboard/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="../dashboard/vendor/chart.js/Chart.min.js"></script>
+<!-- Page level plugins -->
+<script src="../dashboard/vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="../dashboard/js/demo/chart-area-demo.js"></script>
-    <script src="../dashboard/js/demo/chart-pie-demo.js"></script>
-
-
-
+<!-- Page level custom scripts -->
+<script src="../dashboard/js/demo/chart-area-demo.js"></script>
+<script src="../dashboard/js/demo/chart-pie-demo.js"></script>
 </body>
 
 </html>
