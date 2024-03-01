@@ -249,7 +249,7 @@ $conn->close();
                     <!-- Topbar Search -->
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                            <input  id="searchInput"type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary1" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -279,6 +279,12 @@ $conn->close();
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                <div class="col">
+                            <a class="btn btn-secondary btn-sm float-left mb-3" href="javascript:history.go(-1)">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
+                            <h4 class="float-left ml-3">Lihat Ulasan</h4>
+                        </div>
                 <div class="container-fluid d-flex flex-row">
                     <div class="container col-md-4">
                         <div class="card h-100 shadow-sm">
@@ -305,8 +311,8 @@ $conn->close();
                                         if ($result_buku && $result_buku->num_rows > 0) {
                                             $row_buku = $result_buku->fetch_assoc();
                                             echo '<img src="../proses/uploads/' . $row_buku['cover'] . '" class="img-fluid rounded-start" alt="Cover Image">';
-                                            echo '<div style="text-align: center;">'; 
-                                            echo '<h5 class="card-title mt-2">' . $row_buku['judul'] . '</h5>'; 
+                                            echo '<div style="text-align: center;">';
+                                            echo '<h5 class="card-title mt-2">' . $row_buku['judul'] . '</h5>';
                                             echo '</div>';
                                         } else {
                                             echo 'Buku tidak ditemukan.';
@@ -365,70 +371,96 @@ $conn->close();
                     </div>
                 </div>
 
-                <div class="container">
-                    <h1>Ulasan Buku</h1>
-                    <div class="reviews">
-                        <?php
-                        // Langkah 1: Koneksi ke database
-                        $servername = "localhost";
-                        $username = "root";
-                        $password = "";
-                        $dbname = "perpustakaan_digital";
+               <div class="container">
+    <h1>Ulasan Buku</h1>
+    <div class="reviews">
+        <?php
+        // Langkah 1: Koneksi ke database
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "perpustakaan_digital";
 
-                        // Membuat koneksi
-                        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Membuat koneksi
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-                        // Memeriksa koneksi
-                        if ($conn->connect_error) {
-                            die("Koneksi gagal: " . $conn->connect_error);
-                        }
+        // Memeriksa koneksi
+        if ($conn->connect_error) {
+            die("Koneksi gagal: " . $conn->connect_error);
+        }
 
-                        // Mendapatkan buku_id dari parameter URL
-                        $buku_id = isset($_GET['buku_id']) ? $_GET['buku_id'] : null;
+        // Mendapatkan buku_id dari parameter URL
+        $buku_id = isset($_GET['buku_id']) ? $_GET['buku_id'] : null;
 
-                        // Memastikan buku_id tidak kosong dan merupakan angka
-                        if (!empty($buku_id) && is_numeric($buku_id)) {
-                            $sql_ulasan = "SELECT buku_ulasan.*, buku.judul, user.username FROM buku_ulasan
-                                            INNER JOIN buku ON buku_ulasan.buku_id = buku.buku_id
-                                            INNER JOIN user ON buku_ulasan.user_id = user.user_id
-                                            WHERE buku_ulasan.buku_id = $buku_id"; 
-                            $result = $conn->query($sql_ulasan);
+        // Memastikan buku_id tidak kosong dan merupakan angka
+        if (!empty($buku_id) && is_numeric($buku_id)) {
+            // Jumlah ulasan per halaman
+            $ulasan_per_halaman = 3;
+
+            // Halaman saat ini
+            $halaman = isset($_GET['page']) ? $_GET['page'] : 1;
+
+            // Hitung offset
+            $offset = ($halaman - 1) * $ulasan_per_halaman;
+
+            // Kueri untuk mengambil ulasan berdasarkan halaman
+            $sql_ulasan = "SELECT buku_ulasan.*, buku.judul, user.username FROM buku_ulasan
+                            INNER JOIN buku ON buku_ulasan.buku_id = buku.buku_id
+                            INNER JOIN user ON buku_ulasan.user_id = user.user_id
+                            WHERE buku_ulasan.buku_id = $buku_id
+                            LIMIT $offset, $ulasan_per_halaman";
+            $result = $conn->query($sql_ulasan);
+
+            if ($result && $result->num_rows > 0) {
+                // Menampilkan ulasan
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="review">';
+                    echo '<div class="reviewer">';
+                    echo '<span class="name">' . $row['username'] . '</span>';
+                    echo '</div>';
+                    echo '<div class="rating">';
+            
+                    // Menampilkan bintang berdasarkan rating dari database
+                    $rating = $row['rating']; 
+                    for ($i = 1; $i <= $rating; $i++) {
+                        echo '<span class="star filled">⭐</span>';
+                    }
+            
+                    echo '</div>';
+                    echo '<div class="description">';
+                    echo '<p>' . $row['ulasan'] . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            } else {
+                // Menampilkan pesan jika tidak ada ulasan
+                echo '<p>Tidak ada ulasan untuk buku ini.</p>';
+            }
+
+            // Hitung total halaman
+            $sql_count = "SELECT COUNT(*) AS total FROM buku_ulasan WHERE buku_id = $buku_id";
+            $result_count = $conn->query($sql_count);
+            $row_count = $result_count->fetch_assoc();
+            $total_ulasan = $row_count['total'];
+            $total_halaman = ceil($total_ulasan / $ulasan_per_halaman);
+
+            // Menampilkan navigasi halaman
+            echo '<div class="pagination">';
+            for ($i = 1; $i <= $total_halaman; $i++) {
+                echo '<a href="?buku_id=' . $buku_id . '&page=' . $i . '">' . $i . '</a>';
+            }
+            echo '</div>';
+        } else {
+            echo '<p>Parameter buku_id tidak valid.</p>';
+        }
+
+        $conn->close();
+        ?>
+    </div>
+</div>
 
 
-                            if ($result && $result->num_rows > 0) {
-                                // Menampilkan ulasan
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<div class="review">';
-                                    echo '<div class="reviewer">';
-                                    echo '<span class="name">' . $row['username'] . '</span>';
-                                    echo '</div>';
-                                    echo '<div class="rating">';
-                            
-                                    // Menampilkan bintang berdasarkan rating dari database
-                                    $rating = $row['rating']; 
-                                    for ($i = 1; $i <= $rating; $i++) {
-                                        echo '<span class="star filled">⭐</span>';
-                                    }
-                            
-                                    echo '</div>';
-                                    echo '<div class="description">';
-                                    echo '<p>' . $row['ulasan'] . '</p>';
-                                    echo '</div>';
-                                    echo '</div>';
-                                }
-                            } else {
-                                // Menampilkan pesan jika tidak ada ulasan
-                                echo '<p>Tidak ada ulasan untuk buku ini.</p>';
-                            }
-                            
-                        } else {
-                            echo '<p>Parameter buku_id tidak valid.</p>';
-                        }
 
-                        $conn->close();
-                        ?>
-                    </div>
-                </div>
 
 
             </div>
@@ -527,6 +559,41 @@ $conn->close();
     });
 </script>
 
+<script>
+    $(document).ready(function(){
+        // Add an input event listener to the search input
+        $("#searchInput").on("input", function() {
+            let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
+
+            // Keep track if any results are found
+            let resultsFound = false;
+
+            // Loop through each searchable card
+            $(".searchable").each(function() {
+                let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
+
+                // Check if the card text contains the search term
+                if (cardText.includes(searchTerm)) {
+                    $(this).show(); // If yes, show the card
+                    resultsFound = true; // Mark that results are found
+                } else {
+                    $(this).hide(); // If no, hide the card
+                }
+            });
+
+            // Show/hide the no results message based on resultsFound
+            if (resultsFound) {
+                $("#noResultsMessage").hide();
+            } else {
+                $("#noResultsMessage").show();
+            }
+        });
+    });
+
+
+    
+
+</script>
 </body>
 
 </html>

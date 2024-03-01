@@ -24,32 +24,6 @@
             margin: 0;
         }
 
-        .bg-gradient-primary {
-            background-color: #164863;
-            background-image: linear-gradient(180deg, #164863 10%, #164863 100%);
-            background-size: cover;
-        }
-
-        .sidebar {
-            background-color: #164863;
-        }
-
-        .nav-link {
-            color: #ffffff !important;
-        }
-
-        .nav-item.active .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-light .navbar-nav .nav-link {
-            color: #000000 !important;
-        }
-
-        .navbar-light .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
         .btn-primary1:hover {
             background-color: #427D9D;
             border-color: #427D9D;
@@ -61,52 +35,7 @@
             border-color: #164863;
             transition: background-color 0.3s ease;
             color: #ffffff;
-        }
-
-        .btn-primary:hover {
-            background-color: #427D9D;
-            border-color: #427D9D;
-        }
-
-        .btn-primary {
-            background-color: #164863;
-            border-color: #164863;
-            transition: background-color 0.3s ease;
-            color: #ffffff;
-        }
-
-        .btn-primary2:hover {
-            background-color: #F3B664;
-            border-color: #F3B664;
-            color: #ffffff;
-        }
-
-        .btn-primary2 {
-            background-color: #FB8B24;
-            border-color: #FB8B24;
-            transition: background-color 0.3s ease;
-            color: #ffffff;
-            font-size: 14px;
-        }
-
-        .card-body button {
-            float: left;
-            margin-right: 4px;
-        }
-
-        .btn-secondary1 {
-            background-color: #3559E0;
-            border-color: #3559E0;
-            transition: background-color 0.3s ease;
-            color: #ffffff;
-            font-size: 14px;
-        }
-
-        .btn-secondary1:hover {
-            background-color: #0174BE;
-            border-color: #0174BE;
-            color: #ffffff;
-        }
+        }        
 
         .btn-info1 {
             background-color: #0D9276;
@@ -228,13 +157,12 @@
                         // Menampilkan data buku
                         while ($row = $result->fetch_assoc()) {
                     ?>
-                            <div class="card" style="width: 210px; height: 390px;">
+                            <div class="card" style="width: 210px; height: 320px;">
                                 <img src="proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 210px; object-fit: cover;">
                                 <div class="card-body" style="padding: 10px;">
                                     <h5 class="card-title judul" style="font-size: 20px;"><?php echo $row['judul']; ?></h5>
                                     <p class="card-text penulis" style="font-size: 16px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
                                     <!-- Tampilkan ulasan -->
-                                    <a href="user/ulasan.php?buku_id=<?php echo $row['buku_id']; ?>" class="btn btn-info1 btn-sm">Ulasan</a>
                                 </div>
                             </div>
                     <?php
@@ -243,10 +171,6 @@
                         echo "Tidak ada buku yang tersedia.";
                     }
                     ?>
-
-
-
-
                 </div>
 
 
@@ -261,11 +185,7 @@
 
     <!-- End of Footer -->
 
-    </div>
-    <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
+    
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

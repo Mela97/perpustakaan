@@ -28,7 +28,6 @@ $result = $conn->query($sql);
 $user = $_SESSION["user_id"];
 
 
-
 ?>
 
 
@@ -191,7 +190,7 @@ $user = $_SESSION["user_id"];
                     <!-- Topbar Search -->
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                            <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary1" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -243,13 +242,14 @@ $user = $_SESSION["user_id"];
                             // Display the card only if the book is available
                             if ($row['ketersediaan'] > 0) {
                     ?>
-                                <div class="card" style="width: 210px; height: 390px;">
+                                <div class="searchable card" style="width: 210px; height: 390px;">
                                     <img src="../proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 210px; object-fit: cover;">
                                     <div class="card-body" style="padding: 10px;">
                                         <h5 class="card-title judul" style="font-size: 20px;"><?php echo $row['judul']; ?></h5>
                                         <!-- Check if $row['penulis'] and $row['nama_kategori'] are set before echoing -->
                                         <p class="card-text penulis" style="font-size: 16px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
                                         <!-- Add the rest of your card content and buttons here -->
+                                        <p style="color: #808080;">Copy: <?php echo $row['ketersediaan']; ?></p>
                                         <?php
                                         $bukuterpinjam = mysqli_query($conn, "SELECT * FROM peminjaman WHERE user_id ='$user' AND status_peminjam='dipinjam'");
                                         if (mysqli_num_rows($bukuterpinjam) >= 3) {
@@ -277,10 +277,8 @@ $user = $_SESSION["user_id"];
                     }
                     $conn->close();
                     ?>
-
-
-
                 </div>
+
             </div>
 
         </div>
@@ -457,6 +455,41 @@ $user = $_SESSION["user_id"];
         });
     </script>
 
+<script>
+    $(document).ready(function(){
+        // Add an input event listener to the search input
+        $("#searchInput").on("input", function() {
+            let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
+
+            // Keep track if any results are found
+            let resultsFound = false;
+
+            // Loop through each searchable card
+            $(".searchable").each(function() {
+                let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
+
+                // Check if the card text contains the search term
+                if (cardText.includes(searchTerm)) {
+                    $(this).show(); // If yes, show the card
+                    resultsFound = true; // Mark that results are found
+                } else {
+                    $(this).hide(); // If no, hide the card
+                }
+            });
+
+            // Show/hide the no results message based on resultsFound
+            if (resultsFound) {
+                $("#noResultsMessage").hide();
+            } else {
+                $("#noResultsMessage").show();
+            }
+        });
+    });
+
+
+    
+
+</script>
 
 
 </body>
