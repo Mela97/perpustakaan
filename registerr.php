@@ -18,13 +18,14 @@ session_start();
     <title>Registrasi</title>
 
     <!-- Custom fonts for this template-->
-    <link href="asset/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="dashboard/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+
     <link href="dashboard/css/sb-admin-2.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-Jo8U8FkhRv4RwrBvz7XkM6JnimdxVH0/9c+5fppz6yjsjAq4+gim4WuMI903vF4Y2OV7i5a8xNp+DQw4z5sG/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-zFRrJegk5aCn5Q63VezGtq3GYkUdqVrqPxyfkcYO4hnn883hX+Y1CrzQt5uARaVr5Gb03tGq5m+eoc2Xn4a9g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
     <style>
@@ -96,46 +97,51 @@ session_start();
         <div class="col-lg-5">
 
             <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
+                <div class="card-body p-3">
                     <div class="row">
                         <div class="col-lg-11 mx-auto">
-                            <div class="p-3">
-
+                            <div class="p-0">
+                                <a href="index.php" style="color: #6c757d; "><i class="fa-solid fa-chevron-left" style="font-size: 24px; top: 10px;"></i></a>
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Registrasi</h1>
                                 </div>
-                                <form class="user" action="process_registrasi.php" method="post">
-                                    <!-- Form inputs -->
-                                    <div class="form-group mx-auto">
-                                        <input type="text" class="form-control form-control-user" id="inputUsername" placeholder="Username" name="username" required>
-                                    </div>
-                                    <div class="form-group mx-auto">
-                                        <input type="email" class="form-control form-control-user" id="inputEmail" placeholder="Email Address" name="email" required>
-                                    </div>
-                                    <div class="form-group mx-auto">
-                                        <input type="password" class="form-control form-control-user" id="inputPassword" placeholder="Password" name="password" required>
-                                    </div>
-                                    <div class="form-group mx-auto">
-                                        <input type="text" class="form-control form-control-user" id="inputFullName" placeholder="Full Name" name="full_name" required>
-                                    </div>
-                                    <div class="form-group mx-auto">
-                                        <textarea class="form-control form-control-user" id="inputAddress" placeholder="Address" name="address" required></textarea>
-                                    </div>
-                                    <input type="hidden" name="role" value="peminjam">
-                                    <button type="submit" class="btn btn-primary1 btn-user btn-block">Register</button>
-                                    <div class="text-center">
-                                        <a class="small" href="login.php">Kembali ke Log-in</a>
-                                    </div>
-                                </form>
-                                <!-- Tombol Kembali -->
-
                             </div>
+
+                            <form class="user" action="process_registrasi.php" method="post">
+                                <!-- Form inputs -->
+                                <div class="form-group mx-auto">
+                                    <input type="text" class="form-control form-control-user" id="inputUsername" placeholder="Username" name="username" required>
+                                </div>
+                                <div class="form-group mx-auto">
+                                    <input type="email" class="form-control form-control-user" id="inputEmail" placeholder="Email Address" name="email" required>
+                                </div>
+                                <div class="form-group mx-auto">
+                                    <input type="password" class="form-control form-control-user" id="inputPassword" placeholder="Password" name="password" required>
+                                </div>
+                                <div class="form-group mx-auto">
+                                    <input type="text" class="form-control form-control-user" id="inputFullName" placeholder="Full Name" name="full_name" required>
+                                </div>
+                                <div class="form-group mx-auto">
+                                    <textarea class="form-control form-control-user" id="inputAddress" placeholder="Address" name="address" required></textarea>
+                                </div>
+                                <input type="hidden" name="role" value="peminjam">
+                                <button type="submit" class="btn btn-primary1 btn-user btn-block">Register</button>
+                                <div class="text-center">
+                                    <a class="small" href="login.php">Log-in</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small">Dengan melanjutkan, Anda menyetujui <span style="color: #6c757d;"> Syarat dan Ketentuan kami</span> dan juga <spanstyle="color: #6c757d;"> Privasi kami</spanstyle=></a>
+                                </div>
+                            </form>
+                            <!-- Tombol Kembali -->
+
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
+    </div>
 
     </div>
 

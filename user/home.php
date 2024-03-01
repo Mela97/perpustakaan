@@ -245,19 +245,20 @@ $user = $_SESSION["user_id"];
                                 <div class="searchable card" style="width: 210px; height: 390px;">
                                     <img src="../proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 210px; object-fit: cover;">
                                     <div class="card-body" style="padding: 10px;">
-                                        <h5 class="card-title judul" style="font-size: 20px;"><?php echo $row['judul']; ?></h5>
-                                        <!-- Check if $row['penulis'] and $row['nama_kategori'] are set before echoing -->
-                                        <p class="card-text penulis" style="font-size: 16px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
+                                        <h5 class="card-title judul" style="font-size: 20px; margin-top: 5px; margin-bottom: 5px;"><?php echo $row['judul']; ?></h5>
+                                        <!-- Check if $row['penulis'] is set before echoing -->
+                                        <p class="card-text penulis" style="font-size: 15px; margin-top: 0; margin-bottom: 5px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
+                                        <!-- Show stock -->
+                                        <p style="color: #808080; font-size: 12px; margin-top: 0; margin-bottom: 5px;">Stok: <?php echo $row['ketersediaan']; ?></p>
                                         <!-- Add the rest of your card content and buttons here -->
-                                        <p style="color: #808080;">Copy: <?php echo $row['ketersediaan']; ?></p>
                                         <?php
                                         $bukuterpinjam = mysqli_query($conn, "SELECT * FROM peminjaman WHERE user_id ='$user' AND status_peminjam='dipinjam'");
                                         if (mysqli_num_rows($bukuterpinjam) >= 3) {
                                         ?>
-                                            <button type="button" class="btn btn-primary2 btn-sm ">Buku sudah dalam batas</button>
+                                            <button type="button" class="btn btn-primary2 btn-sm">Buku sudah dalam batas</button>
                                         <?php } else { ?>
                                             <a href='pinjam.php?id_buku=<?php echo $row['buku_id']; ?>'>
-                                                <button id='pinjam-btn' data-buku-id='<?php echo $row['buku_id']; ?>' type="button" class="btn btn-primary2 btn-sm ">Pinjam</button>
+                                                <button id='pinjam-btn' data-buku-id='<?php echo $row['buku_id']; ?>' type="button" class="btn btn-primary2 btn-sm">Pinjam</button>
                                             </a>
                                         <?php } ?>
                                         <button type="button" class="btn btn-secondary1 btn-sm bookmark-btn" data-buku-id="<?php echo $row['buku_id']; ?>">
@@ -271,6 +272,8 @@ $user = $_SESSION["user_id"];
                                         </form>
                                     </div>
                                 </div>
+
+
                     <?php
                             }
                         }
@@ -455,41 +458,37 @@ $user = $_SESSION["user_id"];
         });
     </script>
 
-<script>
-    $(document).ready(function(){
-        // Add an input event listener to the search input
-        $("#searchInput").on("input", function() {
-            let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
+    <script>
+        $(document).ready(function() {
+            // Add an input event listener to the search input
+            $("#searchInput").on("input", function() {
+                let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
 
-            // Keep track if any results are found
-            let resultsFound = false;
+                // Keep track if any results are found
+                let resultsFound = false;
 
-            // Loop through each searchable card
-            $(".searchable").each(function() {
-                let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
+                // Loop through each searchable card
+                $(".searchable").each(function() {
+                    let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
 
-                // Check if the card text contains the search term
-                if (cardText.includes(searchTerm)) {
-                    $(this).show(); // If yes, show the card
-                    resultsFound = true; // Mark that results are found
+                    // Check if the card text contains the search term
+                    if (cardText.includes(searchTerm)) {
+                        $(this).show(); // If yes, show the card
+                        resultsFound = true; // Mark that results are found
+                    } else {
+                        $(this).hide(); // If no, hide the card
+                    }
+                });
+
+                // Show/hide the no results message based on resultsFound
+                if (resultsFound) {
+                    $("#noResultsMessage").hide();
                 } else {
-                    $(this).hide(); // If no, hide the card
+                    $("#noResultsMessage").show();
                 }
             });
-
-            // Show/hide the no results message based on resultsFound
-            if (resultsFound) {
-                $("#noResultsMessage").hide();
-            } else {
-                $("#noResultsMessage").show();
-            }
         });
-    });
-
-
-    
-
-</script>
+    </script>
 
 
 </body>

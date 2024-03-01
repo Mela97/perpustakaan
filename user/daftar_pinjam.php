@@ -225,7 +225,7 @@ if (!$result) {
                             while ($row = $result->fetch_assoc()) {
                                 if ($row['status_peminjam'] === "dipinjam" && $row['user_id'] == $_SESSION['user_id']) :
                         ?>
-                                    <div class="card" style="width: 200px; height: 380px; margin-right: 10px;">
+                                    <div class="searchable card" style="width: 200px; height: 380px; margin-right: 10px;">
                                         <img src="../proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 200px; object-fit: cover;">
                                         <div class="card-body">
                                             <?php

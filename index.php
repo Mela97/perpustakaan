@@ -24,18 +24,21 @@
             margin: 0;
         }
 
-        .btn-primary1:hover {
-            background-color: #427D9D;
-            border-color: #427D9D;
-            color: #000000;
-        }
-
         .btn-primary1 {
             background-color: #164863;
             border-color: #164863;
             transition: background-color 0.3s ease;
             color: #ffffff;
-        }        
+        }
+
+        .btn-primary2 {
+            background-color: #164863;
+            border-color: #164863;
+            transition: background-color 0.3s ease;
+            color: #ffffff;
+            border-radius: 19px;
+            padding: 6px 20px;
+        }
 
         .btn-info1 {
             background-color: #0D9276;
@@ -64,6 +67,53 @@
 
         .card-text {
             font-size: 12px;
+        }
+
+        footer {
+            background-color: #f7f7f7;
+            padding: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .footer-description {
+            margin-bottom: 15px;
+        }
+
+        .footer-contact-info {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-contact-info li {
+            margin-bottom: 10px;
+        }
+
+        .footer-contact-info a {
+            color: #777;
+            text-decoration: none;
+        }
+
+        .footer-contact-info a:hover {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 15px 0;
+            }
+
+            .footer-logo {
+                max-width: 150px;
+            }
+
+            .footer-description {
+                margin-bottom: 10px;
+            }
+
+            .footer-contact-info li {
+                margin-bottom: 5px;
+            }
         }
     </style>
 
@@ -100,14 +150,9 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 navbar-search" style="max-width: 300px;">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary1" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
+                            <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Cari Buku, Penulis" aria-label="Search" aria-describedby="basic-addon2">
                         </div>
                     </form>
 
@@ -115,12 +160,16 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <h6 class="nav-link font-weight-bold">
-                                <a href="login.php" style="color: #164863;">Masuk</a>
+                                <a href="login.php" style="color: #164863; border: 2px solid #164863; padding: 6px 20px; border-radius: 19px; text-decoration: none;">
+                                    Masuk
+                                </a>
                             </h6>
                         </li>
                         <li class="nav-item">
                             <h6 class="nav-link font-weight-bold">
-                                <a href="registerr.php" style="color: #164863;">Daftar</a>
+                                <a href="registerr.php" class="btn btn-primary2">
+                                    Daftar
+                                </a>
                             </h6>
                         </li>
                     </ul>
@@ -160,7 +209,7 @@
                             <div class="card" style="width: 210px; height: 320px;">
                                 <img src="proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 210px; object-fit: cover;">
                                 <div class="card-body" style="padding: 10px;">
-                                    <h5 class="card-title judul" style="font-size: 20px;"><?php echo $row['judul']; ?></h5>
+                                    <h5 class="card-title judul" style="font-size: 20px; color: black;"><?php echo $row['judul']; ?></h5>
                                     <p class="card-text penulis" style="font-size: 16px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
                                     <!-- Tampilkan ulasan -->
                                 </div>
@@ -182,10 +231,48 @@
     <!-- End of Main Content -->
 
     <!-- Footer -->
+    <footer class="sticky-footer" style="padding-top: 20px; padding-bottom: 20px; margin-top: 20px; border-top: 2px solid #e9ecef; box-shadow: none;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2" style="margin-top: 20px; display: flex; flex-direction: column; align-items: flex-start;">
+                    <img src="logo.png" alt="Logo Perpustakaan Digital" class="footer-logo" style="width: 80px; height: auto;">
+                    <p style="font-weight: bold; color: black; text-align: center; margin-top: 5px; margin-left: 15px;">SMEA</p>
+                </div>
 
-    <!-- End of Footer -->
+                <div class="col-md-5" style="margin-top: 5px;">
+                <h5 style=" font-weight: bold;color: #191919;">Tentang Kami</h5>
+                    <p>Perpustakaan Digital Smea adalah sebuah platform yang menyediakan akses ke berbagai macam buku elektronik dan sumber daya belajar lainnya. Platform ini dirancang untuk memudahkan pengguna dalam menemukan dan membaca buku yang mereka inginkan.</p>
+                </div>
+                <div class="col-md-3">
+                    <ul class="footer-contact-info" style="margin-top: 10px;">
+                    <h5 style=" font-weight: bold;color: #191919;">Alamat</h5>
+                        <li><a href="#">Jl. KH. Mustofa Lingk. Parunglesang, RT.05/RW.10, Banjar, Kec. Banjar, Kota Banjar, Jawa Barat 46311</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <ul class="footer-contact-info" style="margin-top: 10px; list-style: none; padding-left: 0;">
+                    <h5 style=" font-weight: bold;color: #191919;">Kontak</h5>
+                        <li style="display: inline-block; margin-right: 10px;"><a href="#">Telepon:(0265)-741722</a></li>
+                        <li style="display: inline-block; margin-right: 10px;"><a href="https://www.instagram.com/smknegeri1banjar/"><i class="fab fa-instagram"></i></a></li>
+                        <li style="display: inline-block; margin-right: 10px;"><a href="https://twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                    </ul>
+                </div>
 
-    
+            </div>
+        </div>
+    </footer>
+
+
+    <footer class="sticky-footer" style="background-color: #164863; border-top: 1px solid #164863; padding: 9px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p style="color: white; font-size: 14px; margin-bottom: 0;">&copy; Perpustakaan Digital Smea 2024</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -230,6 +317,38 @@
     <script src="dashboard/vendor/js/demo/chart-area-demo.js"></script>
     <script src="dashboard/vendor/js/demo/chart-pie-demo.js"></script>
     <!-- Tambahkan ini di bagian head atau sebelum tag penutup body -->
+
+    <script>
+        $(document).ready(function() {
+            // Add an input event listener to the search input
+            $("#searchInput").on("input", function() {
+                let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
+
+                // Keep track if any results are found
+                let resultsFound = false;
+
+                // Loop through each searchable card
+                $(".searchable").each(function() {
+                    let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
+
+                    // Check if the card text contains the search term
+                    if (cardText.includes(searchTerm)) {
+                        $(this).show(); // If yes, show the card
+                        resultsFound = true; // Mark that results are found
+                    } else {
+                        $(this).hide(); // If no, hide the card
+                    }
+                });
+
+                // Show/hide the no results message based on resultsFound
+                if (resultsFound) {
+                    $("#noResultsMessage").hide();
+                } else {
+                    $("#noResultsMessage").show();
+                }
+            });
+        });
+    </script>
 
 </body>
 

@@ -386,7 +386,7 @@ $role = $_SESSION['role'];
                     </div>
                     <a href="../create/create_data_buku.php" class="mb-4 btn btn-primary1">Tambah Buku</a>
 
-                    <div class="row">
+                    <div class="searchable row">
                         <div class="col-xl-12 col-md-6 mb-4">
                             <?php
                             // Proses saat pengguna meminjam buku

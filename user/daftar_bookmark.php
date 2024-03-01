@@ -244,7 +244,7 @@ if ($result_user->num_rows > 0) {
                     <?php
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            echo '<div class="card" style="width: 200px; height: 380px;">';
+                            echo '<div class="searchable card" style="width: 200px; height: 380px;">';
                             echo '<img src="../proses/uploads/' . $row['cover'] . '" class="card-img-top" alt="Cover Buku" style="width: 100%; height: 200px; object-fit: cover;">';
                             echo '<div class="card-body">';
 
