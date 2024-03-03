@@ -492,7 +492,6 @@ if (isset($_POST['submit'])) {
                                         <input type="text" id="tahun_terbit" name="tahun_terbit" value="<?php echo $row['tahun_terbit']; ?>"><br>
                                         <label for="tahun_terbit">Cover :</label>
                                         <input type="file" id="cover" name="cover">
-                                        <label for="status">Status Buku:</label>
                                         <label for="ketersediaan">Ketersediaan:</label>
                                         <select id="ketersediaan" name="ketersediaan">
                                             <option value="1">1</option>

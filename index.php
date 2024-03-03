@@ -1,3 +1,7 @@
+<?php
+include 'koneksi.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,15 +29,15 @@
         }
 
         .btn-primary1 {
-            background-color: #164863;
-            border-color: #164863;
+            background-color: #176B87;
+            border-color: #176B87;
             transition: background-color 0.3s ease;
             color: #ffffff;
         }
 
         .btn-primary2 {
-            background-color: #164863;
-            border-color: #164863;
+            background-color: #176B87;
+            border-color: #176B87;
             transition: background-color 0.3s ease;
             color: #ffffff;
             border-radius: 19px;
@@ -58,6 +62,7 @@
             margin-right: 15px;
             margin-bottom: 25px;
             margin-left: 17px;
+            box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
         }
 
 
@@ -126,18 +131,20 @@
 
 
         <!-- Sidebar -->
+       
+        <!-- End of Sidebar -->
 
 
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="padding-top: 80px;">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
 
                     <!-- Logo -->
                     <a class="navbar-brand" href="#">
@@ -160,7 +167,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <h6 class="nav-link font-weight-bold">
-                                <a href="login.php" style="color: #164863; border: 2px solid #164863; padding: 6px 20px; border-radius: 19px; text-decoration: none;">
+                                <a href="login.php" style="color: #176B87; border: 2px solid #176B87; padding: 6px 20px; border-radius: 19px; text-decoration: none;">
                                     Masuk
                                 </a>
                             </h6>
@@ -231,6 +238,13 @@
     <!-- End of Main Content -->
 
     <!-- Footer -->
+    <footer class="sticky-footer" style="background-color: #176B87; border-top: 1px solid #176B87; padding: 2px 0; margin-bottom: -20px;">
+        <div class="container text-center">
+            <h5 style="font-weight: bold;color: white; display: inline-block; font-size: 14px;">Jam Operasional Perpus Smea:</h5>
+            <p style="display: inline-block; margin-bottom: 0; color: white; font-size: 14px;">Senin-Jumat 08.00 - 16.00 WIB</p>
+        </div>
+    </footer>
+
     <footer class="sticky-footer" style="padding-top: 20px; padding-bottom: 20px; margin-top: 20px; border-top: 2px solid #e9ecef; box-shadow: none;">
         <div class="container">
             <div class="row">
@@ -240,30 +254,28 @@
                 </div>
 
                 <div class="col-md-5" style="margin-top: 5px;">
-                <h5 style=" font-weight: bold;color: #191919;">Tentang Kami</h5>
+                    <h5 style=" font-weight: bold;color: #191919;">Tentang Kami</h5>
                     <p>Perpustakaan Digital Smea adalah sebuah platform yang menyediakan akses ke berbagai macam buku elektronik dan sumber daya belajar lainnya. Platform ini dirancang untuk memudahkan pengguna dalam menemukan dan membaca buku yang mereka inginkan.</p>
                 </div>
                 <div class="col-md-3">
                     <ul class="footer-contact-info" style="margin-top: 10px;">
-                    <h5 style=" font-weight: bold;color: #191919;">Alamat</h5>
+                        <h5 style=" font-weight: bold;color: #191919;">Alamat</h5>
                         <li><a href="#">Jl. KH. Mustofa Lingk. Parunglesang, RT.05/RW.10, Banjar, Kec. Banjar, Kota Banjar, Jawa Barat 46311</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2">
                     <ul class="footer-contact-info" style="margin-top: 10px; list-style: none; padding-left: 0;">
-                    <h5 style=" font-weight: bold;color: #191919;">Kontak</h5>
+                        <h5 style=" font-weight: bold;color: #191919;">Kontak</h5>
                         <li style="display: inline-block; margin-right: 10px;"><a href="#">Telepon:(0265)-741722</a></li>
                         <li style="display: inline-block; margin-right: 10px;"><a href="https://www.instagram.com/smknegeri1banjar/"><i class="fab fa-instagram"></i></a></li>
                         <li style="display: inline-block; margin-right: 10px;"><a href="https://twitter.com/"><i class="fab fa-twitter"></i></a></li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </footer>
 
-
-    <footer class="sticky-footer" style="background-color: #164863; border-top: 1px solid #164863; padding: 9px 0;">
+    <footer class="sticky-footer" style="background-color: #176B87; border-top: 1px solid #176B87; padding: 6px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -345,6 +357,25 @@
                     $("#noResultsMessage").hide();
                 } else {
                     $("#noResultsMessage").show();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Simpan nilai offset top dari navbar
+            var navbarOffset = $(".navbar").offset().top;
+
+            // Tambahkan event listener saat halaman di-scroll
+            $(window).scroll(function() {
+                // Periksa posisi scroll halaman
+                if ($(window).scrollTop() >= navbarOffset) {
+                    // Jika sudah mencapai atau melebihi offset top dari navbar, tambahkan kelas 'fixed-top' pada navbar
+                    $(".navbar").addClass("fixed-top");
+                } else {
+                    // Jika belum mencapai offset top dari navbar, hapus kelas 'fixed-top' dari navbar
+                    $(".navbar").removeClass("fixed-top");
                 }
             });
         });

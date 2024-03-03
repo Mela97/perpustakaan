@@ -144,6 +144,7 @@ if ($result_user->num_rows > 0) {
         .card {
             float: left;
             margin-right: 10px;
+            box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
         }
 
         .small {
@@ -169,13 +170,13 @@ if ($result_user->num_rows > 0) {
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="padding-top: 80px;">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
 
                     <!-- Logo -->
                     <a class="navbar-brand" href="#">
@@ -188,16 +189,7 @@ if ($result_user->num_rows > 0) {
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary1" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    
 
                     <!-- Navbar Akun Pengguna -->
                     <ul class="navbar-nav ml-auto">
@@ -247,27 +239,18 @@ if ($result_user->num_rows > 0) {
                             echo '<div class="searchable card" style="width: 200px; height: 380px;">';
                             echo '<img src="../proses/uploads/' . $row['cover'] . '" class="card-img-top" alt="Cover Buku" style="width: 100%; height: 200px; object-fit: cover;">';
                             echo '<div class="card-body">';
-
-                            // Hitung panjang judul
-                            $judul_length = strlen($row['judul']);
-
-                            // Potong judul jika lebih dari 15 karakter
-                            if ($judul_length > 15) {
-                                $judul_potong = substr($row['judul'], 0, 15) . "...";
-                            } else {
-                                $judul_potong = $row['judul'];
-                            }
-
-                            echo '<h5 class="card-title" data-judul-lengkap="' . $judul_potong . '" onclick="showModalJudulLengkap(this)">';
-
-                            echo '<p class="card-text">Penulis: <span class="small">' . $row['penulis'] . '</span></p>';
-                            echo '<p class="card-text">Kategori: <span class="small">' . $row['nama_kategori'] . '</span></p>';
-                            echo '<div class="d-flex justify-content-end">'; // Tombol hapus diposisikan di kanan
+                            
+                            // Mengatur ukuran font judul
+                            echo '<h5 class="card-title" style="font-size: 18px;">' . $row['judul'] . '</h5>';
+                            
+                            echo '<p class="card-text" style="font-size: 15px;">Penulis: <span class="small" style="font-size: 15px;">' . $row['penulis'] . '</span></p>';
+                            echo '<p class="card-text" style="font-size: 12px;">Kategori: <span class="small" style="font-size: 12px;">' . $row['nama_kategori'] . '</span></p>';
+                            echo '<div class="d-flex justify-content-end">';
                             echo '<button class="btn btn-sm btn-danger" onclick="hapusBookmark(' . $row['buku_id'] . ')">Hapus</button>';
                             echo '</div>';
                             echo '</div>';
                             echo '</div>';
-                        }
+                        }                        
                     } else {
                         echo "Anda belum menandai buku apa pun sebagai favorite.";
                     }

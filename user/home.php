@@ -144,6 +144,7 @@ $user = $_SESSION["user_id"];
             float: left;
             margin-bottom: 25px;
             margin-left: 25px;
+            box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
         }
 
         .judul {
@@ -169,13 +170,13 @@ $user = $_SESSION["user_id"];
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="padding-top: 120px;">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
 
                     <!-- Logo -->
                     <a class="navbar-brand" href="#">
@@ -188,14 +189,9 @@ $user = $_SESSION["user_id"];
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 navbar-search" style="max-width: 300px;">
                         <div class="input-group">
-                            <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary1" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
+                            <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Cari Buku, Penulis" aria-label="Search" aria-describedby="basic-addon2">
                         </div>
                     </form>
 

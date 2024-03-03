@@ -356,13 +356,13 @@ $role = $_SESSION['role'];
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php
+                                <?php
                                 if (isset($_SESSION['username'])) {
-                                    echo $_SESSION['username']; 
+                                    echo $_SESSION['username'];
                                 } else {
                                     echo "Pengguna";
                                 }
-                                ?>                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                ?> <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -459,30 +459,28 @@ $role = $_SESSION['role'];
                             // Tampilkan tabel buku beserta status peminjamannya
                             echo "<table border='1'>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Cover</th>
                                         <th>Judul</th>
                                         <th>Penulis</th>
                                         <th>Kategori</th>
-                                       
+                                        <th>Pdf</th>
                                         <th>Ketersediaan</th>
                                         <th>Aksi</th>
                                     </tr>";
 
                             while ($row = $result_data_buku->fetch_assoc()) {
                                 echo "<tr>
-                                                <td>{$row['buku_id']}</td>
-                                                <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
-                                                <td>{$row['judul']}</td>
-                                                <td>{$row['penulis']}</td>
-                                                <td>{$row['kategori_id']}</td>
-                                                
-                                                <td>{$row['ketersediaan']}</td>
-                                                <td>
-                                                    <a href='../edit/edit_data_buku.php?buku_id={$row['buku_id']}' class='edit-button'>Edit</a> 
-                                                    <a href='#' class='hapus-button' onclick='confirmDelete({$row['buku_id']})'>Hapus</a>
-                                                </td>
-                                            </tr>";
+                                    <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
+                                    <td>{$row['judul']}</td>
+                                    <td>{$row['penulis']}</td>
+                                    <td>{$row['kategori_id']}</td>
+                                    <td>{$row['file_pdf']}</td>
+                                    <td>{$row['ketersediaan']}</td>
+                                    <td>
+                                    <a href='../edit/edit_data_buku.php?buku_id={$row['buku_id']}' class='edit-button'>Edit</a> 
+                                    <a href='#' class='hapus-button' onclick='confirmDelete({$row['buku_id']})'>Hapus</a>
+                                    </td>
+                                    </tr>";
                             }
 
                             echo "</table>";
@@ -491,12 +489,13 @@ $role = $_SESSION['role'];
 
                             // Langkah 7: Buat tombol pagination
                             echo '<ul class="pagination justify-content-center">';
-                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
+                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '">&#9664;</a></li>';
                             for ($i = max(1, $page - 2); $i <= min($page + 2, $total_halaman); $i++) {
                                 echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
                             }
-                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
+                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">&#9654;</a></li>';
                             echo '</ul>';
+
 
                             ?>
 
@@ -571,41 +570,37 @@ $role = $_SESSION['role'];
         }
     </script>
 
-<script>
-    $(document).ready(function(){
-        // Add an input event listener to the search input
-        $("#searchInput").on("input", function() {
-            let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
+    <script>
+        $(document).ready(function() {
+            // Add an input event listener to the search input
+            $("#searchInput").on("input", function() {
+                let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
 
-            // Keep track if any results are found
-            let resultsFound = false;
+                // Keep track if any results are found
+                let resultsFound = false;
 
-            // Loop through each searchable card
-            $(".searchable").each(function() {
-                let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
+                // Loop through each searchable card
+                $(".searchable").each(function() {
+                    let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
 
-                // Check if the card text contains the search term
-                if (cardText.includes(searchTerm)) {
-                    $(this).show(); // If yes, show the card
-                    resultsFound = true; // Mark that results are found
+                    // Check if the card text contains the search term
+                    if (cardText.includes(searchTerm)) {
+                        $(this).show(); // If yes, show the card
+                        resultsFound = true; // Mark that results are found
+                    } else {
+                        $(this).hide(); // If no, hide the card
+                    }
+                });
+
+                // Show/hide the no results message based on resultsFound
+                if (resultsFound) {
+                    $("#noResultsMessage").hide();
                 } else {
-                    $(this).hide(); // If no, hide the card
+                    $("#noResultsMessage").show();
                 }
             });
-
-            // Show/hide the no results message based on resultsFound
-            if (resultsFound) {
-                $("#noResultsMessage").hide();
-            } else {
-                $("#noResultsMessage").show();
-            }
         });
-    });
-
-
-    
-
-</script>
+    </script>
 
 </body>
 

@@ -1,4 +1,5 @@
 <?php
+include 'koneksi.php';
 session_start();
 // Koneksi ke database
 $servername = "localhost";
@@ -7,22 +8,22 @@ $password = "";
 $dbname = "perpustakaan_digital";
 
 // Buat koneksi
-$koneksi = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Periksa koneksi
-if ($koneksi->connect_error) {
-    die("Koneksi gagal: " . $koneksi->connect_error);
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
 
 // Query untuk mendapatkan daftar buku
 $query = "SELECT buku.*,peminjaman.* FROM buku INNER JOIN peminjaman on peminjaman.buku_id = buku.buku_id ";
 
 // Eksekusi query
-$result = $koneksi->query($query);
+$result = $conn->query($query);
 
 // Periksa apakah query berhasil dieksekusi
 if (!$result) {
-    die("Error: " . $koneksi->error);
+    die("Error: " . $conn->error);
 }
 ?>
 
@@ -132,7 +133,9 @@ if (!$result) {
 
         .card {
             float: left;
-            margin-right: 10px;
+            margin-bottom: 25px;
+            margin-left: 25px;
+            box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -149,13 +152,13 @@ if (!$result) {
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="padding-top: 80px;">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
 
                     <!-- Logo -->
                     <a class="navbar-brand" href="#">
@@ -168,16 +171,7 @@ if (!$result) {
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary1" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+
 
                     <!-- Navbar Akun Pengguna -->
                     <ul class="navbar-nav ml-auto">
@@ -232,7 +226,7 @@ if (!$result) {
                                             // Tambahkan pengecekan sebelum mengakses kunci tanggal_pinjam
                                             if (isset($row['tanggal_pinjam'])) {
                                             ?>
-                                               
+
                                             <?php
                                             } else {
                                                 // Jika kunci tanggal_pinjam tidak ada, berikan pesan alternatif
@@ -240,7 +234,6 @@ if (!$result) {
                                                 <small class="text-muted">Tanggal Pinjam Tidak Tersedia</small>
                                             <?php
                                             }
-                                            // 
                                             ?>
                                             <h5 class="card-title"><?php echo $row['judul']; ?></h5>
                                             <p class="card-text">Penulis: <?php echo $row['penulis']; ?></p>
@@ -249,7 +242,7 @@ if (!$result) {
                                                 <button class="btn btn-info2 btn-sm ">Selesai</button>
                                             </a>
 
-                                            <a href='#?id_buku=<?php echo $row['peminjaman_id']; ?>'>
+                                            <a href='baca_buku.php?id_buku=<?php echo $row['buku_id']; ?>'>
                                                 <button class="btn btn-info btn-sm">
                                                     <i class="fas fa-book"></i> Baca
                                                 </button>
@@ -385,41 +378,37 @@ if (!$result) {
         <?php endif; ?>
     </script>
 
-<script>
-    $(document).ready(function(){
-        // Add an input event listener to the search input
-        $("#searchInput").on("input", function() {
-            let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
+    <script>
+        $(document).ready(function() {
+            // Add an input event listener to the search input
+            $("#searchInput").on("input", function() {
+                let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
 
-            // Keep track if any results are found
-            let resultsFound = false;
+                // Keep track if any results are found
+                let resultsFound = false;
 
-            // Loop through each searchable card
-            $(".searchable").each(function() {
-                let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
+                // Loop through each searchable card
+                $(".searchable").each(function() {
+                    let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
 
-                // Check if the card text contains the search term
-                if (cardText.includes(searchTerm)) {
-                    $(this).show(); // If yes, show the card
-                    resultsFound = true; // Mark that results are found
+                    // Check if the card text contains the search term
+                    if (cardText.includes(searchTerm)) {
+                        $(this).show(); // If yes, show the card
+                        resultsFound = true; // Mark that results are found
+                    } else {
+                        $(this).hide(); // If no, hide the card
+                    }
+                });
+
+                // Show/hide the no results message based on resultsFound
+                if (resultsFound) {
+                    $("#noResultsMessage").hide();
                 } else {
-                    $(this).hide(); // If no, hide the card
+                    $("#noResultsMessage").show();
                 }
             });
-
-            // Show/hide the no results message based on resultsFound
-            if (resultsFound) {
-                $("#noResultsMessage").hide();
-            } else {
-                $("#noResultsMessage").show();
-            }
         });
-    });
-
-
-    
-
-</script>
+    </script>
 </body>
 
 </html>

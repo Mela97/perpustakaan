@@ -13,32 +13,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tahun = $_POST["tahun"];
     $kategori_id = $_POST["kategori"];
     $perpus_id = $_POST["perpus_id"];
-
+    $ketersediaan = $_POST["ketersediaan"]; 
 
     // Handle file upload
     $cover = $_FILES["cover"];
-    $cover_path = "" . basename($cover["name"]);
+    $cover_path = "../proses/uploads" . basename($cover["name"]);
     if (move_uploaded_file($cover["tmp_name"], $cover_path)) {
-        // Mengambil deskripsi dari formulir
         $deskripsi = $_POST['deskripsi'];
 
-        // Memasukkan deskripsi ke dalam database
-        $sql = "INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, deskripsi, kategori_id, cover, perpus_id) VALUES ('$judul', '$penulis', '$penerbit', $tahun, '$deskripsi', $kategori_id, '$cover_path', $perpus_id)";
+        // Handle file upload
+        $pdf = $_FILES["pdf"];
+        $pdf_path = "../proses/pdf" . basename($pdf["name"]);
+        if (move_uploaded_file($pdf["tmp_name"], $pdf_path)) {
+            // Memasukkan deskripsi ke dalam database
+            $sql = "INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, deskripsi, kategori_id, cover, ketersediaan, perpus_id, file_pdf) VALUES ('$judul', '$penulis', '$penerbit', $tahun, '$deskripsi', $kategori_id, '$cover_path', $ketersediaan, $perpus_id, '$pdf_path')";
 
-        if ($conn->query($sql) === TRUE) {
-            echo "Buku berhasil ditambahkan.";
-            header("Location:../admin/index_data_buku.php");
+            if ($conn->query($sql) === TRUE) {
+                echo "Buku berhasil ditambahkan.";
+                header("Location:../admin/index_data_buku.php");
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Maaf, terjadi kesalahan saat mengunggah file PDF.";
         }
     } else {
         echo "Maaf, terjadi kesalahan saat mengunggah file gambar.";
     }
 
+
     $conn->close();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Custom styles for this template-->
     <link href="../dashboard/css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
     <style>
         .bg-gradient-primary {
             background-color: #164863;
@@ -419,13 +427,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php
+                                <?php
                                 if (isset($_SESSION['username'])) {
-                                    echo $_SESSION['username']; 
+                                    echo $_SESSION['username'];
                                 } else {
                                     echo "Pengguna";
                                 }
-                                ?>                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                ?>
+                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -451,7 +460,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="row">
                         <div class="col-xl-12 col-md-6 mb-4">
                             <form action="../proses/proses_data_buku.php" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
+                                <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
                                 <div class="form-group">
                                     <label for="judul">Judul:</label>
                                     <input type="text" name="judul" required>
@@ -521,6 +530,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <option value="5">5</option>
                                             </select><br>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="pdf">PDF</label>
+                                            <input type="file" name="pdf" required>
+                                        </div>
+
+                                        <!-- Skrip JavaScript untuk ekspor formulir sebagai PDF -->
+                                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+                                        <script>
+                                            function exportFormAsPDF() {
+                                                // Inisialisasi jsPDF
+                                                var doc = new jsPDF();
+
+                                                // Mengambil HTML formulir
+                                                var formHtml = document.getElementById('myForm').outerHTML;
+
+                                                // Menambahkan HTML formulir ke dokumen PDF
+                                                doc.html(formHtml, {
+                                                    callback: function(pdf) {
+                                                        // Menyimpan PDF dengan nama "formulir.pdf"
+                                                        pdf.save('formulir.pdf');
+                                                    }
+                                                });
+                                            }
+                                        </script>
 
                                         <input type="submit" value="Tambah Buku">
                             </form>
