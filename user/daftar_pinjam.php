@@ -192,7 +192,7 @@ if (!$result) {
                                 <a class="dropdown-item" href="mengulas.php"><i class="fas fa-comment-alt fa-fw"></i> Ulasan</a>
                                 <a class="dropdown-item" href="daftar_pinjam.php"><i class="fas fa-plus-circle fa-fw"></i> Pinjam Buku</a>
                                 <a class="dropdown-item" href="riwayat_pinjam.php"><i class="fas fa-history fa-fw"></i> Riwayat Peminjaman</a>
-                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
+                                <a class="dropdown-item" href="../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
                             </div>
                         </li>
                     </ul>
@@ -306,7 +306,7 @@ if (!$result) {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../logout.php">Logout</a>
+                    <a class="btn btn-primary" href="../index.php">Logout</a>
                 </div>
             </div>
         </div>

@@ -214,7 +214,7 @@ $user = $_SESSION["user_id"];
                                 <a class="dropdown-item" href="mengulas.php"><i class="fas fa-comment-alt fa-fw"></i> Ulasan</a>
                                 <a class="dropdown-item" href="daftar_pinjam.php"><i class="fas fa-plus-circle fa-fw"></i> Pinjam Buku</a>
                                 <a class="dropdown-item" href="riwayat_pinjam.php"><i class="fas fa-history fa-fw"></i> Riwayat Peminjaman</a>
-                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
+                                <a class="dropdown-item" href="../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
                             </div>
                         </li>
                     </ul>
@@ -251,7 +251,7 @@ $user = $_SESSION["user_id"];
                                         $bukuterpinjam = mysqli_query($conn, "SELECT * FROM peminjaman WHERE user_id ='$user' AND status_peminjam='dipinjam'");
                                         if (mysqli_num_rows($bukuterpinjam) >= 3) {
                                         ?>
-                                            <button type="button" class="btn btn-primary2 btn-sm">Buku sudah dalam batas</button>
+                                            <button type="button" class="btn btn-primary2 btn-sm">Limit</button>
                                         <?php } else { ?>
                                             <a href='pinjam.php?id_buku=<?php echo $row['buku_id']; ?>'>
                                                 <button id='pinjam-btn' data-buku-id='<?php echo $row['buku_id']; ?>' type="button" class="btn btn-primary2 btn-sm">Pinjam</button>

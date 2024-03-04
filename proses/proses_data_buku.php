@@ -24,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tahun = $_POST["tahun"];
     $kategori_id = $_POST["kategori"];
     $ketersediaan = $_POST["ketersediaan"];
-    $perpus_id = $_POST["perpus_id"];
 
     // Handle file upload for cover
     $cover = $_FILES["cover"];
@@ -42,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $deskripsi = $_POST['deskripsi'];
 
     // Persiapkan statement SQL
-    $stmt = $mysqli->prepare("INSERT INTO buku (perpus_id, judul, penulis, penerbit, tahun_terbit, deskripsi, kategori_id, cover, ketersediaan, file_pdf) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $mysqli->prepare("INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, deskripsi, kategori_id, cover, ketersediaan, file_pdf) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     // Periksa apakah statement SQL telah disiapkan dengan benar
     if ($stmt === false) {
@@ -50,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Bind parameter ke statement SQL
-    $stmt->bind_param('isssisisss', $perpus_id, $judul, $penulis, $penerbit, $tahun, $deskripsi, $kategori_id, $cover_name, $ketersediaan, $pdf_name);
+    $stmt->bind_param('sssisisss', $judul, $penulis, $penerbit, $tahun, $deskripsi, $kategori_id, $cover_name, $ketersediaan, $pdf_name);
 
     // Eksekusi statement SQL
     $result = $stmt->execute();

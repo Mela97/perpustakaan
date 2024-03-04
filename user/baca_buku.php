@@ -2,181 +2,182 @@
 include 'koneksi.php';
 session_start();
 
-if(isset($_GET['id_buku'])) {
+$pdf_path = '';
+
+if (isset($_GET['id_buku'])) {
     $id_buku = $_GET['id_buku'];
-    
-    // Query to get PDF file name based on book ID
+
+    // Query untuk mendapatkan nama file PDF berdasarkan ID buku
     $query = "SELECT file_pdf FROM buku WHERE buku_id = $id_buku";
     $result = $conn->query($query);
-    
-    if($result && $result->num_rows > 0) {
+
+    if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $pdf_file = $row['file_pdf'];
-        
-        // Path to the PDF file
+
+        // Path menuju file PDF
         $pdf_path = '../proses/pdf/' . $pdf_file;
-        
-        // Check if the file exists
-        if(file_exists($pdf_path)) {
-            // Set headers to display PDF
-            header('Content-type: application/pdf');
-            header('Content-Disposition: inline; filename="' . $pdf_file . '"');
-            header('Content-Transfer-Encoding: binary');
-            header('Accept-Ranges: bytes');
-            @readfile($pdf_path);
-            exit;
-        } else {
-            echo "File not found.";
-        }
     } else {
-        echo "Book not found.";
+        echo "Buku tidak ditemukan.";
     }
 } else {
-    echo "Invalid request.";
+    echo "Permintaan tidak valid.";
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baca</title>
-    <!-- Load PDF.js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <!-- Load Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Baca Buku</title>
+    <!-- Tambahkan link CSS untuk Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-8OcvMWCNph0YHxt3/0Z4sAUdGQOfnRV+B6rAhxQGb7QJeFz7DS1/HQ8ayS0H0s8rRj6EC3jGMO7R8Ntj0gGHQQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-    body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        /* Hindari scrollbar */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* Hindari scrollbar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            /* Tambahkan */
+        }
 
-    #pdf-container {
-        max-width: 80%;
-        max-height: 80vh;
-        position: relative;
-        overflow-y: auto;
-        /* Mengaktifkan pengguliran vertikal jika konten terpotong */
-    }
+        #pdf-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            /* Tambahkan */
+        }
 
-    .pdf-page {
-        margin: 0 auto;
-        display: block;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        margin-bottom: 20px;
-        /* Menambahkan ruang antara halaman */
-    }
+        #pdf-controls2 button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            margin: 5px;
+            /* Tambahkan */
+        }
 
-    canvas {
-        display: block;
-        margin: 0 auto;
-    }
+        #pdf-controls2 #back-icon {
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: 10px;
+            /* Tambahkan */
+        }
 
-    /* Gaya untuk tombol panah */
-    .arrow-btn {
-        position: fixed;
-        width: 40px;
-        height: 40px;
-        background-color: rgba(255, 255, 255, 0.8);
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        z-index: 999;
-    }
+        #zoom-controls {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
 
-    .arrow-btn i {
-        font-size: 24px;
-        color: #333;
-    }
+        #zoom-controls label {
+            margin-right: 5px;
+            top: 90px;
+            /* Tambahkan */
+        }
 
-    .arrow-left {
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+        #pdf-container {
+            position: relative; /* Tambahkan */
+            max-width: 100%;
+            height: 80vh;
+            /* Ganti dari 100vh menjadi 80vh */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* position: relative; */
+            /* Tambahkan */
+            /* Tambahkan margin bottom */
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
 
-    .arrow-right {
-        right: 10px;
-        bottom: 20px;
-    }
+        canvas {
+            position: relative;
+            left: 0; 
+            width: 105%; 
+            height: 110%; 
+            object-fit: contain;
+        }
     </style>
 </head>
 
 <body>
-    <div id="pdf-container">
-        <!-- Tombol panah kiri -->
-        <div class="arrow-btn arrow-left" onclick="scrollToNextPage('up')">
-            <i class="fas fa-arrow-up"></i>
+    <div id="pdf-controls2">
+        <div id="zoom-controls">
+            <label for="zoom-slider">Zoom:</label>
+            <input type="range" id="zoom-slider" min="0.5" max="2" step="0.1" value="1">
         </div>
-
-        <!-- Tombol panah kanan -->
-        <div class="arrow-btn arrow-right" onclick="scrollToNextPage('down')">
-            <i class="fas fa-arrow-down"></i>
+        <div id="pdf-container">
+            <canvas id="pdf-render"></canvas>
+        </div>
+    </div>
+    <div id="pdf-controls">
+        <div id="page-controls">
+            <button id="prev-page">Prev</button>
+            <button id="next-page">Next</button>
         </div>
     </div>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
     <script>
-    // Path ke PDF
-    var pdfPath = "<?php echo $pdfPath; ?>";
+        let pdfInstance = null;
+        let currentPage = 1;
+        let numPages = 0;
+        let zoomLevel = 1;
 
-    // Memuat PDF
-    var loadingTask = pdfjsLib.getDocument(pdfPath);
-    loadingTask.promise.then(function(pdf) {
-        // Loop untuk memuat setiap halaman PDF
-        for (var pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            pdf.getPage(pageNum).then(function(page) {
-                var scale = 1.5;
-                var viewport = page.getViewport({
-                    scale: scale
+        function renderPage(pageNumber) {
+            if (!pdfInstance) return;
+            pdfInstance.getPage(pageNumber).then(function(page) {
+                const viewport = page.getViewport({
+                    scale: zoomLevel
                 });
-
-                // Membuat elemen canvas untuk menampilkan halaman PDF
-                var canvas = document.createElement("canvas");
-                var context = canvas.getContext("2d");
+                const canvas = document.getElementById('pdf-render');
+                const context = canvas.getContext('2d');
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
-
-                // Membuat elemen div untuk menampung canvas
-                var pdfContainer = document.getElementById("pdf-container");
-                var pdfPage = document.createElement("div");
-                pdfPage.classList.add("pdf-page");
-                pdfPage.appendChild(canvas);
-                pdfContainer.appendChild(pdfPage);
-
-                // Render halaman PDF ke dalam elemen canvas
-                var renderContext = {
+                const renderContext = {
                     canvasContext: context,
                     viewport: viewport
                 };
                 page.render(renderContext);
             });
         }
-    });
 
-    // Fungsi untuk menggulir halaman ke atas atau ke bawah
-    function scrollToNextPage(direction) {
-        var container = document.getElementById("pdf-container");
-        if (direction === 'up') {
-            container.scrollBy(0, -150); 
-        } else if (direction === 'down') {
-            container.scrollBy(0, 150); 
-        }
-    }
+        const pdfPath = '<?php echo $pdf_path; ?>';
+        pdfjsLib.getDocument(pdfPath).promise.then(function(pdf) {
+            pdfInstance = pdf;
+            numPages = pdf.numPages;
+            renderPage(currentPage);
+        }).catch(function(error) {
+            console.error('Error loading PDF:', error);
+        });
+
+        document.getElementById('prev-page').addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+            }
+        });
+
+        document.getElementById('next-page').addEventListener('click', function() {
+            if (currentPage < numPages) {
+                currentPage++;
+                renderPage(currentPage);
+            }
+        });
+
+        document.getElementById('zoom-slider').addEventListener('input', function() {
+            zoomLevel = parseFloat(document.getElementById('zoom-slider').value);
+            renderPage(currentPage);
+        });
     </script>
 </body>
 
 </html>
-
-
