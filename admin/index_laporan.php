@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Assuming $role is set in your session or obtained from the database
-$role = isset($_SESSION['role']) ? $_SESSION['role'] : ""; 
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : "";
 
 function getJumlahPeminjam($bulan)
 {
@@ -384,19 +384,19 @@ $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
                     </button>
 
                     <!-- Topbar Search -->
-                    
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php
+                                <?php
                                 if (isset($_SESSION['username'])) {
-                                    echo $_SESSION['username']; 
+                                    echo $_SESSION['username'];
                                 } else {
                                     echo "Pengguna";
                                 }
-                                ?>                                
+                                ?>
                                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -412,34 +412,41 @@ $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- End of Topbar -->
-
+               
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <label class="input-group-text" for="bulan">Bulan</label>
-        </div>
-        <select class="custom-select" id="bulan" name="bulan" onchange="filterBulan()">
-            <?php
-            $selected = '';
-            for ($i = 1; $i <= 12; $i++) {
-                $value = date('Y-m', mktime(0, 0, 0, $i, 1));
-                if ($value == $bulan) {
-                    $selected = 'selected';
-                } else {
-                    $selected = '';
-                }
-                echo "<option value='$value' $selected>" . date('F Y', mktime(0, 0, 0, $i, 1)) . "</option>";
-            }
-            ?>
-        </select>
-    </div>
                     <!-- Page Heading -->
-                 <!-- Tabel laporan peminjam -->
-                 <div class="container mt-4">
+                   
+                    <!-- Form untuk memilih bulan -->
+                    <form class="input-group mb-3" method="GET" action="generate_laporan.php">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="bulan">Bulan</label>
+                        </div>
+                        <select class="custom-select" id="bulan" name="bulan">
+                            <?php
+                            $selected = '';
+                            for ($i = 1; $i <= 12; $i++) {
+                                $value = date('Y-m', mktime(0, 0, 0, $i, 1));
+                                if ($value == $bulan) {
+                                    $selected = 'selected';
+                                } else {
+                                    $selected = '';
+                                }
+                                echo "<option value='$value' $selected>" . date('F Y', mktime(0, 0, 0, $i, 1)) . "</option>";
+                            }
+                            ?>
+                        </select>
+                        <!-- Tombol Generate Report -->
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Generate Report</button>
+                        </div>
+                    </form>
+
+                    <!-- Page Heading -->
+                    <!-- Tabel laporan peminjam -->
+                    <div class="container mt-4">
                         <h2 class="text-center">Laporan Peminjam</h2>
                         <table class="table">
                             <thead>
@@ -459,12 +466,12 @@ $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
                 </div>
 
             </div>
-                </div>
-
-            </div>
-
         </div>
-        <!-- /.container-fluid -->
+
+    </div>
+
+    </div>
+    <!-- /.container-fluid -->
 
     </div>
     <!-- End of Main Content -->
@@ -521,11 +528,11 @@ $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
     <script src="../dashboard/js/demo/chart-pie-demo.js"></script>
 
     <script>
-    function filterBulan() {
-        var bulan = document.getElementById("bulan").value;
-        window.location.href = "index_laporan.php?bulan=" + bulan;
-    }
-</script>
+        function filterBulan() {
+            var bulan = document.getElementById("bulan").value;
+            window.location.href = "index_laporan.php?bulan=" + bulan;
+        }
+    </script>
 </body>
 
 </html>

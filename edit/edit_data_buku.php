@@ -37,7 +37,19 @@ if (isset($_POST['submit'])) {
     $tahun_terbit = $_POST['tahun_terbit'];
     $isbn = $_POST['isbn'];
 
-    $sql = "UPDATE buku SET judul='$judul', pengarang='$pengarang', penerbit='$penerbit', tahun_terbit='$tahun_terbit', isbn='$isbn' WHERE buku_id=$buku_id";
+    // Handle PDF file upload
+    $pdf_path = ''; // Default value for PDF path
+    if ($_FILES['pdf']['name'] != '') {
+        $target_dir = "uploads/pdf/";
+        $target_file = $target_dir . basename($_FILES["pdf"]["name"]);
+        if (move_uploaded_file($_FILES["pdf"]["tmp_name"], $target_file)) {
+            $pdf_path = $target_file;
+        } else {
+            echo "Sorry, there was an error uploading your PDF file.";
+        }
+    }
+
+    $sql = "UPDATE buku SET judul='$judul', pengarang='$pengarang', penerbit='$penerbit', tahun_terbit='$tahun_terbit', isbn='$isbn', file_pdf='$pdf_path' WHERE buku_id=$buku_id";
 
     if ($conn->query($sql) === TRUE) {
         echo "Record updated successfully";
@@ -490,8 +502,10 @@ if (isset($_POST['submit'])) {
                                         <input type="text" id="penerbit" name="penerbit" value="<?php echo $row['penerbit']; ?>"><br>
                                         <label for="tahun_terbit">Tahun Terbit:</label>
                                         <input type="text" id="tahun_terbit" name="tahun_terbit" value="<?php echo $row['tahun_terbit']; ?>"><br>
-                                        <label for="tahun_terbit">Cover :</label>
-                                        <input type="file" id="cover" name="cover">
+                                        <label for="cover">Cover:</label>
+                                        <input type="file" id="cover" name="cover"><br>
+                                        <label for="pdf">PDF:</label> <!-- Tambahkan label untuk file PDF -->
+                                        <input type="file" id="pdf" name="pdf"><br> <!-- Tambahkan input untuk file PDF -->
                                         <label for="ketersediaan">Ketersediaan:</label>
                                         <select id="ketersediaan" name="ketersediaan">
                                             <option value="1">1</option>
@@ -503,6 +517,7 @@ if (isset($_POST['submit'])) {
 
                                         <input type="submit" value="Submit">
                                     </form>
+
                             <?php
                                 } else {
                                     echo "Data buku tidak ditemukan.";

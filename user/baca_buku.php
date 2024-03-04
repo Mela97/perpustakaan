@@ -110,7 +110,7 @@ if (isset($_GET['id_buku'])) {
 <body>
     <div id="pdf-controls2">
         <div id="zoom-controls">
-            <label for="zoom-slider">Zoom:</label>
+            <label for="zoom-slider">HD:</label>
             <input type="range" id="zoom-slider" min="0.5" max="2" step="0.1" value="1">
         </div>
         <div id="pdf-container">

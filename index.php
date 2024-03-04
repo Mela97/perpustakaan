@@ -1,5 +1,8 @@
 <?php
 include 'koneksi.php';
+// Query to fetch book categories
+$categoryQuery = "SELECT kategori_id, nama_kategori FROM buku_kategori";
+$categoryResult = mysqli_query($conn, $categoryQuery);
 ?>
 
 <!DOCTYPE html>
@@ -120,6 +123,24 @@ include 'koneksi.php';
                 margin-bottom: 5px;
             }
         }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar-search {
+            background-color: #e8e8e8;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .form-control {
+            background-color: transparent;
+            border: none;
+            border-radius: 10px;
+        }
     </style>
 
 </head>
@@ -131,7 +152,7 @@ include 'koneksi.php';
 
 
         <!-- Sidebar -->
-       
+
         <!-- End of Sidebar -->
 
 
@@ -145,25 +166,29 @@ include 'koneksi.php';
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
-
-                    <!-- Logo -->
                     <a class="navbar-brand" href="#">
                         <img src="logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
                     </a>
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 navbar-search" style="max-width: 300px;">
-                        <div class="input-group">
-                            <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Cari Buku, Penulis" aria-label="Search" aria-describedby="basic-addon2">
-                        </div>
-                    </form>
-
-                    <!-- Navbar Authentication Options -->
+                    <ul class="navbar-nav mr-autoo">
+                        <li class="nav-item dropdown ml-auto">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Kategori
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <?php while ($category = mysqli_fetch_assoc($categoryResult)) : ?>
+                                <button class="dropdown-item" onclick="filterBooks(<?php echo $category['kategori_id']; ?>)"><?php echo $category['nama_kategori']; ?></button>
+                            <?php endwhile; ?>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 navbar-search" style="max-width: 300px;">
+                            <div class="input-group">
+                                <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Cari Buku, Penulis" aria-label="Search" aria-describedby="basic-addon2">
+                            </div>
+                        </form>
+                    </div>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <h6 class="nav-link font-weight-bold">
@@ -180,8 +205,10 @@ include 'koneksi.php';
                             </h6>
                         </li>
                     </ul>
-
                 </nav>
+
+
+
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -213,7 +240,7 @@ include 'koneksi.php';
                         // Menampilkan data buku
                         while ($row = $result->fetch_assoc()) {
                     ?>
-                            <div class="card" style="width: 210px; height: 320px;">
+                            <div data-category-id="<?php echo $row['kategori_id']; ?>" class="searchable card" style="width: 210px; height: 320px;">
                                 <img src="proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 210px; object-fit: cover;">
                                 <div class="card-body" style="padding: 10px;">
                                     <h5 class="card-title judul" style="font-size: 20px; color: black;"><?php echo $row['judul']; ?></h5>
@@ -379,6 +406,20 @@ include 'koneksi.php';
                 }
             });
         });
+    </script>
+
+    <script>
+        function filterBooks(categoryId) {
+        $(".searchable").each(function() {
+            if (categoryId === null || $(this).data('category-id') === categoryId) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+        // Tampilkan kembali rekomendasi buku setelah melakukan filter
+        $(".recommendation").show();
+    }
     </script>
 
 </body>
