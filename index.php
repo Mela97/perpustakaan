@@ -25,6 +25,11 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
     <!-- Custom styles for this template-->
     <link href="dashboard/css/sb-admin-2.min.css" rel="stylesheet">
     <style>
+        h3 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -66,6 +71,8 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
             margin-bottom: 25px;
             margin-left: 17px;
             box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
+            width: 210px;
+
         }
 
 
@@ -106,7 +113,7 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
             color: #333;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 800px) {
             .footer {
                 padding: 15px 0;
             }
@@ -121,6 +128,11 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
 
             .footer-contact-info li {
                 margin-bottom: 5px;
+            }
+
+            .container-fluid {
+                padding-top: 120px;
+                /* Adjust padding for smaller screens if needed */
             }
         }
 
@@ -159,14 +171,14 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column" style="padding-top: 80px;">
+        <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="index.php">
                         <img src="logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
                     </a>
 
@@ -176,9 +188,9 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
                                 Kategori
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <?php while ($category = mysqli_fetch_assoc($categoryResult)) : ?>
-                                <button class="dropdown-item" onclick="filterBooks(<?php echo $category['kategori_id']; ?>)"><?php echo $category['nama_kategori']; ?></button>
-                            <?php endwhile; ?>
+                                <?php while ($category = mysqli_fetch_assoc($categoryResult)) : ?>
+                                    <button class="dropdown-item" onclick="filterBooks(<?php echo $category['kategori_id']; ?>)"><?php echo $category['nama_kategori']; ?></button>
+                                <?php endwhile; ?>
                             </div>
                         </li>
                     </ul>
@@ -212,48 +224,44 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <h1>Daftar Buku</h1>
+                <div class="container-fluid" style="padding-top: 75px; ">
+                    <h3>Masuk Untuk Buku</h3>
                     <?php
-                    // Koneksi ke database
-                    $host = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $database = "perpustakaan_digital";
-
-                    // Membuat koneksi
-                    $conn = new mysqli($host, $username, $password, $database);
-
-
-                    // Periksa koneksi
-                    if ($conn->connect_error) {
-                        die("Koneksi Gagal: " . $conn->connect_error);
-                    }
-
                     // Query untuk mengambil data buku dan ulasannya
                     $sql = "SELECT b.*, GROUP_CONCAT(u.ulasan SEPARATOR '<br>') AS ulasan FROM buku b LEFT JOIN buku_ulasan u ON b.buku_id = u.buku_id GROUP BY b.buku_id";
                     $result = $conn->query($sql);
 
-                    // Periksa apakah ada hasil
+                    // Batasan jumlah buku yang ditampilkan
+                    $max_books = 8;
+                    $counter = 0; // Variabel untuk menghitung jumlah buku yang sudah ditampilkan
+
+                    // Periksa apakah ada hasil dan masih dalam batasan
                     if ($result->num_rows > 0) {
                         // Menampilkan data buku
                         while ($row = $result->fetch_assoc()) {
+                            // Periksa apakah sudah mencapai jumlah maksimum buku yang ingin ditampilkan
+                            if ($counter >= $max_books) {
+                                break; // Hentikan iterasi jika sudah mencapai jumlah maksimum
+                            }
                     ?>
+                    
                             <div data-category-id="<?php echo $row['kategori_id']; ?>" class="searchable card" style="width: 210px; height: 320px;">
                                 <img src="proses/uploads/<?php echo $row['cover']; ?>" class="card-img-top" alt="Cover Image" style="width: 100%; height: 210px; object-fit: cover;">
-                                <div class="card-body" style="padding: 10px;">
-                                    <h5 class="card-title judul" style="font-size: 20px; color: black;"><?php echo $row['judul']; ?></h5>
+                                <div class="card-body" style="padding: 5px;">
+                                    <h5 class="card-title judul" style="font-size: 20px; color: black;"><?php echo $row['judul']; ?>
+                                    </h5>
                                     <p class="card-text penulis" style="font-size: 16px;"><?php echo isset($row['penulis']) ? $row['penulis'] : 'Unknown'; ?></p>
-                                    <!-- Tampilkan ulasan -->
                                 </div>
                             </div>
                     <?php
+                            $counter++; // Tambahkan counter setiap kali buku ditampilkan
                         }
                     } else {
                         echo "Tidak ada buku yang tersedia.";
                     }
                     ?>
+
+
                 </div>
 
 
@@ -410,16 +418,16 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
 
     <script>
         function filterBooks(categoryId) {
-        $(".searchable").each(function() {
-            if (categoryId === null || $(this).data('category-id') === categoryId) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
-        // Tampilkan kembali rekomendasi buku setelah melakukan filter
-        $(".recommendation").show();
-    }
+            $(".searchable").each(function() {
+                if (categoryId === null || $(this).data('category-id') === categoryId) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+            // Tampilkan kembali rekomendasi buku setelah melakukan filter
+            $(".recommendation").show();
+        }
     </script>
 
 </body>

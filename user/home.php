@@ -174,6 +174,61 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
             border: none;
             border-radius: 10px;
         }
+
+        p{
+              color: #777;
+        }
+        footer {
+            background-color: #f7f7f7;
+            padding: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .footer-description {
+            margin-bottom: 15px;
+        }
+
+        .footer-contact-info {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-contact-info li {
+            margin-bottom: 10px;
+        }
+
+        .footer-contact-info a {
+            color: #777;
+            text-decoration: none;
+        }
+
+        .footer-contact-info a:hover {
+            color: #333;
+        }
+
+        @media (max-width: 800px) {
+            .footer {
+                padding: 15px 0;
+            }
+
+            .footer-logo {
+                max-width: 150px;
+            }
+
+            .footer-description {
+                margin-bottom: 10px;
+            }
+
+            .footer-contact-info li {
+                margin-bottom: 5px;
+            }
+
+            .container-fluid {
+                padding-top: 120px;
+                /* Adjust padding for smaller screens if needed */
+            }
+        }
     </style>
 
 </head>
@@ -306,13 +361,11 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
                                         <form action="ulasan.php" method="GET">
                                             <input type="hidden" value="<?php echo $row['buku_id']; ?>" name="buku_id">
                                             <button type="submit" class="btn btn-sm btn-primary1" name="ulasan_btn">
-                                                <i class="fas fa-comment-alt fa-fw"></i> Ulasan
+                                                Detail
                                             </button>
                                         </form>
                                     </div>
                                 </div>
-
-
                     <?php
                             }
                         }
@@ -330,8 +383,53 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
     <!-- End of Main Content -->
 
     <!-- Footer -->
+    <footer class="sticky-footer" style="background-color: #176B87; border-top: 1px solid #176B87; padding: 2px 0; margin-bottom: -20px;">
+        <div class="container text-center">
+            <h5 style="font-weight: bold;color: white; display: inline-block; font-size: 14px;">Jam Operasional Perpus Smea:</h5>
+            <p style="display: inline-block; margin-bottom: 0; color: white; font-size: 14px;">Senin-Jumat 08.00 - 16.00 WIB</p>
+        </div>
+    </footer>
 
-    <!-- End of Footer -->
+    <footer class="sticky-footer" style="padding-top: 20px; padding-bottom: 20px; margin-top: 20px; border-top: 2px solid #e9ecef; box-shadow: none;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2" style="margin-top: 20px; display: flex; flex-direction: column; align-items: flex-start;">
+                    <img src="../logo.png" alt="Logo Perpustakaan Digital" class="footer-logo" style="width: 80px; height: auto;">
+                    <p style="font-weight: bold; color: black; text-align: center; margin-top: 5px; margin-left: 15px;">SMEA</p>
+                </div>
+
+                <div class="col-md-5" style="margin-top: 5px;">
+                    <h5 style=" font-weight: bold;color: #191919;">Tentang Kami</h5>
+                    <p>Perpustakaan Digital Smea adalah sebuah platform yang menyediakan akses ke berbagai macam buku elektronik dan sumber daya belajar lainnya. Platform ini dirancang untuk memudahkan pengguna dalam menemukan dan membaca buku yang mereka inginkan.</p>
+                </div>
+                <div class="col-md-3">
+                    <ul class="footer-contact-info" style="margin-top: 10px;">
+                        <h5 style=" font-weight: bold;color: #191919;">Alamat</h5>
+                        <li><a href="#">Jl. KH. Mustofa Lingk. Parunglesang, RT.05/RW.10, Banjar, Kec. Banjar, Kota Banjar, Jawa Barat 46311</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <ul class="footer-contact-info" style="margin-top: 10px; list-style: none; padding-left: 0;">
+                        <h5 style=" font-weight: bold;color: #191919;">Kontak</h5>
+                        <li style="display: inline-block; margin-right: 10px;"><a href="#">Telepon:(0265)-741722</a></li>
+                        <li style="display: inline-block; margin-right: 10px;"><a href="https://www.instagram.com/smknegeri1banjar/"><i class="fab fa-instagram"></i></a></li>
+                        <li style="display: inline-block; margin-right: 10px;"><a href="https://twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <footer class="sticky-footer" style="background-color: #176B87; border-top: 1px solid #176B87; padding: 6px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p style="color: white; font-size: 14px; margin-bottom: 0;">&copy; Perpustakaan Digital Smea 2024</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
 
     </div>
     <!-- End of Content Wrapper -->

@@ -189,7 +189,7 @@ if ($result_user->num_rows > 0) {
                     </button>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Navbar Akun Pengguna -->
                     <ul class="navbar-nav ml-auto">
@@ -239,22 +239,23 @@ if ($result_user->num_rows > 0) {
                             echo '<div class="searchable card" style="width: 200px; height: 380px;">';
                             echo '<img src="../proses/uploads/' . $row['cover'] . '" class="card-img-top" alt="Cover Buku" style="width: 100%; height: 200px; object-fit: cover;">';
                             echo '<div class="card-body">';
-                            
+
                             // Mengatur ukuran font judul
                             echo '<h5 class="card-title" style="font-size: 18px;">' . $row['judul'] . '</h5>';
-                            
+
                             echo '<p class="card-text" style="font-size: 15px;">Penulis: <span class="small" style="font-size: 15px;">' . $row['penulis'] . '</span></p>';
                             echo '<p class="card-text" style="font-size: 12px;">Kategori: <span class="small" style="font-size: 12px;">' . $row['nama_kategori'] . '</span></p>';
                             echo '<div class="d-flex justify-content-end">';
-                            echo '<button class="btn btn-sm btn-danger" onclick="hapusBookmark(' . $row['buku_id'] . ')">Hapus</button>';
+                            echo '<button class="btn btn-sm btn-danger" onclick="hapusBookmark(' . $row['buku_id'] . ')"><i class="fas fa-heart-broken"></i></button>';
                             echo '</div>';
                             echo '</div>';
                             echo '</div>';
-                        }                        
+                        }       
                     } else {
                         echo "Anda belum menandai buku apa pun sebagai favorite.";
                     }
                     ?>
+
 
                     <script>
                         function showModalJudulLengkap(element) {
@@ -377,41 +378,37 @@ if ($result_user->num_rows > 0) {
         });
     </script>
 
-<script>
-    $(document).ready(function(){
-        // Add an input event listener to the search input
-        $("#searchInput").on("input", function() {
-            let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
+    <script>
+        $(document).ready(function() {
+            // Add an input event listener to the search input
+            $("#searchInput").on("input", function() {
+                let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
 
-            // Keep track if any results are found
-            let resultsFound = false;
+                // Keep track if any results are found
+                let resultsFound = false;
 
-            // Loop through each searchable card
-            $(".searchable").each(function() {
-                let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
+                // Loop through each searchable card
+                $(".searchable").each(function() {
+                    let cardText = $(this).text().toLowerCase(); // Get the text content of the card and convert to lowercase
 
-                // Check if the card text contains the search term
-                if (cardText.includes(searchTerm)) {
-                    $(this).show(); // If yes, show the card
-                    resultsFound = true; // Mark that results are found
+                    // Check if the card text contains the search term
+                    if (cardText.includes(searchTerm)) {
+                        $(this).show(); // If yes, show the card
+                        resultsFound = true; // Mark that results are found
+                    } else {
+                        $(this).hide(); // If no, hide the card
+                    }
+                });
+
+                // Show/hide the no results message based on resultsFound
+                if (resultsFound) {
+                    $("#noResultsMessage").hide();
                 } else {
-                    $(this).hide(); // If no, hide the card
+                    $("#noResultsMessage").show();
                 }
             });
-
-            // Show/hide the no results message based on resultsFound
-            if (resultsFound) {
-                $("#noResultsMessage").hide();
-            } else {
-                $("#noResultsMessage").show();
-            }
         });
-    });
-
-
-    
-
-</script>
+    </script>
 </body>
 
 </html>
