@@ -1,7 +1,10 @@
 <?php
-// Pastikan koneksi ke database sudah dilakukan sebelumnya
-include_once "koneksi.php";
-
+include('koneksi.php');
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 // Pastikan parameter id peminjaman telah diterima
 if (isset($_GET['id'])) {
     // Tangkap nilai id dari parameter

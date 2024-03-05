@@ -1,11 +1,10 @@
 <?php
 session_start();
 include('koneksi.php');
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location:../login.php");
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
 }
-
 // Assuming $role is set in your session or obtained from the database
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : "";
 
@@ -412,13 +411,13 @@ $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
                 </nav>
                 <!-- End of Topbar -->
 
-               
+
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                   
+
                     <!-- Form untuk memilih bulan -->
                     <form class="input-group mb-3" method="GET" action="generate_laporan.php">
                         <div class="input-group-prepend">
@@ -446,23 +445,7 @@ $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
 
                     <!-- Page Heading -->
                     <!-- Tabel laporan peminjam -->
-                    <div class="container mt-4">
-                        <h2 class="text-center">Laporan Peminjam</h2>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Bulan</th>
-                                    <th>Jumlah Peminjam</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><?php echo date('F Y', strtotime($bulan)); ?></td>
-                                    <td><?php echo getJumlahPeminjam($bulan); ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+
                 </div>
 
             </div>

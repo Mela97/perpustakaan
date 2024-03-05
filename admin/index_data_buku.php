@@ -1,6 +1,10 @@
 <?php
 include('koneksi.php');
 session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 $role = $_SESSION['role'];
 ?>
 <!DOCTYPE html>
@@ -384,7 +388,10 @@ $role = $_SESSION['role'];
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h2 class="h3 mb-0 text-gray-800">Data Buku</h2>
                     </div>
+
                     <a href="../create/create_data_buku.php" class="mb-4 btn btn-primary1">Tambah Buku</a>
+                    <a href="../create/create_kategori.php" class="mb-4 btn btn-primary1">Tambah Kategori Buku</a>
+                  
 
                     <div class="searchable row">
                         <div class="col-xl-12 col-md-6 mb-4">
@@ -601,6 +608,17 @@ $role = $_SESSION['role'];
             });
         });
     </script>
+
+<script>
+    $(document).ready(function() {
+        // Ketika tombol "Tambah Kategori Baru" diklik
+        $("#btnTambahKategori").click(function() {
+            // Toggle tampilan form tambah kategori
+            $("#formTambahKategori").toggle();
+        });
+    });
+</script>
+
 
 </body>
 

@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Peminjam</title>
-</head>
-<body>
-
 <?php
 // Include database connection
 include('koneksi.php');
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Tangkap data yang dikirim dari formulir edit peminjam
@@ -70,8 +66,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Close connection
-$conn->close();
-?>
 
-</body>
-</html>
+?>

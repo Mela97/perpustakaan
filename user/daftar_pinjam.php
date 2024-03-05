@@ -1,6 +1,10 @@
 <?php
-include 'koneksi.php';
+include('koneksi.php');
 session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 // Koneksi ke database
 $servername = "localhost";
 $username = "root";

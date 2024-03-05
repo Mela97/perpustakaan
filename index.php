@@ -172,7 +172,7 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
 
                     <ul class="navbar-nav mr-autoo">
                         <li class="nav-item dropdown ml-auto">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#164863;">
                                 Kategori
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">

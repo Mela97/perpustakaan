@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit();
 }
@@ -203,18 +203,27 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
                         <img src="../logo.png" width="50" height="55" class="d-inline-block align-top" alt="Your Logo">
                     </a>
 
-                    <ul class="navbar-nav mr-autoo">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item dropdown ml-auto">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#164863;">
                                 Kategori
                             </a>
+
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <?php while ($category = mysqli_fetch_assoc($categoryResult)) : ?>
-                                    <button class="dropdown-item" onclick="filterBooks(<?php echo $category['kategori_id']; ?>)"><?php echo $category['nama_kategori']; ?></button>
-                                <?php endwhile; ?>
+                                <?php
+                                $colors = array("category-color-1", "category-color-2", "category-color-3", "category-color-4"); // Array warna kategori
+                                $color_index = 0; // Indeks untuk memilih warna
+                                while ($category = mysqli_fetch_assoc($categoryResult)) :
+                                ?>
+                                    <button class="dropdown-item <?php echo $colors[$color_index]; ?>" onclick="filterBooks(<?php echo $category['kategori_id']; ?>)"><?php echo $category['nama_kategori']; ?></button>
+                                <?php
+                                    $color_index = ($color_index + 1) % count($colors); // Pindah ke warna berikutnya dalam loop
+                                endwhile;
+                                ?>
                             </div>
                         </li>
                     </ul>
+
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">

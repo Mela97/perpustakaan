@@ -1,5 +1,10 @@
 <?php
+include('koneksi.php');
 session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 
 // Check if there's a notification message in the session
 if (isset($_SESSION['notification'])) {

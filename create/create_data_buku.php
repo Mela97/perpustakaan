@@ -1,9 +1,12 @@
 <?php
+include('koneksi.php');
 session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 $role = $_SESSION['role'];
 
-// Include database connection
-include('koneksi.php');
 
 // Check if the form data is set
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tahun = $_POST["tahun"];
     $kategori_id = $_POST["kategori"];
     $perpus_id = $_POST["perpus_id"];
-    $ketersediaan = $_POST["ketersediaan"]; 
+    $ketersediaan = $_POST["ketersediaan"];
 
     // Handle file upload
     $cover = $_FILES["cover"];
@@ -45,6 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
