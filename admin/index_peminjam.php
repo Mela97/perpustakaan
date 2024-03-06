@@ -374,7 +374,7 @@ $result = $conn->query($query) or die($conn->error);
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h2 class="h3 mb-0 text-gray-800">Data Peminjam</h2>
                     </div>
-                    <a href="../create/create_peminjam.php" class="mb-4 btn btn-primary1">Tambah Peminjam</a>
+                    <a href="../create/create_peminjam.php" class="mb-4 btn btn-primary1">Tambah Peminjaman</a>
                     <div class="row">
                         <div class="col-xl-12 col-md-6 mb-4">
                             <?php

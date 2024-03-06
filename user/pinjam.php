@@ -6,7 +6,6 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-
 if (!isset($_SESSION['email'])) {
     echo "Anda belum masuk. Silakan masuk terlebih dahulu.";
     exit();
@@ -19,12 +18,6 @@ if (!isset($_GET['id_buku'])) {
 
 $bukuId = $_GET['id_buku'];
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "perpustakaan_digital";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
 $email = $_SESSION['user_id'];
 $usernameuser = $_SESSION['username'];
 $userid = $_SESSION['user_id'];
@@ -45,8 +38,12 @@ if (mysqli_num_rows($peminjaman) > 0) {
     $ketersediaan = $fetchbuku['ketersediaan'];
     $removeketersediaan = $ketersediaan - 1;
     $updateketersediaan = mysqli_query($conn, "UPDATE buku SET ketersediaan='$removeketersediaan' WHERE buku_id='$bukuId'");
-    $result = mysqli_query($conn, "INSERT INTO peminjaman (perpus_id, buku_id, tanggal_pinjam, user_id,username, tanggal_kembali, status_peminjam) VALUES (1, '$bukuId','$tanggalnow', '$userid','$usernameuser', '0000-00-00', 'dipinjam')");
-    //var_dump($conn);
+    
+    // Mengatur tanggal kembali
+    $tanggal_kembali = date('Y-m-d', strtotime($tanggalnow . ' + 7 days')); // Misalnya, diatur menjadi 7 hari dari tanggal pinjam
+    
+    $result = mysqli_query($conn, "INSERT INTO peminjaman (perpus_id, buku_id, tanggal_pinjam, user_id, username, tanggal_kembali, status_peminjam) VALUES (1, '$bukuId', '$tanggalnow', '$userid', '$usernameuser', '$tanggal_kembali', 'dipinjam')");
+    
     $_SESSION['notif'] = "Buku berhasil dipinjam";
     header("Location: home.php");
 }

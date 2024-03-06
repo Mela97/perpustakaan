@@ -422,7 +422,7 @@ $role = $_SESSION['role'];
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="col">
-                        <h2>Tambah Peminjam</h2>
+                        <h2>Tambah Peminjaman</h2>
                     </div>
                     <!-- Page Heading -->
                     <?php
@@ -437,15 +437,15 @@ $role = $_SESSION['role'];
 
                         // Query untuk menambahkan data peminjam baru
                         $query = "INSERT INTO `peminjaman` (`tanggal_pinjam`, `username`,`status_peminjam`)
-              VALUES ('$tanggal_pinjam', '$username','$status_peminjam')";
+                    VALUES ('$tanggal_pinjam', '$username','$status_peminjam')";
 
-                        if ($conn->query($query)) {
-                            echo "Data peminjam berhasil ditambahkan. <a href='../admin/index_peminjam.php'>Kembali ke Daftar Peminjam</a>";
-                        } else {
-                            echo "Error: " . $conn->error;
-                        }
-                    }
-                    ?>
+                                if ($conn->query($query)) {
+                                    echo "Data peminjam berhasil ditambahkan. <a href='../admin/index_peminjam.php'>Kembali ke Daftar Peminjam</a>";
+                                } else {
+                                    echo "Error: " . $conn->error;
+                                }
+                            }
+                            ?>
 
                     <form action="../proses/proses_peminjam.php" method="post">
                         <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
@@ -480,8 +480,18 @@ $role = $_SESSION['role'];
                             window.onload = setDefaultDates;
                         </script>
 
-                        <label for="username">Nama Peminjam:</label>
-                        <input type="text" name="username" required><br>
+                  <label for="username">Nama Peminjam:</label>
+                    <input type="text" id="search" onkeyup="searchUser()" placeholder="Cari akun pengguna...">
+                    <select name="username" id="username" required>
+                        <option value="">Pilih Nama Peminjam</option>
+                        <?php
+                        // Ambil data email dari tabel pengguna
+                        $result = mysqli_query($conn, "SELECT email FROM user");
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<option value='" . $row['email'] . "'>" . $row['email'] . "</option>";
+                        }
+                        ?>
+                    </select>
 
                         <label for="buku_id">Judul Buku:</label>
                         <select name="buku_id" required>
@@ -558,6 +568,22 @@ $role = $_SESSION['role'];
     <script src="../dashboard/js/demo/chart-area-demo.js"></script>
     <script src="../dashboard/js/demo/chart-pie-demo.js"></script>
 
+    <script>
+    function searchUser() {
+        var input, filter, select, option, i;
+        input = document.getElementById("search");
+        filter = input.value.toUpperCase();
+        select = document.getElementById("username");
+        option = select.getElementsByTagName("option");
+        for (i = 0; i < option.length; i++) {
+            if (option[i].innerText.toUpperCase().indexOf(filter) > -1) {
+                option[i].style.display = "";
+            } else {
+                option[i].style.display = "none";
+            }
+        }
+    }
+</script>
 </body>
 
 </html>

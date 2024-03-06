@@ -464,105 +464,86 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="row">
                         <div class="col-xl-12 col-md-6 mb-4">
-                            <form action="../proses/proses_data_buku.php" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
-                                <div class="form-group">
-                                    <label for="judul">Judul:</label>
-                                    <input type="text" name="judul" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="penulis">Penulis:</label>
-                                    <input type="text" name="penulis" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="penerbit">Penerbit:</label>
-                                    <input type="text" name="penerbit" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="tahun">Tahun Terbit:</label>
-                                    <input type="number" name="tahun" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="deskripsi">Deskripsi:</label>
-                                    <textarea name="deskripsi" rows="4" required></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="kategori">Kategori:</label>
-                                    <select class='form-control' name="kategori" required>
-                                        <option value="" disabled selected>Pilih</option>
-                                        <?php
-                                        // Include database connection
-                                        include('koneksi.php');
-
-                                        // Fetch all categories from the database
-                                        $query = "SELECT * FROM `buku_kategori`";
-                                        $result = $conn->query($query) or die($conn->error);
-
-                                        // Check if there are any categories
-                                        if ($result->num_rows > 0) {
-                                            // Output options for each category
-                                            while ($row = $result->fetch_assoc()) {
-                                                echo "<option value='{$row['kategori_id']}'>{$row['nama_kategori']}</option>";
-                                            }
-                                        } else {
-                                            echo "<option value='' disabled>Tidak ada kategori tersedia</option>";
-                                        }
-
-                                        // Close connection
-                                        $conn->close();
-                                        ?>
-                                    </select>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="cover">Cover</label>
-                                    <input type="file" name="cover" required>
-                                    < </div>
-
-                                        <div class="form-group">
-                                            <label for="ketersediaan">Ketersediaan:</label>
-                                            <select id="ketersediaan" name="ketersediaan">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select><br>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pdf">PDF</label>
-                                            <input type="file" name="pdf" required>
-                                        </div>
-
-                                        <!-- Skrip JavaScript untuk ekspor formulir sebagai PDF -->
-                                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-                                        <script>
-                                            function exportFormAsPDF() {
-                                                // Inisialisasi jsPDF
-                                                var doc = new jsPDF();
-
-                                                // Mengambil HTML formulir
-                                                var formHtml = document.getElementById('myForm').outerHTML;
-
-                                                // Menambahkan HTML formulir ke dokumen PDF
-                                                doc.html(formHtml, {
-                                                    callback: function(pdf) {
-                                                        // Menyimpan PDF dengan nama "formulir.pdf"
-                                                        pdf.save('formulir.pdf');
-                                                    }
-                                                });
-                                            }
-                                        </script>
-
-                                        <input type="submit" value="Tambah Buku">
-                            </form>
+                    <form action="../proses/proses_data_buku.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
+                        <div class="form-group">
+                            <label for="judul">Judul:</label>
+                            <input type="text" name="judul" class="form-control" required>
                         </div>
+
+                        <div class="form-group">
+                            <label for="penulis">Penulis:</label>
+                            <input type="text" name="penulis" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="penerbit">Penerbit:</label>
+                            <input type="text" name="penerbit" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tahun">Tahun Terbit:</label>
+                            <input type="number" name="tahun" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deskripsi">Deskripsi:</label>
+                            <textarea name="deskripsi" rows="4" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kategori">Kategori:</label>
+                            <select class="form-control" name="kategori" required>
+                                <option value="" disabled selected>Pilih</option>
+                                <?php
+                                // Include database connection
+                                include('koneksi.php');
+
+                                // Fetch all categories from the database
+                                $query = "SELECT * FROM `buku_kategori`";
+                                $result = $conn->query($query) or die($conn->error);
+
+                                // Check if there are any categories
+                                if ($result->num_rows > 0) {
+                                    // Output options for each category
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<option value='{$row['kategori_id']}'>{$row['nama_kategori']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value='' disabled>Tidak ada kategori tersedia</option>";
+                                }
+
+                                // Close connection
+                                $conn->close();
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cover">Cover:</label>
+                            <input type="file" name="cover" class="form-control-file" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ketersediaan">Ketersediaan:</label>
+                            <select id="ketersediaan" name="ketersediaan" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pdf">PDF:</label>
+                            <input type="file" name="pdf" class="form-control-file" required>
+                        </div>
+
+                        <input type="submit" value="Tambah Buku" class="btn btn-primary">
+                    </form>
+                </div>
+
                     </div>
 
                 </div>
