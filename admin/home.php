@@ -79,7 +79,7 @@ $role = $_SESSION["role"];
             margin-right: 10px;
         }
 
-        
+
         /* css tambahan */
         body {
             font-family: Arial, sans-serif;
@@ -107,6 +107,31 @@ $role = $_SESSION["role"];
         .dropdown-menu a.dropdown-item:hover {
             background-color: #427D9D;
             color: #ffffff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 100px;
+            max-height: 100px;
         }
     </style>
 
@@ -287,21 +312,21 @@ $role = $_SESSION["role"];
                     </button>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php
+                                <?php
                                 if (isset($_SESSION['username'])) {
-                                    echo $_SESSION['username']; 
+                                    echo $_SESSION['username'];
                                 } else {
                                     echo "Pengguna";
                                 }
                                 ?>
-                                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -474,14 +499,67 @@ $role = $_SESSION["role"];
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
 
+                <div class="searchable row">
+                    <div class="col-xl-12 col-md-6 mb-4">
+                        <?php
+                        // Establishing database connection
+                        $servername = "localhost";
+                        $username = "root";
+                        $password = "";
+                        $dbname = "perpustakaan_digital";
 
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+
+                        // Check the connection
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                        }
+
+                        // Fetch book data
+                        $sql = "SELECT * FROM buku";
+                        $result = $conn->query($sql);
+
+                        // Display book data in the table
+                        echo "<table border='1'>
+        <tr>
+            <th>Cover</th>
+            <th>Judul</th>
+            <th>Penulis</th>
+            <th>Kategori</th>
+        </tr>";
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>
+                <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
+                <td>{$row['judul']}</td>
+                <td>{$row['penulis']}</td>
+                <td>{$row['kategori_id']}</td>
+              </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='4'>No books found</td></tr>";
+                        }
+
+                        echo "</table>";
+
+                        $conn->close();
+                        ?>
+
+                    </div>
+                </div>
             </div>
 
+
         </div>
-        <!-- /.container-fluid -->
+
+    </div>
+    <!-- /.container-fluid -->
 
     </div>
     <!-- End of Main Content -->
