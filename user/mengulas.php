@@ -140,6 +140,12 @@ $conn->close();
             font-size: 13px;
         }
 
+        .card {
+            float: left;
+            margin-bottom: 25px;
+            margin-left: 15px;
+            box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
+        }
 
         .judul {
             color: #191919;
@@ -164,13 +170,13 @@ $conn->close();
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="padding-top: 80px;">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
 
                     <!-- Logo -->
                     <a class="navbar-brand" href="#">

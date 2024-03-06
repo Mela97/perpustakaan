@@ -488,15 +488,16 @@ $role = $_SESSION['role'];
                             echo "</table>";
                             $previous_page = ($page > 1) ? $page - 1 : 1;
                             $next_page = ($page < $total_halaman) ? $page + 1 : $total_halaman;
-
+                            
                             // Langkah 7: Buat tombol pagination
                             echo '<ul class="pagination justify-content-center">';
-                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
+                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '">&#9664;</a></li>';
                             for ($i = max(1, $page - 2); $i <= min($page + 2, $total_halaman); $i++) {
                                 echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
                             }
-                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
+                            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">&#9654;</a></li>';
                             echo '</ul>';
+                            
 
                             ?>
 

@@ -1,3 +1,6 @@
+.
+.
+.
 <?php
 session_start();
 
@@ -196,13 +199,13 @@ $result = $conn->query($sql);
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="padding-top: 80px;">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
 
                     <!-- Logo -->
                     <a class="navbar-brand" href="#">
@@ -239,8 +242,6 @@ $result = $conn->query($sql);
                             </div>
                         </li>
                     </ul>
-
-
                 </nav>
                 <!-- End of Topbar -->
 

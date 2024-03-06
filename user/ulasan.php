@@ -228,13 +228,13 @@ $conn->close();
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="padding-top: 90px;">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
 
                     <!-- Logo -->
                     <a class="navbar-brand" href="#">
@@ -247,44 +247,40 @@ $conn->close();
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input  id="searchInput"type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary1" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Navbar Akun Pengguna -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <?php
+                                if (isset($_SESSION['username'])) {
+                                    echo $_SESSION['username'];
+                                } else {
+                                    echo "Pengguna";
+                                }
+                                ?>
                                 <i class="fas fa-user-circle fa-fw fa-2x"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="daftar_bookmark.php"><i class="fas fa-heart"></i></i> Favorite</a>
+                                <a class="dropdown-item" href="daftar_bookmark.php"><i class="fas fa-heart"></i> Favorite</a>
                                 <a class="dropdown-item" href="mengulas.php"><i class="fas fa-comment-alt fa-fw"></i> Ulasan</a>
                                 <a class="dropdown-item" href="daftar_pinjam.php"><i class="fas fa-plus-circle fa-fw"></i> Pinjam Buku</a>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
+                                <a class="dropdown-item" href="riwayat_pinjam.php"><i class="fas fa-history fa-fw"></i> Riwayat Peminjaman</a>
+                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-fw"></i> Keluar</a>
                             </div>
-
                         </li>
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="col">
-                            <a class="btn btn-secondary btn-sm float-left mb-3" href="javascript:history.go(-1)">
-                                <i class="fas fa-arrow-left"></i>
-                            </a>
-                            <h4 class="float-left ml-3">Lihat Ulasan</h4>
-                        </div>
+                    <a class="btn btn-secondary btn-sm float-left mb-3" href="javascript:history.go(-1)">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h4 class="float-left ml-3">Lihat Ulasan</h4>
+                </div>
                 <div class="container-fluid d-flex flex-row">
                     <div class="container col-md-4">
                         <div class="card h-100 shadow-sm">
@@ -371,106 +367,104 @@ $conn->close();
                     </div>
                 </div>
 
-               <div class="container">
-    <h1>Ulasan Buku</h1>
-    <div class="reviews">
-        <?php
-        // Langkah 1: Koneksi ke database
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "perpustakaan_digital";
+                <div class="container">
+                    <h1>Ulasan Buku</h1>
+                    <div class="reviews">
+                        <?php
+                        // Langkah 1: Koneksi ke database
+                        $servername = "localhost";
+                        $username = "root";
+                        $password = "";
+                        $dbname = "perpustakaan_digital";
 
-        // Membuat koneksi
-        $conn = new mysqli($servername, $username, $password, $dbname);
+                        // Membuat koneksi
+                        $conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Memeriksa koneksi
-        if ($conn->connect_error) {
-            die("Koneksi gagal: " . $conn->connect_error);
-        }
+                        // Memeriksa koneksi
+                        if ($conn->connect_error) {
+                            die("Koneksi gagal: " . $conn->connect_error);
+                        }
 
-        // Mendapatkan buku_id dari parameter URL
-        $buku_id = isset($_GET['buku_id']) ? $_GET['buku_id'] : null;
+                        // Mendapatkan buku_id dari parameter URL
+                        $buku_id = isset($_GET['buku_id']) ? $_GET['buku_id'] : null;
 
-        // Memastikan buku_id tidak kosong dan merupakan angka
-        if (!empty($buku_id) && is_numeric($buku_id)) {
-            // Jumlah ulasan per halaman
-            $ulasan_per_halaman = 3;
+                        // Memastikan buku_id tidak kosong dan merupakan angka
+                        if (!empty($buku_id) && is_numeric($buku_id)) {
+                            // Jumlah ulasan per halaman
+                            $ulasan_per_halaman = 3;
 
-            // Halaman saat ini
-            $halaman = isset($_GET['page']) ? $_GET['page'] : 1;
+                            // Halaman saat ini
+                            $halaman = isset($_GET['page']) ? $_GET['page'] : 1;
 
-            // Hitung offset
-            $offset = ($halaman - 1) * $ulasan_per_halaman;
+                            // Hitung offset
+                            $offset = ($halaman - 1) * $ulasan_per_halaman;
 
-            // Kueri untuk mengambil ulasan berdasarkan halaman
-            $sql_ulasan = "SELECT buku_ulasan.*, buku.judul, user.username FROM buku_ulasan
-                            INNER JOIN buku ON buku_ulasan.buku_id = buku.buku_id
-                            INNER JOIN user ON buku_ulasan.user_id = user.user_id
-                            WHERE buku_ulasan.buku_id = $buku_id
-                            LIMIT $offset, $ulasan_per_halaman";
-            $result = $conn->query($sql_ulasan);
+                            // Kueri untuk mengambil ulasan berdasarkan halaman
+                            $sql_ulasan = "SELECT buku_ulasan.*, buku.judul, user.username FROM buku_ulasan
+            INNER JOIN buku ON buku_ulasan.buku_id = buku.buku_id
+            INNER JOIN user ON buku_ulasan.user_id = user.user_id
+            WHERE buku_ulasan.buku_id = $buku_id
+            LIMIT $offset, $ulasan_per_halaman";
+                            $result = $conn->query($sql_ulasan);
 
-            if ($result && $result->num_rows > 0) {
-                // Menampilkan ulasan
-                while ($row = $result->fetch_assoc()) {
-                    echo '<div class="review">';
-                    echo '<div class="reviewer">';
-                    echo '<span class="name">' . $row['username'] . '</span>';
-                    echo '</div>';
-                    echo '<div class="rating">';
-            
-                    // Menampilkan bintang berdasarkan rating dari database
-                    $rating = $row['rating']; 
-                    for ($i = 1; $i <= $rating; $i++) {
-                        echo '<span class="star filled">⭐</span>';
-                    }
-            
-                    echo '</div>';
-                    echo '<div class="description">';
-                    echo '<p>' . $row['ulasan'] . '</p>';
-                    echo '</div>';
-                    echo '</div>';
-                }
-            } else {
-                // Menampilkan pesan jika tidak ada ulasan
-                echo '<p>Tidak ada ulasan untuk buku ini.</p>';
-            }
+                            if ($result && $result->num_rows > 0) {
+                                // Menampilkan ulasan
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<div class="review">';
+                                    echo '<div class="reviewer">';
+                                    echo '<span class="name">' . $row['username'] . '</span>';
+                                    echo '</div>';
+                                    echo '<div class="rating">';
 
-            // Hitung total halaman
-            $sql_count = "SELECT COUNT(*) AS total FROM buku_ulasan WHERE buku_id = $buku_id";
-            $result_count = $conn->query($sql_count);
-            $row_count = $result_count->fetch_assoc();
-            $total_ulasan = $row_count['total'];
-            $total_halaman = ceil($total_ulasan / $ulasan_per_halaman);
+                                    // Menampilkan bintang berdasarkan rating dari database
+                                    $rating = $row['rating'];
+                                    for ($i = 1; $i <= $rating; $i++) {
+                                        echo '<span class="star filled">⭐</span>';
+                                    }
 
-            // Menampilkan navigasi halaman
-            echo '<div class="pagination">';
-            for ($i = 1; $i <= $total_halaman; $i++) {
-                echo '<a href="?buku_id=' . $buku_id . '&page=' . $i . '">' . $i . '</a>';
-            }
-            echo '</div>';
-        } else {
-            echo '<p>Parameter buku_id tidak valid.</p>';
-        }
+                                    echo '</div>';
+                                    echo '<div class="description">';
+                                    echo '<p>' . $row['ulasan'] . '</p>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                            } else {
+                                // Menampilkan pesan jika tidak ada ulasan
+                                echo '<p>Tidak ada ulasan untuk buku ini.</p>';
+                            }
 
-        $conn->close();
-        ?>
-    </div>
-</div>
+                            // Hitung total halaman
+                            $sql_count = "SELECT COUNT(*) AS total FROM buku_ulasan WHERE buku_id = $buku_id";
+                            $result_count = $conn->query($sql_count);
+                            $row_count = $result_count->fetch_assoc();
+                            $total_ulasan = $row_count['total'];
+                            $total_halaman = ceil($total_ulasan / $ulasan_per_halaman);
 
+                            // Langkah 7: Buat tombol pagination
+                            if ($total_halaman > 1) {
+                                echo '<ul class="pagination justify-content-center">';
+                                $previous_page = ($halaman > 1) ? $halaman - 1 : 1;
+                                $next_page = ($halaman < $total_halaman) ? $halaman + 1 : $total_halaman;
+                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?buku_id=' . $buku_id . '&page=' . $previous_page . '"><i class="fas fa-angle-left"></i></a></li>';
+                                for ($i = 1; $i <= $total_halaman; $i++) {
+                                    echo '<li class="page-item ' . (($halaman == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?buku_id=' . $buku_id . '&page=' . $i . '">' . $i . '</a></li>';
+                                }
+                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?buku_id=' . $buku_id . '&page=' . $next_page . '"><i class="fas fa-angle-right"></i></a></li>';
+                                echo '</ul>';
+                            }
+                        }
 
-
-
-
+                        $conn->close();
+                        ?>
+                    </div>
+                    </ </div>
+                </div>
             </div>
+
+
+
+
         </div>
-    </div>
-
-
-
-
-    </div>
     </div>
     <!-- /.container-fluid -->
 
@@ -560,7 +554,7 @@ $conn->close();
 </script>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         // Add an input event listener to the search input
         $("#searchInput").on("input", function() {
             let searchTerm = $(this).val().toLowerCase(); // Get the value of the input and convert to lowercase
@@ -589,10 +583,6 @@ $conn->close();
             }
         });
     });
-
-
-    
-
 </script>
 </body>
 
