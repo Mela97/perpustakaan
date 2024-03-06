@@ -199,6 +199,18 @@ $role = $_SESSION['role'];
         .form-group:last-child {
             margin-bottom: 0;
         }
+
+         .user-item {
+        cursor: pointer; /* Ubah kursor saat mengarah ke rekomendasi email */
+        padding: 5px;
+        background-color: #f9f9f9; /* Warna latar belakang */
+        border-bottom: 1px solid #ddd; /* Garis pemisah antar rekomendasi */
+        color: #000; /* Warna teks hitam */
+    }
+
+    .user-item:hover {
+        background-color: #ddd; /* Ubah warna latar belakang saat mouse hover */
+    }
     </style>
 
 </head>
@@ -480,18 +492,10 @@ $role = $_SESSION['role'];
                             window.onload = setDefaultDates;
                         </script>
 
-                  <label for="username">Nama Peminjam:</label>
-                    <input type="text" id="search" onkeyup="searchUser()" placeholder="Cari akun pengguna...">
-                    <select name="username" id="username" required>
-                        <option value="">Pilih Nama Peminjam</option>
-                        <?php
-                        // Ambil data email dari tabel pengguna
-                        $result = mysqli_query($conn, "SELECT email FROM user");
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<option value='" . $row['email'] . "'>" . $row['email'] . "</option>";
-                        }
-                        ?>
-                    </select>
+                     <label for="username">Nama Peminjam:</label>
+                        <input type="text" id="search" onkeyup="searchUser()" placeholder="Cari akun pengguna...">
+                        <input type="hidden" id="hiddenInput" name="selectedEmail" value="">
+                        <div id="searchResults"></div>
 
                         <label for="buku_id">Judul Buku:</label>
                         <select name="buku_id" required>
@@ -568,21 +572,42 @@ $role = $_SESSION['role'];
     <script src="../dashboard/js/demo/chart-area-demo.js"></script>
     <script src="../dashboard/js/demo/chart-pie-demo.js"></script>
 
-    <script>
-    function searchUser() {
-        var input, filter, select, option, i;
-        input = document.getElementById("search");
-        filter = input.value.toUpperCase();
-        select = document.getElementById("username");
-        option = select.getElementsByTagName("option");
-        for (i = 0; i < option.length; i++) {
-            if (option[i].innerText.toUpperCase().indexOf(filter) > -1) {
-                option[i].style.display = "";
-            } else {
-                option[i].style.display = "none";
-            }
-        }
+     <script>
+function searchUser() {
+    var input, filter, xhttp, output;
+    input = document.getElementById("search");
+    filter = input.value;
+
+    if (filter.length == 0) {
+        document.getElementById("searchResults").innerHTML = "";
+        return;
     }
+
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            output = "";
+            var emails = JSON.parse(this.responseText);
+            for (var i = 0; i < emails.length; i++) {
+                output += "<div class='user-item'>" + emails[i] + "</div>";
+            }
+            document.getElementById("searchResults").innerHTML = output;
+        }
+    };
+    xhttp.open("GET", "search_user.php?username=" + filter, true);
+    xhttp.send();
+}
+
+document.getElementById("searchResults").addEventListener("click", function(e) {
+    if (e.target.classList.contains("user-item")) {
+        var selectedUsername = e.target.textContent;
+        document.getElementById("search").value = selectedUsername;
+        document.getElementById("hiddenInput").value = selectedUsername; // Menyimpan nilai username di input tersembunyi
+        submitForm(); // Menjalankan fungsi submitForm() setelah nilai dipilih
+        document.getElementById("searchResults").innerHTML = ""; // Menghapus rekomendasi setelah dipilih
+    }
+});
+
 </script>
 </body>
 
