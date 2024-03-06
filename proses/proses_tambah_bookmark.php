@@ -1,5 +1,10 @@
 <?php
+include('koneksi.php');
 session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 
 // Periksa apakah pengguna sudah masuk atau belum
 if (!isset($_SESSION['email'])) {

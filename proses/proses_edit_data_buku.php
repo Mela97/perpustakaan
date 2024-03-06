@@ -1,4 +1,10 @@
 <?php
+include('koneksi.php');
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 // Menghubungkan ke database
 $servername = "localhost";
 $username = "root";
@@ -22,20 +28,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tahun_terbit = $_POST['tahun_terbit'];
     $ketersediaan = $_POST['ketersediaan'];
 
-    
-    
     // Membuat kueri untuk memperbarui data buku
-    if(empty($_FILES['cover']['name'])){
-        $sql = "UPDATE buku SET judul='$judul', penulis='$penulis', penerbit='$penerbit', tahun_terbit='$tahun_terbit',ketersediaan='$ketersediaan' WHERE buku_id=$buku_id";
-    }
-    else{
-        // Handle file upload
-        $cover = $_FILES["cover"];
-        $cover_path = "uploads/" . basename($cover["name"]);
-        $cover_name = $cover["name"];
-        move_uploaded_file($cover["tmp_name"], $cover_path);
-        $sql = "UPDATE buku SET judul='$judul', penulis='$penulis', penerbit='$penerbit', tahun_terbit='$tahun_terbit',cover='$cover_name',ketersediaan='$ketersediaan' WHERE buku_id=$buku_id";
+    if (empty($_FILES['cover']['name']) && empty($_FILES['pdf']['name'])) {
+        $sql = "UPDATE buku SET judul='$judul', penulis='$penulis', penerbit='$penerbit', tahun_terbit='$tahun_terbit', ketersediaan='$ketersediaan' WHERE buku_id=$buku_id";
+    } else {
+        // Handle file upload for cover
+        if (!empty($_FILES['cover']['name'])) {
+            $cover = $_FILES["cover"];
+            $cover_path = "uploads/" . basename($cover["name"]);
+            $cover_name = $cover["name"];
+            move_uploaded_file($cover["tmp_name"], $cover_path);
+        }
 
+        // Handle file upload for PDF
+        if (!empty($_FILES['pdf']['name'])) {
+            $pdf = $_FILES["pdf"];
+            $pdf_path = "pdf/" . basename($pdf["name"]);
+            $pdf_name = $pdf["name"];
+            move_uploaded_file($pdf["tmp_name"], $pdf_path);
+        }
+
+        // Update query with cover and PDF file information
+        $sql = "UPDATE buku SET judul='$judul', penulis='$penulis', penerbit='$penerbit', tahun_terbit='$tahun_terbit', ketersediaan='$ketersediaan'";
+        if (!empty($cover_name)) {
+            $sql .= ", cover='$cover_name'";
+        }
+        if (!empty($pdf_name)) {
+            $sql .= ", file_pdf='$pdf_name'";
+        }
+        $sql .= " WHERE buku_id=$buku_id";
     }
 
     // Menjalankan kueri dan memeriksa apakah berhasil

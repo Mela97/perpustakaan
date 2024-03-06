@@ -1,6 +1,10 @@
 <?php
-// Include file konfigurasi database
-include ('koneksi.php');
+include('koneksi.php');
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 
 // Periksa apakah data POST terkirim
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

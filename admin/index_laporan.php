@@ -1,50 +1,28 @@
 <?php
 session_start();
 include('koneksi.php');
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location:../login.php");
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
 }
-$role = $_SESSION["role"];
+// Assuming $role is set in your session or obtained from the database
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : "";
 
 function getJumlahPeminjam($bulan)
 {
-    // Query SQL
-    $sql = "SELECT MONTH(tanggal_pinjam) AS bulan, COUNT(*) AS jumlah_peminjam
-            FROM peminjaman
-            WHERE MONTH(tanggal_pinjam) = '$bulan'
-            GROUP BY MONTH(tanggal_pinjam)";
-
-    return array('bulan' => $bulan, 'jumlah_peminjam' => 5);
+    global $conn;
+    // Query SQL dengan filter berdasarkan bulan
+    $query = "SELECT COUNT(*) AS jumlah_peminjam FROM peminjaman WHERE DATE_FORMAT(tanggal_pinjam, '%Y-%m') = '$bulan'";
+    $result = $conn->query($query) or die($conn->error);
+    $row = $result->fetch_assoc();
+    return $row['jumlah_peminjam'];
 }
 
-function getJumlahRegistrasi($bulan)
-{
-    // Query SQL
-    $sql = "SELECT MONTH(created_at) AS bulan, COUNT(*) AS jumlah_registrasi
-            FROM user
-            WHERE MONTH(created_at) = '$bulan'
-            GROUP BY MONTH(created_at)";
+// Mengambil bulan dari parameter GET
+$bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('Y-m');
 
-    return array('bulan' => $bulan, 'jumlah_registrasi' => 10);
-}
-
-function getJumlahPenambahanBuku($bulan)
-{
-    // Query SQL
-    $sql = "SELECT MONTH(created_at) AS bulan, COUNT(*) AS jumlah_penambahan_buku
-            FROM buku
-            WHERE MONTH(created_at) = '$bulan'
-            GROUP BY MONTH(created_at)";
-
-    return array('bulan' => $bulan, 'jumlah_penambahan_buku' => 20);
-}
-
-$bulan = '2024-02';
-$jumlahPeminjam = getJumlahPeminjam($bulan);
-$jumlahRegistrasi = getJumlahRegistrasi($bulan);
-$jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -405,25 +383,25 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
                     </button>
 
                     <!-- Topbar Search -->
-                    
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php
+                                <?php
                                 if (isset($_SESSION['username'])) {
-                                    echo $_SESSION['username']; 
+                                    echo $_SESSION['username'];
                                 } else {
                                     echo "Pengguna";
                                 }
-                                ?>                                
+                                ?>
                                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../index.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -433,64 +411,50 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- End of Topbar -->
 
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <!-- Page Heading -->
+
+                    <!-- Form untuk memilih bulan -->
+                    <form class="input-group mb-3" method="GET" action="generate_laporan.php">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="bulan">Bulan</label>
+                        </div>
+                        <select class="custom-select" id="bulan" name="bulan">
+                            <?php
+                            $selected = '';
+                            for ($i = 1; $i <= 12; $i++) {
+                                $value = date('Y-m', mktime(0, 0, 0, $i, 1));
+                                if ($value == $bulan) {
+                                    $selected = 'selected';
+                                } else {
+                                    $selected = '';
+                                }
+                                echo "<option value='$value' $selected>" . date('F Y', mktime(0, 0, 0, $i, 1)) . "</option>";
+                            }
+                            ?>
+                        </select>
+                        <!-- Tombol Generate Report -->
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Generate Report</button>
+                        </div>
+                    </form>
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h2 class="h3 mb-0 text-gray-800">Data Statistik Perpustakaan Digital</h2>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-10 col-md-6 mb-4">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Data</th>
-                                        <th>Bulan</th>
-                                        <th>Jumlah</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Jumlah Peminjam</td>
-                                        <td><?php echo $jumlahPeminjam['bulan']; ?></td>
-                                        <td><?php echo $jumlahPeminjam['jumlah_peminjam']; ?></td>
-                                        <td><button class="btn btn-primary2 detail-button">Detail</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jumlah Registrasi Akun</td>
-                                        <td><?php echo $jumlahRegistrasi['bulan']; ?></td>
-                                        <td><?php echo $jumlahRegistrasi['jumlah_registrasi']; ?></td>
-                                        <td><button class="btn btn-primary2 detail-button">Detail</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jumlah Penambahan Buku</td>
-                                        <td><?php echo $jumlahPenambahanBuku['bulan']; ?></td>
-                                        <td><?php echo $jumlahPenambahanBuku['jumlah_penambahan_buku']; ?></td>
-                                        <td><button class="btn btn-primary2 detail-button">Detail</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
-
-
-
-
+                    <!-- Tabel laporan peminjam -->
 
                 </div>
 
             </div>
-
         </div>
-        <!-- /.container-fluid -->
+
+    </div>
+
+    </div>
+    <!-- /.container-fluid -->
 
     </div>
     <!-- End of Main Content -->
@@ -523,7 +487,7 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary1" href="../login.php">Logout</a>
+                    <a class="btn btn-primary1" href="../index.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -546,6 +510,12 @@ $jumlahPenambahanBuku = getJumlahPenambahanBuku($bulan);
     <script src="../dashboard/js/demo/chart-area-demo.js"></script>
     <script src="../dashboard/js/demo/chart-pie-demo.js"></script>
 
+    <script>
+        function filterBulan() {
+            var bulan = document.getElementById("bulan").value;
+            window.location.href = "index_laporan.php?bulan=" + bulan;
+        }
+    </script>
 </body>
 
 </html>

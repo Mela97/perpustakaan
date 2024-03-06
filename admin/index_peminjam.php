@@ -51,31 +51,19 @@ $result = $conn->query($query) or die($conn->error);
             background-color: #164863;
         }
 
-        .btn-primary:hover {
+        .btn-primary2:hover {
             background-color: #427D9D;
             border-color: #427D9D;
+            color: black;
         }
 
-        .btn-primary {
-            background-color: #164863;
-            border-color: #164863;
+        .btn-primary2 {
+            background-color: #40A2D8;
+            border-color: #40A2D8;
             transition: background-color 0.3s ease;
             color: #ffffff;
         }
 
-        .btn-primary1:hover {
-            background-color: #427D9D;
-            border-color: #427D9D;
-            color: #000000;
-        }
-
-        .btn-primary1 {
-            background-color: #164863;
-            border-color: #164863;
-            transition: background-color 0.3s ease;
-            color: #ffffff;
-        }
-        
         .nav-link {
             display: flex;
             align-items: center;
@@ -156,6 +144,19 @@ $result = $conn->query($query) or die($conn->error);
 
         .container {
             text-align: center;
+        }
+
+        .btn-primary1:hover {
+            background-color: #427D9D;
+            border-color: #427D9D;
+            color: #000000;
+        }
+
+        .btn-primary1 {
+            background-color: #164863;
+            border-color: #164863;
+            transition: background-color 0.3s ease;
+            color: #ffffff;
         }
     </style>
 
@@ -337,7 +338,7 @@ $result = $conn->query($query) or die($conn->error);
                     </button>
 
                     <!-- Topbar Search -->
-                   
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -355,7 +356,7 @@ $result = $conn->query($query) or die($conn->error);
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../index.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -375,74 +376,79 @@ $result = $conn->query($query) or die($conn->error);
                     </div>
                     <a href="../create/create_peminjam.php" class="mb-4 btn btn-primary1">Tambah Peminjam</a>
                     <div class="row">
-    <div class="col-xl-12 col-md-6 mb-4">
-        <?php
-        $results_per_page = 5; // Jumlah hasil per halaman
-        $query = "SELECT * FROM peminjaman";
-        $result = mysqli_query($conn, $query);
-        $number_of_results = mysqli_num_rows($result);
+                        <div class="col-xl-12 col-md-6 mb-4">
+                            <?php
+                            $results_per_page = 5; // Jumlah hasil per halaman
+                            $query = "SELECT * FROM peminjaman";
+                            $result = mysqli_query($conn, $query);
+                            $number_of_results = mysqli_num_rows($result);
 
-        // Tentukan jumlah halaman
-        $number_of_pages = ceil($number_of_results / $results_per_page);
+                            // Tentukan jumlah halaman
+                            $number_of_pages = ceil($number_of_results / $results_per_page);
 
-        // Tentukan halaman saat ini
-        if (!isset($_GET['page'])) {
-            $page = 1;
-        } else {
-            $page = $_GET['page'];
-        }
+                            // Tentukan halaman saat ini
+                            if (!isset($_GET['page'])) {
+                                $page = 1;
+                            } else {
+                                $page = $_GET['page'];
+                            }
 
-        // Tentukan index awal dan akhir data yang akan ditampilkan
-        $this_page_first_result = ($page - 1) * $results_per_page;
+                            // Tentukan index awal dan akhir data yang akan ditampilkan
+                            $this_page_first_result = ($page - 1) * $results_per_page;
 
-        // Query untuk mengambil data sesuai dengan halaman saat ini
-        $query = "SELECT peminjaman.*, buku.judul AS judul_buku 
+                            // Query untuk mengambil data sesuai dengan halaman saat ini
+                            $query = "SELECT peminjaman.*, buku.judul AS judul_buku 
              FROM peminjaman 
              INNER JOIN buku ON peminjaman.buku_id = buku.buku_id 
              LIMIT $this_page_first_result, $results_per_page";
-        $result = mysqli_query($conn, $query);
+                            $result = mysqli_query($conn, $query);
 
-        if ($result->num_rows > 0) : ?>
-            <table border='1'>
-                <tr>
-                    <th>Nama Peminjam</th>
-                    <th>Judul Buku</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Tanggal Kembali</th>
-                    <th>Status</th>
-                </tr>
+                            if ($result->num_rows > 0) : ?>
+                                <table border='1'>
+                                    <tr>
+                                        <th>Nama Peminjam</th>
+                                        <th>Judul Buku</th>
+                                        <th>Tanggal Pinjam</th>
+                                        <th>Tanggal Kembali</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
 
-                <!-- Tampilkan data peminjaman -->
-                <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                    <tr>
-                        <td><?= $row['username'] ?></td>
-                        <td><?= $row['judul_buku'] ?></td>
-                        <td><?= $row['tanggal_pinjam'] ?></td>
-                        <td><?= date('Y-m-d', strtotime($row['tanggal_pinjam'] . ' + 7 days')) ?></td>
-                        <td><?= $row['status_peminjam'] ?></td>
-                    </tr>
-                <?php endwhile; ?>
+                                    <!-- Tampilkan data peminjaman -->
+                                    <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+                                        <tr>
+                                            <td><?= $row['username'] ?></td>
+                                            <td><?= $row['judul_buku'] ?></td>
+                                            <td><?= $row['tanggal_pinjam'] ?></td>
+                                            <td><?= date('Y-m-d', strtotime($row['tanggal_pinjam'] . ' + 7 days')) ?></td>
+                                            <td><?= $row['status_peminjam'] ?></td>
+                                            <td>
+                                                <button class="btn btn-primary2 btn-kembali" data-id="<?= $row['peminjaman_id'] ?>">Kembalikan</button>
+                                            </td>
+                                        </tr>
 
-            </table>
-            <?php
-            $previous_page = ($page > 1) ? $page - 1 : 1;
-            $next_page = ($page < $number_of_pages) ? $page + 1 : $number_of_pages;
+                                    <?php endwhile; ?>
 
-            // Langkah 7: Buat tombol pagination
-            echo '<ul class="pagination justify-content-center">';
-            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
-            for ($i = max(1, $page - 2); $i <= min($page + 2, $number_of_pages); $i++) {
-                echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
-            }
-            echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
-            echo '</ul>';
-            ?>
-        <?php else : ?>
-            <p>Tidak ada peminjam.</p>
-        <?php endif; ?>
+                                </table>
+                                <?php
+                                $previous_page = ($page > 1) ? $page - 1 : 1;
+                                $next_page = ($page < $number_of_pages) ? $page + 1 : $number_of_pages;
 
-    </div>
-</div>
+                                // Langkah 7: Buat tombol pagination
+                                echo '<ul class="pagination justify-content-center">';
+                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
+                                for ($i = max(1, $page - 2); $i <= min($page + 2, $number_of_pages); $i++) {
+                                    echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
+                                }
+                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
+                                echo '</ul>';
+                                ?>
+                            <?php else : ?>
+                                <p>Tidak ada peminjam.</p>
+                            <?php endif; ?>
+
+                        </div>
+                    </div>
 
 
 
@@ -482,7 +488,7 @@ $result = $conn->query($query) or die($conn->error);
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary1" href="../login.php">Logout</a>
+                    <a class="btn btn-primary1" href="../index.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -504,6 +510,25 @@ $result = $conn->query($query) or die($conn->error);
     <!-- Page level custom scripts -->
     <script src="../dashboard/js/demo/chart-area-demo.js"></script>
     <script src="../dashboard/js/demo/chart-pie-demo.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.btn-kembali').click(function() {
+                var peminjamanId = $(this).data('id');
+                $.ajax({
+                    url: 'proses_kembalikan_buku.php',
+                    type: 'POST',
+                    data: {
+                        peminjaman_id: peminjamanId
+                    },
+                    success: function(response) {
+                        // Refresh halaman setelah berhasil mengembalikan buku
+                        window.location.reload();
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 

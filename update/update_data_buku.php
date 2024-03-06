@@ -1,7 +1,10 @@
 <?php
-// Include database connection
 include('koneksi.php');
-
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Tangkap data yang dikirim dari formulir edit
     $buku_id = $_POST['buku_id'];

@@ -1,4 +1,10 @@
 <?php
+include('koneksi.php');
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 // Menghubungkan ke database
 $koneksi = mysqli_connect("localhost", "root", "", "perpustakaan_digital");
 
