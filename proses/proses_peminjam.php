@@ -30,22 +30,18 @@ $stmt->bind_param("iissis", $perpus, $buku, $tanggal_pinjam, $tanggal_kembali, $
 if ($stmt->execute()) {
     // Update ketersediaan buku hanya jika peminjaman berhasil dimasukkan
     // Eksekusi kueri UPDATE buku
-    $update_buku = mysqli_query($conn, "UPDATE buku SET ketersediaan = ketersediaan - 1 WHERE buku_id = $buku");
+   // Eksekusi kueri UPDATE buku
+$update_buku = mysqli_query($conn, "UPDATE buku SET ketersediaan = ketersediaan - 1 WHERE buku_id = '$buku'");
 
-    // Periksa apakah kueri berhasil dieksekusi
-    if ($update_buku) {
-        // Kueri berhasil dieksekusi, lanjutkan dengan redirect
-        header("Location:../admin/index_peminjam.php");
-        exit();
-    } else {
-        // Jika ada kesalahan dalam eksekusi kueri, tampilkan pesan kesalahan
-        echo "Error updating book availability: " . mysqli_error($conn);
-    }
-
+// Periksa apakah kueri berhasil dieksekusi
+if ($update_buku) {
+    // Kueri berhasil dieksekusi, lanjutkan dengan redirect
     header("Location:../admin/index_peminjam.php");
     exit();
 } else {
-    echo "Error: " . $stmt->error;
+    // Jika ada kesalahan dalam eksekusi kueri, tampilkan pesan kesalahan
+    echo "Error updating book availability: " . mysqli_error($conn);
+}
 }
 
 // Tutup statement

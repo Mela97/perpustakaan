@@ -378,29 +378,31 @@ $result = $conn->query($query) or die($conn->error);
                     <div class="row">
                         <div class="col-xl-12 col-md-6 mb-4">
                             <?php
-                            $results_per_page = 5; // Jumlah hasil per halaman
-                            $query = "SELECT * FROM peminjaman";
+                            // Menampilkan data peminjaman dengan paginasi
+                            $results_per_page = 4; 
+                            $query = "SELECT COUNT(*) AS total FROM peminjaman";
                             $result = mysqli_query($conn, $query);
-                            $number_of_results = mysqli_num_rows($result);
+                            $row = mysqli_fetch_assoc($result);
+                            $total_records = $row['total'];
 
                             // Tentukan jumlah halaman
-                            $number_of_pages = ceil($number_of_results / $results_per_page);
+                            $total_pages = ceil($total_records / $results_per_page);
 
                             // Tentukan halaman saat ini
-                            if (!isset($_GET['page'])) {
+                            if (!isset($_GET['page']) || !is_numeric($_GET['page']) || $_GET['page'] < 1 || $_GET['page'] > $total_pages) {
                                 $page = 1;
                             } else {
                                 $page = $_GET['page'];
                             }
 
                             // Tentukan index awal dan akhir data yang akan ditampilkan
-                            $this_page_first_result = ($page - 1) * $results_per_page;
+                            $offset = ($page - 1) * $results_per_page;
 
                             // Query untuk mengambil data sesuai dengan halaman saat ini
                             $query = "SELECT peminjaman.*, buku.judul AS judul_buku 
-             FROM peminjaman 
-             INNER JOIN buku ON peminjaman.buku_id = buku.buku_id 
-             LIMIT $this_page_first_result, $results_per_page";
+                                        FROM peminjaman 
+                                        INNER JOIN buku ON peminjaman.buku_id = buku.buku_id 
+                                        LIMIT $offset, $results_per_page";
                             $result = mysqli_query($conn, $query);
 
                             if ($result->num_rows > 0) : ?>
@@ -426,23 +428,25 @@ $result = $conn->query($query) or die($conn->error);
                                                 <button class="btn btn-primary2 btn-kembali" data-id="<?= $row['peminjaman_id'] ?>">Kembalikan</button>
                                             </td>
                                         </tr>
-
                                     <?php endwhile; ?>
-
                                 </table>
-                                <?php
-                                $previous_page = ($page > 1) ? $page - 1 : 1;
-                                $next_page = ($page < $number_of_pages) ? $page + 1 : $number_of_pages;
 
-                                // Langkah 7: Buat tombol pagination
-                                echo '<ul class="pagination justify-content-center">';
-                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '"><</a></li>';
-                                for ($i = max(1, $page - 2); $i <= min($page + 2, $number_of_pages); $i++) {
-                                    echo '<li class="page-item ' . (($page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
-                                }
-                                echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">></a></li>';
-                                echo '</ul>';
-                                ?>
+                                <!-- Tampilkan pagination jika perlu -->
+                                <?php if ($total_pages > 1) : ?>
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                                            <a class="page-link btn-primary1" href="?page=<?= ($page - 1) ?>">Previous</a>
+                                        </li>
+                                        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                                            <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
+                                                <a class="page-link text-primary1" href="?page=<?= $i ?>"><?= $i ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                                            <a class="page-link btn-primary1" href="?page=<?= ($page + 1) ?>">Next</a>
+                                        </li>
+                                    </ul>
+                                <?php endif; ?>
                             <?php else : ?>
                                 <p>Tidak ada peminjam.</p>
                             <?php endif; ?>
@@ -513,19 +517,28 @@ $result = $conn->query($query) or die($conn->error);
 
     <script>
         $(document).ready(function() {
-            $('.btn-kembali').click(function() {
+            $(document).on('click', '.btn-kembali', function() {
                 var peminjamanId = $(this).data('id');
-                $.ajax({
-                    url: 'proses_kembalikan_buku.php',
-                    type: 'POST',
-                    data: {
-                        peminjaman_id: peminjamanId
-                    },
-                    success: function(response) {
-                        // Refresh halaman setelah berhasil mengembalikan buku
-                        window.location.reload();
-                    }
-                });
+
+                var confirmReturn = confirm("Apakah Anda yakin ingin mengembalikan buku?");
+
+                if (confirmReturn) {
+                    $.ajax({
+                        url: '../proses/proses_kembalikan_buku.php',
+                        type: 'POST',
+                        data: {
+                            peminjaman_id: peminjamanId
+                        },
+                        success: function(response) {
+                            alert(response);
+                            window.location.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                            alert("Terjadi kesalahan saat mengembalikan buku.");
+                        }
+                    });
+                }
             });
         });
     </script>
