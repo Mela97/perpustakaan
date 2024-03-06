@@ -253,11 +253,6 @@ $role = $_SESSION["role"];
                     </a>
                 </li>
 
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-
             <?php endif ?>
 
             <?php
@@ -363,41 +358,43 @@ $role = $_SESSION["role"];
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h2 class="h3 mb-0 text-gray-800">Registrasi</h2>
                     </div>
-                    <div class="row">
+                   <div class="col-md-6 mx-auto">
+       
+            <form class="user" action="../proses/proses_register.php" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email Address" name="email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Full Name" name="full_name" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Address" name="address" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inputRole">Role:</label>
+                    <select class="form-control" id="inputRole" name="role" required>
+                        <?php if ($role === "admin") : ?>
+                            <option value="admin">Admin</option>
+                            <option value="petugas">Petugas</option>
+                            <option value="peminjam">Peminjam</option>
+                        <?php elseif ($role === "petugas") : ?>
+                            <option value="petugas">Petugas</option>
+                            <option value="peminjam">Peminjam</option>
+                        <?php elseif ($role === "peminjam") : ?>
+                            <option value="peminjam">Peminjam</option>
+                        <?php endif; ?>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+</div>
 
-                        <div class="col-md-8 mx-auto">
-                            <div class="p-4">
-                                <form class="user" action="../proses/proses_register.php" method="post">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" placeholder="Username" name="username" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" placeholder="Email Address" name="email" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" placeholder="Password" name="password" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" placeholder="Full Name" name="full_name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea class="form-control form-control-user" placeholder="Address" name="address" required></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputRole">Role:</label>
-                                        <select class="form-control" id="inputRole" name="role" required>
-                                            <option value="admin">Admin</option>
-                                            <option value="petugas">Petugas</option>
-                                            <option value="peminjam">Peminjam</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary1 btn-user btn-block">Register</button>
-                                </form>
-                            </div>
-                        </div>
-
-
-                    </div>
 
 
                 </div>

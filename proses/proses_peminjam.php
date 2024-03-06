@@ -10,6 +10,8 @@ $perpus = 1;
 // Pembersihan input
 $status_peminjam = isset($_POST['status_peminjam']) ? $_POST['status_peminjam'] : '';
 $status_peminjam = mysqli_real_escape_string($conn, $status_peminjam);
+$buku = isset($_POST['buku_id']) ? $_POST['buku_id'] : '';
+
 
 // Query untuk menambahkan data peminjam baru
 $query = "INSERT INTO `peminjaman` (`perpus_id`, `buku_id`, `tanggal_pinjam`, `tanggal_kembali`, `username`, `status_peminjam`)

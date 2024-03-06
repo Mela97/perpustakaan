@@ -119,10 +119,10 @@ session_start();
                                     <input type="password" class="form-control form-control-user" id="inputPassword" placeholder="Password" name="password" required>
                                 </div>
                                 <div class="form-group mx-auto">
-                                    <input type="text" class="form-control form-control-user" id="inputFullName" placeholder="Full Name" name="full_name" required>
+                                    <input type="text" class="form-control form-control-user" id="inputFullName" placeholder="Full Name" name="nama_lengkap" required>
                                 </div>
                                 <div class="form-group mx-auto">
-                                    <textarea class="form-control form-control-user" id="inputAddress" placeholder="Address" name="address" required></textarea>
+                                    <textarea class="form-control form-control-user" id="inputAddress" placeholder="Address" name="alamat" required></textarea>
                                 </div>
                                 <input type="hidden" name="role" value="peminjam">
                                 <button type="submit" class="btn btn-primary1 btn-user btn-block">Register</button>

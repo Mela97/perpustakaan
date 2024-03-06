@@ -227,7 +227,7 @@ $role = $_SESSION['role'];
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="../admim/home.php">
+                <a class="nav-link" href="../admin/home.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -483,15 +483,16 @@ $role = $_SESSION['role'];
                         <label for="username">Nama Peminjam:</label>
                         <input type="text" name="username" required><br>
 
-                        <select name='buku_id'>
+                        <label for="buku_id">Judul Buku:</label>
+                        <select name="buku_id" required>
                             <?php
                             $result = mysqli_query($conn, "SELECT * FROM buku");
                             while ($d = mysqli_fetch_assoc($result)) :
                             ?>
                                 <option value="<?= $d['buku_id'] ?>"><?= $d['judul'] ?></option>
                             <?php endwhile ?>
-
                         </select>
+
 
                         <input type="submit" value="Tambah Peminjam">
                     </form>

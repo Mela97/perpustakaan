@@ -422,7 +422,7 @@ $role = $_SESSION["role"];
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h2 class="h3 mb-0 text-gray-800">Data Buku</h2>
+                        <h2 class="h3 mb-0 text-gray-800">Dashboard</h2>
                     </div>
                     <div class="row">
 
@@ -433,7 +433,7 @@ $role = $_SESSION["role"];
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Jumlah Peminjam
+                                                Peminjam Aktif
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $jumlah_peminjam; ?></div>
                                         </div>
@@ -509,78 +509,6 @@ $role = $_SESSION["role"];
 
                     </div>
                 </div>
-
-                            <div class="searchable row">
-                        <div class="col-xl-12 col-md-6 mb-4">
-                            <?php
-// Establishing database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "perpustakaan_digital";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch book data for the current page
-$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
-$rows_per_page = 4;
-$offset = ($current_page - 1) * $rows_per_page;
-
-$sql_count = "SELECT COUNT(*) AS total FROM buku";
-$result_count = $conn->query($sql_count);
-$row_count = $result_count->fetch_assoc();
-$total_rows = $row_count['total'];
-
-$sql = "SELECT * FROM buku LIMIT $offset, $rows_per_page";
-$result = $conn->query($sql);
-
-// Calculate total pages
-$total_halaman = ceil($total_rows / $rows_per_page);
-
-echo "<table border='1'>
-        <tr>
-            <th>Cover</th>
-            <th>Judul</th>
-            <th>Penulis</th>
-            <th>Kategori</th>
-        </tr>";
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>
-            <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
-            <td>{$row['judul']}</td>
-            <td>{$row['penulis']}</td>
-            <td>{$row['kategori_id']}</td>
-        </tr>";
-    }
-} else {
-    echo "<tr><td colspan='4'>No books found</td></tr>";
-}
-
-echo "</table>";
-
-// Pagination
-$previous_page = ($current_page > 1) ? $current_page - 1 : 1;
-$next_page = ($current_page < $total_halaman) ? $current_page + 1 : $total_halaman;
-
-echo '<ul class="pagination justify-content-center">';
-echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '">&#9664;</a></li>';
-for ($i = max(1, $current_page - 2); $i <= min($current_page + 2, $total_halaman); $i++) {
-    echo '<li class="page-item ' . (($current_page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
-}
-echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">&#9654;</a></li>';
-echo '</ul>';
-
-$conn->close();
-?>
-                        </div>
-                    </div>
 
             </div>
 
