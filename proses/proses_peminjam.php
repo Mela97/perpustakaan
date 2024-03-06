@@ -2,7 +2,7 @@
 include('koneksi.php');
 session_start();
 if (!isset($_SESSION['email'])) {
-    header("Location: ../login.php"); 
+    header("Location: ../login.php");
     exit();
 }
 
@@ -12,6 +12,9 @@ $status_peminjam = isset($_POST['status_peminjam']) ? $_POST['status_peminjam'] 
 $status_peminjam = mysqli_real_escape_string($conn, $status_peminjam);
 $buku = isset($_POST['buku_id']) ? $_POST['buku_id'] : '';
 
+// Ambil nilai tanggal pinjam dan tanggal kembali dari formulir
+$tanggal_pinjam = isset($_POST['tanggal_pinjam']) ? $_POST['tanggal_pinjam'] : '';
+$tanggal_kembali = isset($_POST['tanggal_kembali']) ? $_POST['tanggal_kembali'] : '';
 
 // Query untuk menambahkan data peminjam baru
 $query = "INSERT INTO `peminjaman` (`perpus_id`, `buku_id`, `tanggal_pinjam`, `tanggal_kembali`, `username`, `status_peminjam`)
@@ -26,20 +29,23 @@ $stmt->bind_param("iissis", $perpus, $buku, $tanggal_pinjam, $tanggal_kembali, $
 // Eksekusi statement
 if ($stmt->execute()) {
     // Update ketersediaan buku hanya jika peminjaman berhasil dimasukkan
-    $result_ketersediaan_buku = mysqli_query($conn, "SELECT * FROM buku WHERE buku_id = $buku");
-    $buku_ketersediaan = mysqli_fetch_assoc($result_ketersediaan_buku);
-    $ketersediaan = $buku_ketersediaan["ketersediaan"];
-    $jumlah = $ketersediaan - 1;
-    $update_buku = mysqli_query($conn, "UPDATE buku SET ketersediaan = $jumlah WHERE buku_id = $buku");
+    // Eksekusi kueri UPDATE buku
+    $update_buku = mysqli_query($conn, "UPDATE buku SET ketersediaan = ketersediaan - 1 WHERE buku_id = $buku");
 
-    if (!$update_buku) {
+    // Periksa apakah kueri berhasil dieksekusi
+    if ($update_buku) {
+        // Kueri berhasil dieksekusi, lanjutkan dengan redirect
+        header("Location:../admin/index_peminjam.php");
+        exit();
+    } else {
+        // Jika ada kesalahan dalam eksekusi kueri, tampilkan pesan kesalahan
         echo "Error updating book availability: " . mysqli_error($conn);
     }
 
     header("Location:../admin/index_peminjam.php");
     exit();
 } else {
-    echo "Error: " . $conn->error;
+    echo "Error: " . $stmt->error;
 }
 
 // Tutup statement

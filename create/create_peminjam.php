@@ -2,7 +2,7 @@
 include('koneksi.php');
 session_start();
 if (!isset($_SESSION['email'])) {
-    header("Location: ../login.php"); 
+    header("Location: ../login.php");
     exit();
 }
 $role = $_SESSION['role'];
@@ -200,17 +200,17 @@ $role = $_SESSION['role'];
             margin-bottom: 0;
         }
 
-         .user-item {
-        cursor: pointer; /* Ubah kursor saat mengarah ke rekomendasi email */
-        padding: 5px;
-        background-color: #f9f9f9; /* Warna latar belakang */
-        border-bottom: 1px solid #ddd; /* Garis pemisah antar rekomendasi */
-        color: #000; /* Warna teks hitam */
-    }
+        .user-item {
+            cursor: pointer;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            color: #000;
+        }
 
-    .user-item:hover {
-        background-color: #ddd; /* Ubah warna latar belakang saat mouse hover */
-    }
+        .user-item:hover {
+            background-color: #ddd;
+        }
     </style>
 
 </head>
@@ -408,13 +408,13 @@ $role = $_SESSION['role'];
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php
+                                <?php
                                 if (isset($_SESSION['username'])) {
-                                    echo $_SESSION['username']; 
+                                    echo $_SESSION['username'];
                                 } else {
                                     echo "Pengguna";
                                 }
-                                ?>                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                ?> <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -436,7 +436,6 @@ $role = $_SESSION['role'];
                     <div class="col">
                         <h2>Tambah Peminjaman</h2>
                     </div>
-                    <!-- Page Heading -->
                     <?php
                     // Include database connection
                     include('koneksi.php');
@@ -444,20 +443,22 @@ $role = $_SESSION['role'];
                     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Tangkap data yang dikirim dari formulir tambah peminjam
                         $tanggal_pinjam = $_POST['tanggal_pinjam'];
-                        $username = $_POST['username'];
+                        $tanggal_kembali = $_POST['tanggal_kembali'];
+                        $email_peminjam = $_POST['email_peminjam']; // Ubah dari 'username' menjadi 'email_peminjam'
                         $status_peminjam = $_POST['status_peminjam'];
+                        $buku_id = $_POST['buku_id'];
 
                         // Query untuk menambahkan data peminjam baru
-                        $query = "INSERT INTO `peminjaman` (`tanggal_pinjam`, `username`,`status_peminjam`)
-                    VALUES ('$tanggal_pinjam', '$username','$status_peminjam')";
+                        $query = "INSERT INTO `peminjaman` (`tanggal_pinjam`, `tanggal_kembali`, `email_peminjam`,`status_peminjam`, `buku_id`)
+                  VALUES ('$tanggal_pinjam', '$tanggal_kembali', '$email_peminjam','$status_peminjam', '$buku_id')";
 
-                                if ($conn->query($query)) {
-                                    echo "Data peminjam berhasil ditambahkan. <a href='../admin/index_peminjam.php'>Kembali ke Daftar Peminjam</a>";
-                                } else {
-                                    echo "Error: " . $conn->error;
-                                }
-                            }
-                            ?>
+                        if ($conn->query($query)) {
+                            echo "Data peminjam berhasil ditambahkan. <a href='../admin/index_peminjam.php'>Kembali ke Daftar Peminjam</a>";
+                        } else {
+                            echo "Error: " . $conn->error;
+                        }
+                    }
+                    ?>
 
                     <form action="../proses/proses_peminjam.php" method="post">
                         <input type="hidden" name="perpus_id" value="<?php echo $perpus_id; ?>">
@@ -467,34 +468,8 @@ $role = $_SESSION['role'];
                         <label for="tanggal_kembali">Tanggal Kembali:</label>
                         <input type="date" name="tanggal_kembali" id="tanggal_kembali" required><br>
 
-                        <script>
-                            // Function to set default values for the date fields
-                            function setDefaultDates() {
-                                var today = new Date();
-                                var dd = String(today.getDate()).padStart(2, '0');
-                                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                                var yyyy = today.getFullYear();
-
-                                today = yyyy + '-' + mm + '-' + dd;
-                                document.getElementById('tanggal_pinjam').value = today;
-
-                                var returnDate = new Date();
-                                returnDate.setDate(returnDate.getDate() + 7); // Default return date is 7 days from today
-                                var dd2 = String(returnDate.getDate()).padStart(2, '0');
-                                var mm2 = String(returnDate.getMonth() + 1).padStart(2, '0');
-                                var yyyy2 = returnDate.getFullYear();
-
-                                returnDate = yyyy2 + '-' + mm2 + '-' + dd2;
-                                document.getElementById('tanggal_kembali').value = returnDate;
-                            }
-
-                            // Call the function when the page loads
-                            window.onload = setDefaultDates;
-                        </script>
-
-                     <label for="username">Nama Peminjam:</label>
-                        <input type="text" id="search" onkeyup="searchUser()" placeholder="Cari akun pengguna...">
-                        <input type="hidden" id="hiddenInput" name="selectedEmail" value="">
+                        <label for="email_peminjam">Email Peminjam:</label>
+                        <input type="text" id="email_peminjam" name="email_peminjam" placeholder="Cari akun pengguna..." required>
                         <div id="searchResults"></div>
 
                         <label for="buku_id">Judul Buku:</label>
@@ -507,12 +482,9 @@ $role = $_SESSION['role'];
                             <?php endwhile ?>
                         </select>
 
-
-                        <input type="submit" value="Tambah Peminjam">
+                        <input type="submit" value="Tambah Peminjaman">
                     </form>
-
                 </div>
-
             </div>
 
         </div>
@@ -571,43 +543,100 @@ $role = $_SESSION['role'];
     <!-- Page level custom scripts -->
     <script src="../dashboard/js/demo/chart-area-demo.js"></script>
     <script src="../dashboard/js/demo/chart-pie-demo.js"></script>
+    <script>
+        function searchUser() {
+            var input, filter, xhttp, output;
+            input = document.getElementById("search");
+            filter = input.value;
 
-     <script>
-function searchUser() {
-    var input, filter, xhttp, output;
-    input = document.getElementById("search");
-    filter = input.value;
-
-    if (filter.length == 0) {
-        document.getElementById("searchResults").innerHTML = "";
-        return;
-    }
-
-    xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            output = "";
-            var emails = JSON.parse(this.responseText);
-            for (var i = 0; i < emails.length; i++) {
-                output += "<div class='user-item'>" + emails[i] + "</div>";
+            if (filter.length == 0) {
+                document.getElementById("searchResults").innerHTML = "";
+                return;
             }
-            document.getElementById("searchResults").innerHTML = output;
+
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    output = "";
+                    var emails = JSON.parse(this.responseText);
+                    for (var i = 0; i < emails.length; i++) {
+                        output += "<div class='user-item'>" + emails[i] + "</div>";
+                    }
+                    document.getElementById("searchResults").innerHTML = output;
+                }
+            };
+            xhttp.open("GET", "search_user.php?username=" + filter, true);
+            xhttp.send();
         }
-    };
-    xhttp.open("GET", "search_user.php?username=" + filter, true);
-    xhttp.send();
-}
 
-document.getElementById("searchResults").addEventListener("click", function(e) {
-    if (e.target.classList.contains("user-item")) {
-        var selectedUsername = e.target.textContent;
-        document.getElementById("search").value = selectedUsername;
-        document.getElementById("hiddenInput").value = selectedUsername; // Menyimpan nilai username di input tersembunyi
-        submitForm(); // Menjalankan fungsi submitForm() setelah nilai dipilih
-        document.getElementById("searchResults").innerHTML = ""; // Menghapus rekomendasi setelah dipilih
-    }
-});
+        document.getElementById("searchResults").addEventListener("click", function(e) {
+            if (e.target.classList.contains("user-item")) {
+                var selectedUsername = e.target.textContent;
+                document.getElementById("search").value = selectedUsername;
+                document.getElementById("hiddenInput").value = selectedUsername;
+                submitForm();
+                e.stopPropagation();
+            }
+        });
 
+        function submitForm() {
+            document.querySelector("form").submit();
+        }
+
+        // Function to set default values for the date fields
+        function setDefaultDates() {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            document.getElementById('tanggal_pinjam').value = today;
+
+            var returnDate = new Date();
+            returnDate.setDate(returnDate.getDate() + 7);
+            var dd2 = String(returnDate.getDate()).padStart(2, '0');
+            var mm2 = String(returnDate.getMonth() + 1).padStart(2, '0');
+            var yyyy2 = returnDate.getFullYear();
+
+            returnDate = yyyy2 + '-' + mm2 + '-' + dd2;
+            document.getElementById('tanggal_kembali').value = returnDate;
+        }
+
+        // Call the function when the page loads
+        window.onload = setDefaultDates;
+    </script>
+<script>
+    document.getElementById("email_peminjam").addEventListener("input", function() {
+        var filter = this.value.trim();
+        var searchResults = document.getElementById("searchResults");
+
+        if (filter.length === 0) {
+            searchResults.innerHTML = "";
+            return;
+        }
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var output = "";
+                var emails = JSON.parse(this.responseText);
+                for (var i = 0; i < emails.length; i++) {
+                    output += "<div class='user-item'>" + emails[i] + "</div>";
+                }
+                searchResults.innerHTML = output;
+            }
+        };
+        xhttp.open("GET", "search_user.php?username=" + filter, true);
+        xhttp.send();
+    });
+
+    document.getElementById("searchResults").addEventListener("click", function(e) {
+        if (e.target.classList.contains("user-item")) {
+            document.getElementById("email_peminjam").value = e.target.textContent;
+            this.innerHTML = "";
+        }
+    });
 </script>
 </body>
 
