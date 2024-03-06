@@ -108,24 +108,27 @@ $role = $_SESSION["role"];
             background-color: #427D9D;
             color: #ffffff;
         }
-
-        table {
-            width: 100%;
+ table {
             border-collapse: collapse;
+            width: 80%;
+            margin: 10px auto;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         th,
         td {
+            border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #164863;
+            color: #fff;
         }
 
-        tr:hover {
+        tr:nth-child(even) {
             background-color: #f2f2f2;
         }
 
@@ -133,6 +136,9 @@ $role = $_SESSION["role"];
             max-width: 100px;
             max-height: 100px;
         }
+
+       
+
     </style>
 
 </head>
@@ -504,28 +510,39 @@ $role = $_SESSION["role"];
                     </div>
                 </div>
 
-                <div class="searchable row">
-                    <div class="col-xl-12 col-md-6 mb-4">
-                        <?php
-                        // Establishing database connection
-                        $servername = "localhost";
-                        $username = "root";
-                        $password = "";
-                        $dbname = "perpustakaan_digital";
+                            <div class="searchable row">
+                        <div class="col-xl-12 col-md-6 mb-4">
+                            <?php
+// Establishing database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "perpustakaan_digital";
 
-                        $conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-                        // Check the connection
-                        if ($conn->connect_error) {
-                            die("Connection failed: " . $conn->connect_error);
-                        }
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-                        // Fetch book data
-                        $sql = "SELECT * FROM buku";
-                        $result = $conn->query($sql);
+// Fetch book data for the current page
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$rows_per_page = 4;
+$offset = ($current_page - 1) * $rows_per_page;
 
-                        // Display book data in the table
-                        echo "<table border='1'>
+$sql_count = "SELECT COUNT(*) AS total FROM buku";
+$result_count = $conn->query($sql_count);
+$row_count = $result_count->fetch_assoc();
+$total_rows = $row_count['total'];
+
+$sql = "SELECT * FROM buku LIMIT $offset, $rows_per_page";
+$result = $conn->query($sql);
+
+// Calculate total pages
+$total_halaman = ceil($total_rows / $rows_per_page);
+
+echo "<table border='1'>
         <tr>
             <th>Cover</th>
             <th>Judul</th>
@@ -533,26 +550,38 @@ $role = $_SESSION["role"];
             <th>Kategori</th>
         </tr>";
 
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>
-                <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
-                <td>{$row['judul']}</td>
-                <td>{$row['penulis']}</td>
-                <td>{$row['kategori_id']}</td>
-              </tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='4'>No books found</td></tr>";
-                        }
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>
+            <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
+            <td>{$row['judul']}</td>
+            <td>{$row['penulis']}</td>
+            <td>{$row['kategori_id']}</td>
+        </tr>";
+    }
+} else {
+    echo "<tr><td colspan='4'>No books found</td></tr>";
+}
 
-                        echo "</table>";
+echo "</table>";
 
-                        $conn->close();
-                        ?>
+// Pagination
+$previous_page = ($current_page > 1) ? $current_page - 1 : 1;
+$next_page = ($current_page < $total_halaman) ? $current_page + 1 : $total_halaman;
 
+echo '<ul class="pagination justify-content-center">';
+echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $previous_page . '">&#9664;</a></li>';
+for ($i = max(1, $current_page - 2); $i <= min($current_page + 2, $total_halaman); $i++) {
+    echo '<li class="page-item ' . (($current_page == $i) ? "active" : "") . '"><a class="page-link text-primary1" href="?page=' . $i . '">' . $i . '</a></li>';
+}
+echo '<li class="page-item"><a class="page-link btn-primary1" href="?page=' . $next_page . '">&#9654;</a></li>';
+echo '</ul>';
+
+$conn->close();
+?>
+                        </div>
                     </div>
-                </div>
+
             </div>
 
 
