@@ -314,7 +314,7 @@ $conn->close();
                                             echo 'Buku tidak ditemukan.';
                                         }
                                     } else {
-                                        echo 'Parameter buku_id tidak ditemukan.';
+                                        echo 'Parameter buku_id tidak tdiemukan.';
                                     }
 
                                     $conn->close();
@@ -457,7 +457,7 @@ $conn->close();
                         $conn->close();
                         ?>
                     </div>
-                    </ </div>
+                    </div>
                 </div>
             </div>
 
@@ -469,11 +469,9 @@ $conn->close();
     <!-- /.container-fluid -->
 
     <!-- Footer section -->
-    <!-- Include footer content here -->
-
+    
     <?php
-    // Tutup koneksi setelah penggunaan hasil kueri
-
+    
     ?>
 </body>
 
@@ -486,7 +484,6 @@ $conn->close();
 
 </div>
 </div>
-<!-- /.container-fluid -->
 
 </div>
 <!-- End of Main Content -->

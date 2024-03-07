@@ -225,7 +225,7 @@ $categoryResult = mysqli_query($conn, $categoryQuery);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid" style="padding-top: 75px; ">
-                    <h3>Masuk Untuk Buku</h3>
+                    <h3>Masuk Untuk Meminjam Buku</h3>
                     <?php
                     // Query untuk mengambil data buku dan ulasannya
                     $sql = "SELECT b.*, GROUP_CONCAT(u.ulasan SEPARATOR '<br>') AS ulasan FROM buku b LEFT JOIN buku_ulasan u ON b.buku_id = u.buku_id GROUP BY b.buku_id";

@@ -453,7 +453,7 @@ $role = $_SESSION["role"];
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Jumlah Akun
+                                                Akun Terdaftar
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $jumlah_akun; ?></div>
                                         </div>
@@ -473,7 +473,7 @@ $role = $_SESSION["role"];
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Jumlah Ulasan
+                                                Ulasan Diberikan
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $jumlah_ulasan; ?></div>
                                         </div>

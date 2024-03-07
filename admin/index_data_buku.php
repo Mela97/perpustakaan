@@ -125,8 +125,8 @@ $role = $_SESSION['role'];
         a.edit-button,
         a.hapus-button {
             display: inline-block;
-            margin: 5px;
-            padding: 6px 12px;
+            margin: 3px;
+            padding: 5px 8px;
             border-radius: 5px;
             text-decoration: none;
             color: #fff;
@@ -162,6 +162,7 @@ $role = $_SESSION['role'];
         .page-item a.page-link:hover {
             color: #8c8c8c;
         }
+
     </style>
 
 </head>
@@ -476,20 +477,22 @@ $role = $_SESSION['role'];
                                         <th>Aksi</th>
                                     </tr>";
 
-                            while ($row = $result_data_buku->fetch_assoc()) {
-                                echo "<tr>
-                                    <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
-                                    <td>{$row['judul']}</td>
-                                    <td>{$row['penulis']}</td>
-                                    <td>{$row['kategori_id']}</td>
-                                    <td>{$row['file_pdf']}</td>
-                                    <td>{$row['ketersediaan']}</td>
-                                    <td>
-                                    <a href='../edit/edit_data_buku.php?buku_id={$row['buku_id']}' class='edit-button'>Edit</a> 
-                                    <a href='#' class='hapus-button' onclick='confirmDelete({$row['buku_id']})'>Hapus</a>
-                                    </td>
+                           while ($row = $result_data_buku->fetch_assoc()) {
+                                    echo "<tr>
+                                        <td><img src='../proses/uploads/{$row['cover']}' alt='Cover Buku' style='max-width:100px; max-height:100px;'></td>
+                                        <td>{$row['judul']}</td>
+                                        <td>{$row['penulis']}</td>
+                                        <td>{$row['kategori_id']}</td>
+                                        <td>{$row['file_pdf']}</td>
+                                        <td>{$row['ketersediaan']}</td>
+                                        <td>
+                                            <div class=\"action-buttons\">
+                                                <a href='../edit/edit_data_buku.php?buku_id={$row['buku_id']}' class='edit-button'>Edit</a> 
+                                                <a href='#' class='hapus-button' onclick='confirmDelete({$row['buku_id']})'>Hapus</a>
+                                            </div>
+                                        </td>
                                     </tr>";
-                            }
+                                }
 
                             echo "</table>";
                             $previous_page = ($page > 1) ? $page - 1 : 1;
@@ -622,5 +625,4 @@ $role = $_SESSION['role'];
 
 
 </body>
-
-git</html>
+</html>
